@@ -197,7 +197,31 @@ const StoreApp = (() => {
                     <div class="qty-stepper"><button id="q-dec">−</button><input id="q-val" value="1" readonly><button id="q-inc">+</button></div>
                     <div style="margin-top:16px;"><button class="btn-store" id="add-cart-btn">Add to Cart</button></div>
                 </div>
+            </div>
+
+            <div class="product-tabs">
+                <button class="product-tab-btn active" data-tab="description">Description</button>
+                <button class="product-tab-btn" data-tab="reviews">Reviews <span id="review-count-badge"></span></button>
+            </div>
+            <div class="product-tab-panel" id="tab-description">
+                <p>${esc(p.description || 'No description provided yet.')}</p>
+            </div>
+            <div class="product-tab-panel" id="tab-reviews" style="display:none;">
+                <div id="reviews-list"><p class="text-muted">Loading reviews…</p></div>
+                <div class="review-form-box">
+                    <h4>Write a Review</h4>
+                    <form id="review-form">
+                        <div class="form-row">
+                            <div class="form-group"><label>Your Name</label><input name="name" required></div>
+                            <div class="form-group"><label>Your Email</label><input name="email" type="email" required></div>
+                        </div>
+                        <div class="form-group"><label>Your Review</label><textarea name="review" rows="3" required></textarea></div>
+                        <button class="btn-store" type="submit">Submit Review</button>
+                    </form>
+                    <p class="text-muted review-privacy-note">Your email is never shown publicly — only your name and review.</p>
+                </div>
             </div>`;
+
             root.querySelectorAll('.gallery-thumb').forEach((t) => t.addEventListener('click', () => {
                 root.querySelectorAll('.gallery-thumb').forEach((x) => x.classList.remove('active'));
                 t.classList.add('active');
@@ -207,8 +231,51 @@ const StoreApp = (() => {
             document.getElementById('q-inc').addEventListener('click', () => { qty = Math.min(p.quantity, qty + 1); document.getElementById('q-val').value = qty; });
             document.getElementById('q-dec').addEventListener('click', () => { qty = Math.max(1, qty - 1); document.getElementById('q-val').value = qty; });
             document.getElementById('add-cart-btn').addEventListener('click', () => { addToCart(p, qty); toast('Added to cart'); });
+
+            root.querySelectorAll('.product-tab-btn').forEach((btn) => btn.addEventListener('click', () => {
+                root.querySelectorAll('.product-tab-btn').forEach((b) => b.classList.remove('active'));
+                btn.classList.add('active');
+                root.querySelectorAll('.product-tab-panel').forEach((panel) => panel.style.display = 'none');
+                document.getElementById(`tab-${btn.dataset.tab}`).style.display = 'block';
+            }));
+
+            loadReviews(id);
+            document.getElementById('review-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fd = Object.fromEntries(new FormData(e.target).entries());
+                const submitBtn = e.target.querySelector('button[type=submit]');
+                submitBtn.disabled = true;
+                try {
+                    await apiPost(`/store/products/${id}/reviews`, fd);
+                    toast('Thanks for your review!');
+                    e.target.reset();
+                    loadReviews(id);
+                } catch (err) {
+                    toast(err.message, 'error');
+                } finally {
+                    submitBtn.disabled = false;
+                }
+            });
         } catch (e) {
             root.innerHTML = `<p class="text-muted">${esc(e.message)}</p>`;
+        }
+    }
+
+    async function loadReviews(productId) {
+        const listEl = document.getElementById('reviews-list');
+        const badge = document.getElementById('review-count-badge');
+        try {
+            const reviews = await apiGet(`/store/products/${productId}/reviews`);
+            if (badge) badge.textContent = reviews.length ? `(${reviews.length})` : '';
+            listEl.innerHTML = reviews.length
+                ? reviews.map((r) => `
+                    <div class="review-item">
+                        <div class="review-item-head"><strong>${esc(r.reviewer_name)}</strong><span class="text-muted">${new Date(r.created_at.replace(' ', 'T')).toLocaleDateString()}</span></div>
+                        <p>${esc(r.review_text)}</p>
+                    </div>`).join('')
+                : '<p class="text-muted">No reviews yet — be the first to write one!</p>';
+        } catch (e) {
+            listEl.innerHTML = `<p class="text-muted">${esc(e.message)}</p>`;
         }
     }
 

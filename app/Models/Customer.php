@@ -84,4 +84,26 @@ class Customer extends BaseModel
         $stmt->execute([$tenantId, $customerId]);
         return $stmt->fetchAll();
     }
+
+        public static function findByEmail(int $tenantId, string $email): ?array
+    {
+        $stmt = self::db()->prepare('SELECT * FROM customers WHERE tenant_id = ? AND LOWER(email) = LOWER(?) LIMIT 1');
+        $stmt->execute([$tenantId, trim($email)]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
+
+    /**
+     * Used when a shopper places an online store order: they're automatically
+     * added to the customer list. Matched by email (checkout requires one),
+     * so repeat shoppers accumulate one customer record instead of duplicates.
+     */
+    public static function findOrCreateByEmail(int $tenantId, string $name, string $email, ?string $phone = null): array
+    {
+        $existing = self::findByEmail($tenantId, $email);
+        if ($existing) return $existing;
+
+        $id = self::create(['tenant_id' => $tenantId, 'name' => trim($name), 'email' => trim($email), 'phone' => $phone]);
+        return self::find($tenantId, $id);
+    }
 }

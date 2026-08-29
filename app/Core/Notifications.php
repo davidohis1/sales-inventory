@@ -81,16 +81,33 @@ class Notifications
         } catch (\Throwable $e) { /* best-effort */ }
     }
 
-    /** Sent to the customer once the store marks their order as fulfilled/paid. */
-    public static function orderPaidCustomer(int $tenantId, array $order, string $customerEmail): void
+        /** Sent to the customer whenever their order's status changes (processing / delivered / cancelled). */
+    public static function orderStatusChanged(int $tenantId, array $order, string $status): void
     {
         try {
-            if ($customerEmail === '') return;
+            $email = $order['customer_email'] ?? null;
+            if (!$email) return;
             $biz = self::businessName($tenantId);
-            $body = "<h2>Payment confirmed — {$order['order_no']}</h2>"
-                . "<p>Hi " . htmlspecialchars($order['customer_name']) . ", your payment for order <strong>{$order['order_no']}</strong> has been confirmed by <strong>{$biz}</strong>.</p>"
-                . "<p>Your order is now being prepared. Thank you for shopping with us!</p>";
-            Mailer::send($customerEmail, "Payment confirmed — {$order['order_no']}", $body);
+            $name = htmlspecialchars($order['customer_name'] ?? 'there');
+            $orderNo = $order['order_no'];
+
+            $copy = [
+                'processing' => [
+                    'subject' => "Your order is being processed — {$orderNo}",
+                    'body' => "<h2>Good news, {$name}!</h2><p>Your order <strong>{$orderNo}</strong> has been accepted by <strong>{$biz}</strong> and is now being processed.</p><p>We'll let you know as soon as it's on its way.</p>",
+                ],
+                'delivered' => [
+                    'subject' => "Your order has been delivered — {$orderNo}",
+                    'body' => "<h2>Delivered!</h2><p>Hi {$name}, your order <strong>{$orderNo}</strong> from <strong>{$biz}</strong> has been marked as delivered.</p><p>Thank you for shopping with us — we hope you love it!</p>",
+                ],
+                'cancelled' => [
+                    'subject' => "Your order was cancelled — {$orderNo}",
+                    'body' => "<h2>Order Cancelled</h2><p>Hi {$name}, your order <strong>{$orderNo}</strong> from <strong>{$biz}</strong> has been cancelled.</p><p>If this wasn't expected, please get in touch with us.</p>",
+                ],
+            ];
+
+            if (!isset($copy[$status])) return; // 'pending' has no customer-facing email — the placement confirmation already covers it
+            Mailer::send($email, $copy[$status]['subject'], $copy[$status]['body']);
         } catch (\Throwable $e) { /* best-effort */ }
     }
 

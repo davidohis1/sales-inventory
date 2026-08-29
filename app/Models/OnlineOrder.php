@@ -108,7 +108,8 @@ class OnlineOrder extends BaseModel
                 $itemStmt->execute([$tenantId, $saleId, $item['product_id'], $item['quantity'], $product['buying_price'] ?? 0, $item['unit_price'], $item['line_total']]);
             }
 
-            $pdo->prepare('UPDATE online_orders SET status = \'accepted\', sale_id = ? WHERE id = ? AND tenant_id = ?')->execute([$saleId, $orderId, $tenantId]);
+            // was: status = 'accepted'
+            $pdo->prepare('UPDATE online_orders SET status = \'processing\', sale_id = ? WHERE id = ? AND tenant_id = ?')->execute([$saleId, $orderId, $tenantId]);
             $pdo->commit();
             return ['sale_id' => $saleId, 'receipt_no' => $receiptNo];
         } catch (\Throwable $e) {

@@ -852,20 +852,33 @@
        --------------------------------------------------------------- */
     async function renderOrders(content) {
         const orders = await Api.get('/orders');
+        const statusBadge = (status) => {
+            const map = { pending: 'badge-warn', processing: 'badge-muted', delivered: 'badge-success', cancelled: 'badge-danger' };
+            return `<span class="badge ${map[status] || 'badge-muted'}">${esc(status)}</span>`;
+        };
+        const actionsFor = (o) => {
+            if (o.status === 'pending') return `<button class="btn btn-sm btn-accent" data-accept="${o.id}">Accept</button> <button class="btn btn-sm btn-danger" data-cancel="${o.id}">Cancel</button>`;
+            if (o.status === 'processing') return `<button class="btn btn-sm btn-accent" data-deliver="${o.id}">Mark as Delivered</button>`;
+            return '—';
+        };
         const rows = orders.map((o) => `
             <tr>
                 <td>${esc(o.order_no)}</td><td>${esc(o.customer_name)}</td><td>${fmt(o.total)}</td>
-                <td><span class="badge ${o.status === 'pending' ? 'badge-warn' : (o.status === 'cancelled' ? 'badge-danger' : 'badge-success')}">${esc(o.status)}</span></td>
+                <td>${statusBadge(o.status)}</td>
                 <td>${dt(o.created_at)}</td>
-                <td>${o.status === 'pending' ? `<button class="btn btn-sm btn-accent" data-accept="${o.id}">Accept</button> <button class="btn btn-sm btn-danger" data-cancel="${o.id}">Cancel</button>` : '—'}</td>
+                <td>${actionsFor(o)}</td>
             </tr>`).join('') || '<tr><td colspan="6" class="text-muted">No online orders yet.</td></tr>';
 
         content.innerHTML = `
-        <p class="text-muted">Orders placed from your public online store at <a href="${window.APP_BASE || ''}/${slug}" target="_blank">/${slug}</a> appear here.</p>
+        <p class="text-muted">Orders placed from your public online store at <a href="${window.APP_BASE || ''}/${slug}" target="_blank">/${slug}</a> appear here. Accepting a pending order moves it to <strong>processing</strong>; the customer is emailed at every status change.</p>
         <div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 
         content.querySelectorAll('[data-accept]').forEach((btn) => btn.addEventListener('click', async () => {
             try { const r = await Api.post(`/orders/${btn.dataset.accept}/accept`); toast(`Order accepted → sale ${r.receipt_no}`); renderOrders(content); }
+            catch (e) { toast(e.message, 'error'); }
+        }));
+        content.querySelectorAll('[data-deliver]').forEach((btn) => btn.addEventListener('click', async () => {
+            try { await Api.put(`/orders/${btn.dataset.deliver}/status`, { status: 'delivered' }); toast('Order marked as delivered'); renderOrders(content); }
             catch (e) { toast(e.message, 'error'); }
         }));
         content.querySelectorAll('[data-cancel]').forEach((btn) => btn.addEventListener('click', async () => {

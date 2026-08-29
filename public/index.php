@@ -159,6 +159,9 @@ $router->get('/', function () {
           <p>Demo tenant: <a href='{$base}/ajtech'>{$base}/ajtech</a> &middot; <a href='{$base}/ajtechportal'>{$base}/ajtechportal</a></p>";
 });
 
+$router->get('/api/{slug}/store/products/{id}/reviews', fn ($r) => (new App\Controllers\Api\StoreController())->productReviews($r));
+$router->post('/api/{slug}/store/products/{id}/reviews', fn ($r) => (new App\Controllers\Api\StoreController())->submitReview($r));
+
 // -----------------------------------------------------------------
 // helper renderers
 // -----------------------------------------------------------------
