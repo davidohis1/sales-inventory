@@ -3,12 +3,6 @@ FROM php:8.1-apache
 RUN docker-php-ext-install pdo pdo_mysql \
     && a2enmod rewrite
 
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-RUN sed -ri -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
-
 COPY . /var/www/html
 
 RUN mkdir -p /var/www/html/vendor && cat > /var/www/html/vendor/autoload.php << 'PHPEOF'
@@ -28,6 +22,20 @@ PHPEOF
 
 RUN mkdir -p /var/www/html/storage /var/www/html/public/uploads \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/public/uploads
+
+# Explicit vhost pointing straight at public/, instead of patching the base image's config
+RUN cat > /etc/apache2/sites-available/000-default.conf << 'APACHEEOF'
+<VirtualHost *:80>
+    DocumentRoot /var/www/html/public
+    <Directory /var/www/html/public>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+APACHEEOF
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
