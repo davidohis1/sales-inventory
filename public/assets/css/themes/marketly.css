@@ -1,0 +1,74 @@
+/* Marketly theme — bold marketplace layout. Blue accent, mobile-first with bottom nav. */
+.theme-marketly { --mk-blue: #2563eb; --mk-border: #e5e7eb; background: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 60px; }
+.theme-marketly .mk-announce { background: var(--mk-blue); color: #fff; text-align: center; padding: 9px; font-size: 13px; font-weight: 600; }
+.theme-marketly .mk-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #fff; border-bottom: 1px solid var(--mk-border); }
+.theme-marketly .mk-logo { font-weight: 800; font-size: 18px; color: var(--mk-blue); display: flex; align-items: center; gap: 8px; }
+.theme-marketly .mk-logo-img { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; }
+.theme-marketly .mk-cart { position: relative; font-size: 20px; }
+.theme-marketly .cart-count { position: absolute; top: -6px; right: -10px; background: var(--mk-blue); color: #fff; border-radius: 999px; font-size: 10.5px; padding: 1px 6px; }
+.theme-marketly .mk-search-bar { display: flex; gap: 8px; padding: 14px 24px; background: #fff; }
+.theme-marketly .mk-search-bar input { flex: 1; padding: 11px 16px; border: 1px solid var(--mk-border); border-radius: 10px; background: #f8fafc; }
+.theme-marketly .mk-search-bar button { background: var(--mk-blue); color: #fff; border: none; border-radius: 10px; padding: 0 18px; }
+
+.theme-marketly .mk-cat-strip { display: flex; gap: 10px; overflow-x: auto; padding: 4px 24px 16px; background: #fff; }
+.theme-marketly .cat-pill { flex-shrink: 0; border: 1px solid var(--mk-border); background: #fff; border-radius: 999px; padding: 8px 16px; font-size: 12.5px; white-space: nowrap; }
+.theme-marketly .cat-pill.active { background: var(--mk-blue); color: #fff; border-color: var(--mk-blue); }
+
+.theme-marketly .mk-hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; align-items: center; max-width: 1200px; margin: 20px auto; padding: 20px 24px; }
+.theme-marketly .mk-eyebrow { font-size: 11.5px; font-weight: 700; color: #f59e0b; letter-spacing: 0.05em; }
+.theme-marketly .mk-hero h1 { font-size: 32px; margin: 10px 0 12px; color: #0f172a; }
+.theme-marketly .mk-hero p { color: #64748b; margin-bottom: 18px; }
+.theme-marketly .mk-hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.theme-marketly .btn-store.outline { background: #fff; color: var(--mk-blue); border: 1px solid var(--mk-blue); }
+.theme-marketly .mk-hero-image { border-radius: 18px; overflow: hidden; aspect-ratio: 1; }
+.theme-marketly .mk-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.theme-marketly .mk-deal { max-width: 1200px; margin: 0 auto 20px; padding: 18px 24px; background: var(--mk-blue); border-radius: 16px; color: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-left: 24px; margin-right: 24px; }
+.theme-marketly .mk-deal strong { display: block; font-size: 15px; }
+.theme-marketly .mk-deal span { font-size: 12.5px; opacity: 0.85; }
+.theme-marketly .mk-countdown { background: rgba(255,255,255,0.18); padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 14px; }
+
+.theme-marketly .mk-banners { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1200px; margin: 0 auto 26px; padding: 0 24px; }
+.theme-marketly .mk-banner { height: 140px; border-radius: 14px; background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 20px; position: relative; }
+.theme-marketly .mk-banner::after { content: ''; position: absolute; inset: 0; background: rgba(15,23,42,0.4); border-radius: 14px; }
+.theme-marketly .mk-banner div { position: relative; z-index: 1; color: #fff; }
+.theme-marketly .mk-banner strong { display: block; font-size: 16px; margin-bottom: 4px; }
+.theme-marketly .mk-banner span { font-size: 12.5px; }
+
+.theme-marketly .mk-products { max-width: 1200px; margin: 0 auto; padding: 0 24px 30px; }
+.theme-marketly .mk-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.theme-marketly .mk-section-head h2 { font-size: 19px; margin: 0; }
+.theme-marketly .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.theme-marketly .product-card { background: #fff; border: 1px solid var(--mk-border); border-radius: 12px; overflow: hidden; display: block; }
+.theme-marketly .thumb { position: relative; aspect-ratio: 1; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #cbd5e1; font-size: 12px; }
+.theme-marketly .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.theme-marketly .wish-btn { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: none; font-size: 13px; }
+.theme-marketly .info { padding: 10px 12px; }
+.theme-marketly .name { font-weight: 600; font-size: 13px; }
+.theme-marketly .cat-tag { font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
+.theme-marketly .price-row { display: flex; justify-content: space-between; align-items: center; }
+.theme-marketly .price { color: var(--mk-blue); font-weight: 700; font-size: 13.5px; }
+.theme-marketly .quick-add { background: var(--mk-blue); border: none; color: #fff; width: 28px; height: 28px; border-radius: 8px; }
+.theme-marketly .grid-loading, .theme-marketly .empty-store { grid-column: 1/-1; text-align: center; padding: 40px 20px; color: #94a3b8; }
+
+.theme-marketly .mk-footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12.5px; }
+.theme-marketly .mk-bottom-nav { display: none; }
+
+@media (max-width: 880px) {
+    .theme-marketly .mk-hero { grid-template-columns: 1fr; }
+    .theme-marketly .mk-banners { grid-template-columns: 1fr; }
+    .theme-marketly .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-marketly .mk-bottom-nav {
+        display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: #fff;
+        border-top: 1px solid var(--mk-border); padding: 8px 0; z-index: 30;
+    }
+    .theme-marketly .mk-bottom-nav a { flex: 1; text-align: center; font-size: 10.5px; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .theme-marketly .mk-bottom-nav a.active { color: var(--mk-blue); font-weight: 700; }
+    .theme-marketly .wa-float-btn { bottom: 78px; }
+    body.theme-marketly { padding-bottom: 70px; }
+}
+@media (max-width: 520px) {
+    .theme-marketly .mk-nav, .theme-marketly .mk-search-bar, .theme-marketly .mk-cat-strip { padding-left: 16px; padding-right: 16px; }
+    .theme-marketly .mk-hero, .theme-marketly .mk-banners, .theme-marketly .mk-products { padding-left: 16px; padding-right: 16px; }
+    .theme-marketly .mk-deal { margin-left: 16px; margin-right: 16px; flex-direction: column; align-items: flex-start; }
+}

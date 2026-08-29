@@ -1,0 +1,350 @@
+-- =====================================================================
+-- Sales, Inventory & Business Management System - Multi-Tenant Schema
+-- =====================================================================
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ---------------------------------------------------------------------
+-- TENANTS
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS tenants (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    slug VARCHAR(64) NOT NULL UNIQUE,
+    business_name VARCHAR(191) NOT NULL,
+    currency VARCHAR(10) NOT NULL DEFAULT 'NGN',
+    logo_path VARCHAR(255) NULL,
+    ai_api_key VARCHAR(255) NULL COMMENT 'Optional per-tenant Gemini API key override',
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- BRANCHES (Phase 2 - Multi-Branch, scaffolded now)
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS branches (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    address VARCHAR(255) NULL,
+    is_main TINYINT(1) NOT NULL DEFAULT 0,
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    INDEX idx_branches_tenant (tenant_id)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- USERS / STAFF (Owner, Manager, Sales Staff)
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS users (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    branch_id INT UNSIGNED NULL,
+    full_name VARCHAR(150) NOT NULL,
+    email VARCHAR(191) NOT NULL,
+    phone VARCHAR(30) NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('owner','manager','staff') NOT NULL DEFAULT 'staff',
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (branch_id) REFERENCES branches(id) ON DELETE SET NULL,
+    UNIQUE KEY uniq_tenant_email (tenant_id, email),
+    INDEX idx_users_tenant (tenant_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS refresh_tokens (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NOT NULL,
+    token_hash VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    revoked TINYINT(1) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- CATEGORIES
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS categories (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(120) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    INDEX idx_categories_tenant (tenant_id)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- PRODUCTS
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS products (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    category_id INT UNSIGNED NULL,
+    branch_id INT UNSIGNED NULL COMMENT 'NULL = shared across branches',
+    name VARCHAR(191) NOT NULL,
+    sku VARCHAR(80) NOT NULL,
+    description TEXT NULL,
+    buying_price DECIMAL(14,2) NOT NULL DEFAULT 0,
+    selling_price DECIMAL(14,2) NOT NULL DEFAULT 0,
+    quantity INT NOT NULL DEFAULT 0,
+    min_stock_level INT NOT NULL DEFAULT 5,
+    is_on_store TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Phase 2: visible on public storefront',
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+    FOREIGN KEY (branch_id) REFERENCES branches(id) ON DELETE SET NULL,
+    UNIQUE KEY uniq_tenant_sku (tenant_id, sku),
+    INDEX idx_products_tenant (tenant_id),
+    INDEX idx_products_name (name)
+) ENGINE=InnoDB;
+
+-- Product images (required before a product can be toggled onto the store)
+CREATE TABLE IF NOT EXISTS product_images (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    product_id INT UNSIGNED NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    is_primary TINYINT(1) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_pimg_product (product_id)
+) ENGINE=InnoDB;
+
+-- Stock adjustment / history log
+CREATE TABLE IF NOT EXISTS stock_logs (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    product_id INT UNSIGNED NOT NULL,
+    branch_id INT UNSIGNED NULL,
+    user_id INT UNSIGNED NULL,
+    change_qty INT NOT NULL COMMENT 'positive = stock in, negative = stock out',
+    reason ENUM('restock','sale','return','adjustment','transfer_in','transfer_out','initial') NOT NULL,
+    note VARCHAR(255) NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_stocklog_tenant (tenant_id),
+    INDEX idx_stocklog_product (product_id)
+) ENGINE=InnoDB;
+
+-- Stock transfers between branches (Phase 2)
+CREATE TABLE IF NOT EXISTS stock_transfers (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    product_id INT UNSIGNED NOT NULL,
+    from_branch_id INT UNSIGNED NOT NULL,
+    to_branch_id INT UNSIGNED NOT NULL,
+    quantity INT NOT NULL,
+    user_id INT UNSIGNED NULL,
+    note VARCHAR(255) NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- CUSTOMERS & DEBT MANAGEMENT
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS customers (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    phone VARCHAR(30) NULL,
+    email VARCHAR(191) NULL,
+    address VARCHAR(255) NULL,
+    credit_limit DECIMAL(14,2) NOT NULL DEFAULT 0,
+    outstanding_debt DECIMAL(14,2) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    INDEX idx_customers_tenant (tenant_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS customer_payments (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    customer_id INT UNSIGNED NOT NULL,
+    sale_id INT UNSIGNED NULL,
+    amount DECIMAL(14,2) NOT NULL,
+    method ENUM('cash','transfer','pos') NOT NULL DEFAULT 'cash',
+    note VARCHAR(255) NULL,
+    user_id INT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
+    INDEX idx_custpay_tenant (tenant_id)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- SALES / POS
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS sales (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    branch_id INT UNSIGNED NULL,
+    customer_id INT UNSIGNED NULL,
+    user_id INT UNSIGNED NULL COMMENT 'staff who made the sale',
+    receipt_no VARCHAR(40) NOT NULL,
+    subtotal DECIMAL(14,2) NOT NULL DEFAULT 0,
+    discount DECIMAL(14,2) NOT NULL DEFAULT 0,
+    total DECIMAL(14,2) NOT NULL DEFAULT 0,
+    amount_paid DECIMAL(14,2) NOT NULL DEFAULT 0,
+    balance_due DECIMAL(14,2) NOT NULL DEFAULT 0,
+    payment_method ENUM('cash','transfer','pos','split','credit') NOT NULL DEFAULT 'cash',
+    sale_type ENUM('in_store','online') NOT NULL DEFAULT 'in_store',
+    status ENUM('completed','refunded','partial_refund','cancelled') NOT NULL DEFAULT 'completed',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE SET NULL,
+    UNIQUE KEY uniq_tenant_receipt (tenant_id, receipt_no),
+    INDEX idx_sales_tenant (tenant_id),
+    INDEX idx_sales_created (created_at)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS sale_items (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    sale_id INT UNSIGNED NOT NULL,
+    product_id INT UNSIGNED NOT NULL,
+    quantity INT NOT NULL,
+    unit_cost DECIMAL(14,2) NOT NULL DEFAULT 0 COMMENT 'buying price snapshot',
+    unit_price DECIMAL(14,2) NOT NULL DEFAULT 0 COMMENT 'selling price snapshot',
+    discount DECIMAL(14,2) NOT NULL DEFAULT 0,
+    line_total DECIMAL(14,2) NOT NULL DEFAULT 0,
+    returned_qty INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT,
+    INDEX idx_saleitems_tenant (tenant_id),
+    INDEX idx_saleitems_sale (sale_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS sale_payments (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    sale_id INT UNSIGNED NOT NULL,
+    method ENUM('cash','transfer','pos') NOT NULL,
+    amount DECIMAL(14,2) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE
+) ENGINE=InnoDB COMMENT='Supports split payments per sale';
+
+CREATE TABLE IF NOT EXISTS sale_returns (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    sale_id INT UNSIGNED NOT NULL,
+    sale_item_id INT UNSIGNED NOT NULL,
+    quantity INT NOT NULL,
+    reason VARCHAR(255) NULL,
+    refund_amount DECIMAL(14,2) NOT NULL DEFAULT 0,
+    user_id INT UNSIGNED NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sale_id) REFERENCES sales(id) ON DELETE CASCADE,
+    FOREIGN KEY (sale_item_id) REFERENCES sale_items(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- EXPENSES
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS expense_categories (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    name VARCHAR(120) NOT NULL,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS expenses (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    branch_id INT UNSIGNED NULL,
+    category_id INT UNSIGNED NULL,
+    user_id INT UNSIGNED NULL,
+    title VARCHAR(191) NOT NULL,
+    amount DECIMAL(14,2) NOT NULL,
+    note VARCHAR(255) NULL,
+    expense_date DATE NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES expense_categories(id) ON DELETE SET NULL,
+    INDEX idx_expenses_tenant (tenant_id),
+    INDEX idx_expenses_date (expense_date)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- ONLINE ORDERS (Phase 2 - Online Store)
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS online_orders (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    order_no VARCHAR(40) NOT NULL,
+    customer_name VARCHAR(150) NOT NULL,
+    customer_phone VARCHAR(30) NULL,
+    customer_email VARCHAR(191) NULL,
+    delivery_address VARCHAR(255) NULL,
+    subtotal DECIMAL(14,2) NOT NULL DEFAULT 0,
+    total DECIMAL(14,2) NOT NULL DEFAULT 0,
+    status ENUM('pending','accepted','fulfilled','cancelled') NOT NULL DEFAULT 'pending',
+    sale_id INT UNSIGNED NULL COMMENT 'linked once converted to a sale on acceptance',
+    customer_marked_paid TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'customer clicked "I Have Paid" on a bank-transfer checkout',
+    customer_marked_paid_at DATETIME NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    UNIQUE KEY uniq_tenant_order (tenant_id, order_no)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS online_order_items (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    order_id INT UNSIGNED NOT NULL,
+    product_id INT UNSIGNED NOT NULL,
+    quantity INT NOT NULL,
+    unit_price DECIMAL(14,2) NOT NULL,
+    line_total DECIMAL(14,2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES online_orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- AI INSIGHTS CACHE (Phase 2)
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ai_insights (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    summary TEXT NOT NULL,
+    raw_context JSON NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    INDEX idx_ai_tenant (tenant_id)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- ACTIVITY LOG (audit trail - who did what)
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS activity_logs (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NULL,
+    action VARCHAR(80) NOT NULL COMMENT 'e.g. sale.create, product.edit, sale.discount, sale.refund',
+    description VARCHAR(255) NULL,
+    meta JSON NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    INDEX idx_activity_tenant (tenant_id),
+    INDEX idx_activity_created (created_at)
+) ENGINE=InnoDB;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- =====================================================================
+-- STORE SETTINGS (added in v2) — theme, store type, and editable text
+-- content for the public storefront, per tenant.
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS store_settings (
+    tenant_id INT UNSIGNED PRIMARY KEY,
+    theme VARCHAR(30) NOT NULL DEFAULT 'aurora' COMMENT 'aurora|wink|luxora|marketly|novatrend',
+    store_type VARCHAR(30) NOT NULL DEFAULT 'general' COMMENT 'fashion|tech|beauty|grocery|general — drives stock imagery',
+    content JSON NULL COMMENT 'editable header/hero/banner/footer text, keyed per theme',
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
+) ENGINE=InnoDB;

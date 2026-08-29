@@ -1,0 +1,120 @@
+<?php
+namespace App\Controllers\Api;
+
+use App\Core\Auth;
+use App\Core\Notifications;
+use App\Core\Request;
+use App\Core\Response;
+use App\Models\ActivityLog;
+use App\Models\OnlineOrder;
+use App\Models\StoreSettings;
+use App\Models\Tenant;
+
+class OrderController
+{
+    /** PUBLIC: place an order from the storefront cart/checkout. */
+    public function place(Request $request): void
+    {
+        $slug = $request->param('slug');
+        $tenant = Tenant::findBySlug($slug);
+        if (!$tenant) { Response::error('Store not found', 404); return; }
+
+        $name = trim((string) $request->input('name', ''));
+        $items = $request->input('items', []);
+        if ($name === '' || empty($items)) { Response::error('Name and at least one cart item are required', 422); return; }
+
+        try {
+            $result = OnlineOrder::create((int) $tenant['id'], [
+                'name' => $name, 'phone' => $request->input('phone'),
+                'email' => $request->input('email'), 'address' => $request->input('address'),
+            ], $items);
+        } catch (\Throwable $e) {
+            Response::error($e->getMessage(), 422);
+            return;
+        }
+
+        $tenantId = (int) $tenant['id'];
+        $fullOrder = OnlineOrder::withItems($tenantId, (int) $result['id']);
+        Notifications::orderPlacedAdmin($tenantId, $fullOrder);
+        if (!empty($request->input('email'))) {
+            Notifications::orderPlacedCustomer($tenantId, $fullOrder, (string) $request->input('email'));
+        }
+
+        $settings = StoreSettings::get($tenantId);
+        $result['order_channel'] = $settings['content']['order_channel'] ?? 'email';
+        $result['whatsapp_number'] = $settings['content']['whatsapp_number'] ?? null;
+        $result['bank_name'] = $settings['content']['bank_name'] ?? null;
+        $result['bank_account_name'] = $settings['content']['bank_account_name'] ?? null;
+        $result['bank_account_number'] = $settings['content']['bank_account_number'] ?? null;
+
+        Response::success($result, 'Order placed successfully! The store will contact you to confirm delivery.', 201);
+    }
+
+    /** PUBLIC: customer clicks "I Have Paid" on a bank-transfer checkout. Doesn't auto-confirm — just alerts the admin to verify. */
+    public function markPaid(Request $request): void
+    {
+        $slug = $request->param('slug');
+        $tenant = Tenant::findBySlug($slug);
+        if (!$tenant) { Response::error('Store not found', 404); return; }
+        $tenantId = (int) $tenant['id'];
+        $id = (int) $request->param('id');
+
+        $order = OnlineOrder::withItems($tenantId, $id);
+        if (!$order) { Response::error('Order not found', 404); return; }
+
+        OnlineOrder::markCustomerPaid($tenantId, $id);
+        Notifications::customerClaimedPaid($tenantId, $order);
+
+        Response::success(['text' => "Thanks! We've been notified and will confirm your payment shortly."], 'Payment claim recorded');
+    }
+
+    /** ADMIN: list pending/online orders. */
+    public function index(Request $request): void
+    {
+        Response::success(OnlineOrder::listForTenant(Auth::tenantId()));
+    }
+
+    public function show(Request $request): void
+    {
+        $order = OnlineOrder::withItems(Auth::tenantId(), (int) $request->param('id'));
+        if (!$order) { Response::error('Order not found', 404); return; }
+        Response::success($order);
+    }
+
+    public function accept(Request $request): void
+    {
+        if (!Auth::hasRole(['owner', 'manager'])) { Response::error('Forbidden', 403); return; }
+        $tenantId = Auth::tenantId();
+        $id = (int) $request->param('id');
+        $orderBefore = OnlineOrder::withItems($tenantId, $id);
+        try {
+            $result = OnlineOrder::convertToSale($tenantId, $id, Auth::id());
+        } catch (\Throwable $e) {
+            Response::error($e->getMessage(), 422);
+            return;
+        }
+        ActivityLog::record($tenantId, Auth::id(), 'order.accept', "Accepted online order #$id -> sale " . $result['receipt_no']);
+        if ($orderBefore && !empty($orderBefore['customer_email'])) {
+            Notifications::orderPaidCustomer($tenantId, $orderBefore, $orderBefore['customer_email']);
+        }
+        Response::success($result, 'Order accepted and converted to a sale');
+    }
+
+    public function updateStatus(Request $request): void
+    {
+        if (!Auth::hasRole(['owner', 'manager'])) { Response::error('Forbidden', 403); return; }
+        $tenantId = Auth::tenantId();
+        $id = (int) $request->param('id');
+        $status = (string) $request->input('status', '');
+        if (!in_array($status, ['pending', 'accepted', 'fulfilled', 'cancelled'], true)) { Response::error('Invalid status', 422); return; }
+
+        $order = OnlineOrder::withItems($tenantId, $id);
+        OnlineOrder::updateStatus($tenantId, $id, $status);
+
+        if ($status === 'fulfilled' && $order && !empty($order['customer_email'])) {
+            Notifications::orderPaidCustomer($tenantId, $order, $order['customer_email']);
+        }
+
+        Response::success(OnlineOrder::find($tenantId, $id), 'Order status updated');
+    }
+}

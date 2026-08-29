@@ -1,0 +1,56 @@
+/* NovaTrend theme — trendy lifestyle storefront. Orange accent. */
+.theme-novatrend { --nt-orange: #ea580c; --nt-border: #e5e7eb; background: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+.theme-novatrend .nt-topbar { background: #111827; color: #fff; text-align: center; font-size: 12px; padding: 7px; }
+.theme-novatrend .nt-nav { display: flex; align-items: center; gap: 18px; padding: 16px 28px; border-bottom: 1px solid var(--nt-border); flex-wrap: wrap; }
+.theme-novatrend .nt-logo { font-weight: 800; font-size: 19px; color: #111827; display: flex; align-items: center; gap: 8px; }
+.theme-novatrend .nt-logo-img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
+.theme-novatrend .nt-search-wrap { flex: 1; min-width: 160px; }
+.theme-novatrend .nt-search-wrap input { width: 100%; max-width: 440px; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--nt-border); background: #f9fafb; }
+.theme-novatrend .nt-cart { position: relative; font-weight: 600; font-size: 14px; color: #111827; }
+.theme-novatrend .cart-count { background: var(--nt-orange); color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 10.5px; margin-left: 4px; }
+
+.theme-novatrend .nt-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; max-width: 1200px; margin: 20px auto; padding: 20px 28px; }
+.theme-novatrend .nt-eyebrow { color: var(--nt-orange); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; }
+.theme-novatrend .nt-hero h1 { font-size: 36px; margin: 12px 0 14px; color: #111827; line-height: 1.15; }
+.theme-novatrend .nt-hero p { color: #6b7280; margin-bottom: 20px; max-width: 420px; }
+.theme-novatrend .nt-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5; background: #f3f4f6; }
+.theme-novatrend .nt-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+.theme-novatrend .btn-store { background: var(--nt-orange); }
+.theme-novatrend .btn-store:hover { background: #c2410c; }
+
+.theme-novatrend .nt-features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1200px; margin: 10px auto 30px; padding: 20px 28px; border-top: 1px solid var(--nt-border); border-bottom: 1px solid var(--nt-border); }
+.theme-novatrend .nt-features div { text-align: center; }
+.theme-novatrend .nt-features strong { display: block; font-size: 13.5px; margin-bottom: 3px; }
+.theme-novatrend .nt-features span { font-size: 11.5px; color: #9ca3af; }
+
+.theme-novatrend .nt-categories, .theme-novatrend .nt-products { max-width: 1200px; margin: 0 auto; padding: 0 28px 30px; }
+.theme-novatrend .nt-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.theme-novatrend .nt-section-head h2 { font-size: 19px; margin: 0; }
+.theme-novatrend .nt-cat-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; }
+.theme-novatrend .cat-pill { flex-shrink: 0; border: 1px solid var(--nt-border); background: #fff; border-radius: 999px; padding: 9px 18px; font-size: 12.5px; white-space: nowrap; }
+.theme-novatrend .cat-pill.active { background: var(--nt-orange); color: #fff; border-color: var(--nt-orange); }
+
+.theme-novatrend .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.theme-novatrend .product-card { display: block; }
+.theme-novatrend .thumb { position: relative; aspect-ratio: 1; background: #f3f4f6; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #d1d5db; font-size: 12px; }
+.theme-novatrend .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.theme-novatrend .wish-btn { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: none; font-size: 14px; }
+.theme-novatrend .info { padding: 10px 4px; }
+.theme-novatrend .name { font-weight: 600; font-size: 13.5px; }
+.theme-novatrend .cat-tag { font-size: 11px; color: #9ca3af; margin-bottom: 6px; }
+.theme-novatrend .price-row { display: flex; justify-content: space-between; align-items: center; }
+.theme-novatrend .price { font-weight: 700; color: var(--nt-orange); }
+.theme-novatrend .quick-add { background: #111827; color: #fff; border: none; width: 28px; height: 28px; border-radius: 8px; }
+.theme-novatrend .grid-loading, .theme-novatrend .empty-store { grid-column: 1/-1; text-align: center; padding: 40px 20px; color: #9ca3af; }
+
+.theme-novatrend .nt-footer { text-align: center; padding: 22px; color: #9ca3af; font-size: 12.5px; border-top: 1px solid var(--nt-border); }
+
+@media (max-width: 880px) {
+    .theme-novatrend .nt-hero { grid-template-columns: 1fr; }
+    .theme-novatrend .nt-features { grid-template-columns: repeat(2, 1fr); }
+    .theme-novatrend .product-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+    .theme-novatrend .nt-nav, .theme-novatrend .nt-hero, .theme-novatrend .nt-features, .theme-novatrend .nt-categories, .theme-novatrend .nt-products { padding-left: 16px; padding-right: 16px; }
+    .theme-novatrend .nt-hero h1 { font-size: 26px; }
+}

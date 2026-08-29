@@ -1,0 +1,70 @@
+===== 2026-08-28 09:58:16 =====
+To: owner@ajtech.com
+Subject: New online order — ORD-0002
+
+New Online Order — ORD-0002Customer: Kate Anni (09077526598)
+Total: 120,000.00
+1 x Tecno Spark 20Review and accept it from your admin portal's Online Orders page.
+
+
+===== 2026-08-28 09:58:16 =====
+To: kateanni331@gmail.com
+Subject: Order confirmation — ORD-0002
+
+Thanks for your order, Kate Anni!We've received order ORD-0002 from AJ Tech Gadgets.
+1 x Tecno Spark 20 — 120,000.00Total: 120,000.00
+We'll be in touch shortly to confirm delivery.
+
+
+===== 2026-08-28 09:58:23 =====
+To: kateanni331@gmail.com
+Subject: Payment confirmed — ORD-0002
+
+Payment confirmed — ORD-0002Hi Kate Anni, your payment for order ORD-0002 has been confirmed by AJ Tech Gadgets.
+Your order is now being prepared. Thank you for shopping with us!
+
+
+===== 2026-08-28 10:24:56 =====
+To: owner@ajtech.com
+Subject: New online order — ORD-0003
+
+New Online Order — ORD-0003Customer: Ayodele (09077526598)
+Total: 6,000.00
+1 x Type-C Fast ChargerReview and accept it from your admin portal's Online Orders page.
+
+
+===== 2026-08-28 10:24:56 =====
+To: kateanni331@gmail.com
+Subject: Order confirmation — ORD-0003
+
+Thanks for your order, Ayodele!We've received order ORD-0003 from AJ Tech Gadgets.
+1 x Type-C Fast Charger — 6,000.00Total: 6,000.00
+We'll be in touch shortly to confirm delivery.
+
+
+===== 2026-08-28 10:25:20 =====
+To: kateanni331@gmail.com
+Subject: Payment confirmed — ORD-0003
+
+Payment confirmed — ORD-0003Hi Ayodele, your payment for order ORD-0003 has been confirmed by AJ Tech Gadgets.
+Your order is now being prepared. Thank you for shopping with us!
+
+
+===== 2026-08-28 10:29:17 =====
+To: owner@ajtech.com
+Subject: New online order — ORD-0004
+
+New Online Order — ORD-0004Customer: Chef (09077526598)
+Total: 770,000.00
+2 x HP Probook 450Review and accept it from your admin portal's Online Orders page.
+
+
+===== 2026-08-28 10:29:17 =====
+To: kateanni331@gmail.com
+Subject: Order confirmation — ORD-0004
+
+Thanks for your order, Chef!We've received order ORD-0004 from AJ Tech Gadgets.
+2 x HP Probook 450 — 770,000.00Total: 770,000.00
+We'll be in touch shortly to confirm delivery.
+
+

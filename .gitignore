@@ -1,0 +1,4 @@
+.env
+vendor/
+public/uploads/tenant_*
+.DS_Store

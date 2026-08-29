@@ -1,0 +1,52 @@
+/* Wink theme — clean product-list, black/white minimal with a promo strip. */
+.theme-wink { --wk-ink: #111827; --wk-border: #e5e7eb; background: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--wk-ink); }
+.theme-wink .wk-nav { display: flex; align-items: center; gap: 18px; padding: 16px 28px; border-bottom: 1px solid var(--wk-border); position: sticky; top: 0; background: #fff; z-index: 20; flex-wrap: wrap; }
+.theme-wink .wk-logo { font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: var(--wk-ink); display: flex; align-items: center; gap: 8px; }
+.theme-wink .wk-logo-img { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; }
+.theme-wink .wk-search-wrap { flex: 1; min-width: 160px; position: relative; }
+.theme-wink .wk-search { width: 100%; max-width: 460px; padding: 10px 40px 10px 14px; border: 1px solid var(--wk-border); border-radius: 999px; background: #f9fafb; }
+.theme-wink .wk-search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 13px; color: #9ca3af; }
+.theme-wink .wk-cart { position: relative; font-size: 20px; }
+.theme-wink .cart-count { position: absolute; top: -6px; right: -10px; background: var(--wk-ink); color: #fff; border-radius: 999px; font-size: 10.5px; padding: 1px 6px; }
+
+.theme-wink .wk-promo { background: var(--wk-ink); color: #fff; text-align: center; padding: 9px; font-size: 13px; }
+.theme-wink .wk-crumb { max-width: 1240px; margin: 16px auto 0; padding: 0 28px; font-size: 12.5px; color: #9ca3af; }
+
+.theme-wink .wk-shell { display: grid; grid-template-columns: 230px 1fr; gap: 30px; max-width: 1240px; margin: 0 auto; padding: 16px 28px 60px; }
+.theme-wink .wk-filter-toggle { display: none; }
+.theme-wink .wk-sidebar { align-self: start; position: sticky; top: 90px; }
+.theme-wink .wk-side-block { margin-bottom: 26px; }
+.theme-wink .wk-side-head { display: flex; justify-content: space-between; font-weight: 700; font-size: 13.5px; margin-bottom: 12px; }
+.theme-wink .wk-side-head span { font-weight: 400; color: #9ca3af; font-size: 12px; cursor: pointer; }
+.theme-wink .cat-checkbox { display: flex; align-items: center; gap: 8px; font-size: 13.5px; margin-bottom: 10px; cursor: pointer; }
+.theme-wink .wk-price-row { display: flex; gap: 8px; }
+.theme-wink .wk-price-row input { width: 50%; padding: 8px 10px; border: 1px solid var(--wk-border); border-radius: 6px; }
+
+.theme-wink .wk-title-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+.theme-wink .wk-title-row h1 { font-size: 22px; margin: 0 0 4px; }
+
+.theme-wink .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 16px; }
+.theme-wink .product-card { display: block; }
+.theme-wink .thumb { position: relative; aspect-ratio: 4/5; background: #f3f4f6; overflow: hidden; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #c1c5cc; font-size: 12px; }
+.theme-wink .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.theme-wink .wish-btn { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: none; font-size: 14px; }
+.theme-wink .info { padding: 10px 2px; }
+.theme-wink .name { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+.theme-wink .cat-tag { display: none; }
+.theme-wink .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+.theme-wink .price { font-weight: 700; }
+.theme-wink .quick-add { background: var(--wk-ink); color: #fff; border: none; width: 30px; height: 30px; border-radius: 50%; }
+.theme-wink .grid-loading, .theme-wink .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #9ca3af; }
+
+@media (max-width: 880px) {
+    .theme-wink .wk-shell { grid-template-columns: 1fr; }
+    .theme-wink .wk-filter-toggle { display: block; border: 1px solid var(--wk-border); border-radius: 8px; padding: 9px 14px; margin-bottom: 14px; width: fit-content; }
+    .theme-wink .wk-sidebar { display: none; position: static; }
+    .theme-wink .wk-sidebar.open { display: block; }
+    .theme-wink .product-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+    .theme-wink .wk-nav { padding: 12px 16px; }
+    .theme-wink .wk-shell { padding: 12px 16px 40px; }
+    .theme-wink .wk-crumb { padding: 0 16px; }
+}
