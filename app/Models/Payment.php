@@ -7,7 +7,7 @@ class Payment extends BaseModel
 
     public static function create(int $tenantId, int $planId, float $amount, string $currency, string $txRef): int
     {
-        $stmt = self::db()->prepare('INSERT INTO payments (tenant_id, plan_id, amount, currency, tx_ref, status) VALUES (?,?,?,?,?,"pending")');
+        $stmt = self::db()->prepare("INSERT INTO payments (tenant_id, plan_id, amount, currency, tx_ref, status) VALUES (?,?,?,?,?,'pending')");
         $stmt->execute([$tenantId, $planId, $amount, $currency, $txRef]);
         return (int) self::db()->lastInsertId();
     }

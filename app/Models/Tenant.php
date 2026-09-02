@@ -58,8 +58,8 @@ class Tenant extends BaseModel
     {
         $trialDays = 3;
         $stmt = self::db()->prepare(
-            'INSERT INTO tenants (slug, business_name, owner_email, owner_phone, currency, subscription_status, trial_ends_at)
-             VALUES (?, ?, ?, ?, ?, "trial", DATE_ADD(NOW(), INTERVAL ? DAY))'
+            "INSERT INTO tenants (slug, business_name, owner_email, owner_phone, currency, subscription_status, trial_ends_at)
+             VALUES (?, ?, ?, ?, ?, 'trial', DATE_ADD(NOW(), INTERVAL ? DAY))"
         );
         $stmt->execute([
             $data['slug'],
