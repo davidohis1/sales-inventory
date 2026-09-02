@@ -40,6 +40,7 @@
         { path: 'staff', label: 'Staff', icon: '&#128101;', roles: ['owner', 'manager'], render: renderStaff },
         { path: 'branches', label: 'Branches', icon: '&#127970;', roles: ['owner', 'manager'], render: renderBranches },
         { path: 'reports', label: 'Reports', icon: '&#128202;', roles: ['owner', 'manager'], render: renderReports },
+        { path: 'plans', label: 'Plans & Billing', icon: '&#128179;', roles: null, render: renderPlans },
     ];
 
     function portalPath(sub) {
@@ -81,34 +82,93 @@
     /* ---------------------------------------------------------------
        SHELL (sidebar + topbar) — rendered once after login
        --------------------------------------------------------------- */
+    const MAIN_PATHS = ['', 'pos'];
+    const FEATURE_PATHS = ['products', 'customers', 'expenses', 'orders', 'store', 'branches'];
+    const GENERAL_PATHS = ['staff', 'reports'];
+
+    function planInfo() {
+        try { return JSON.parse(localStorage.getItem('plan') || 'null'); } catch (e) { return null; }
+    }
+
+    function isPathLocked(path) {
+        const plan = planInfo();
+        if (!plan || !plan.locked_features) return false;
+        return plan.locked_features.includes(path);
+    }
+
+    function navGroupHtml(paths, user) {
+        return ROUTES.filter((r) => paths.includes(r.path) && (!r.roles || r.roles.includes(user.role)))
+            .map((r) => {
+                const locked = isPathLocked(r.path);
+                return `<div class="nav-item${locked ? ' locked' : ''}" data-path="${r.path}" data-locked="${locked ? '1' : '0'}">
+                    <span class="nav-icon">${r.icon}</span> ${r.label}
+                    ${locked ? '<span class="nav-lock" title="Upgrade to unlock">&#128274;</span>' : ''}
+                </div>`;
+            }).join('');
+    }
+
     function renderShell() {
         const user = currentUser() || {};
-        const nav = ROUTES.filter((r) => !r.roles || r.roles.includes(user.role))
-            .map((r) => `<div class="nav-item" data-path="${r.path}"><span class="nav-icon">${r.icon}</span> ${r.label}</div>`)
-            .join('');
+        const plan = planInfo();
+        const initials = (user.full_name || '?').trim().split(/\s+/).map((s) => s[0]).slice(0, 2).join('').toUpperCase();
 
         document.getElementById('app').innerHTML = `
         <div class="app-shell">
-            <div class="sidebar">
+            <div class="sidebar" id="sidebar">
                 <div class="sidebar-brand"><span class="logo-dot"></span> ${esc(window.TENANT_NAME)}</div>
-                <div class="nav-group">${nav}</div>
+                <div class="nav-section-label">Main Menu</div>
+                <div class="nav-group">${navGroupHtml(MAIN_PATHS, user)}</div>
+                <div class="nav-section-label">Features</div>
+                <div class="nav-group">${navGroupHtml(FEATURE_PATHS, user)}</div>
+                <div class="nav-section-label">General</div>
+                <div class="nav-group">${navGroupHtml(GENERAL_PATHS, user)}</div>
                 <div class="sidebar-footer">
-                    <div class="user-name">${esc(user.full_name || '')}</div>
-                    <div>${esc((user.role || '').toUpperCase())}</div>
-                    <button class="logout-btn" id="logout-btn">Log out</button>
+                    ${plan && plan.name !== 'premium' ? `
+                    <div class="upgrade-card">
+                        <div class="upgrade-title">Upgrade your plan &#9889;</div>
+                        <div class="upgrade-sub">Unlock more features and grow faster.</div>
+                        <button class="btn" id="sidebar-upgrade-btn">Upgrade</button>
+                    </div>` : ''}
+                    <div class="sidebar-user">
+                        <div class="avatar">${esc(initials)}</div>
+                        <div>
+                            <div class="user-name">${esc(user.full_name || '')}</div>
+                            <div class="user-role">${esc((user.role || '').toUpperCase())}</div>
+                        </div>
+                        <button class="logout-btn" id="logout-btn" title="Log out">&#10140;</button>
+                    </div>
                 </div>
             </div>
             <div class="main">
                 <div class="topbar">
+                    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
                     <h1 id="page-title">Dashboard</h1>
-                    <div class="topbar-right"><span class="text-muted">${new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span></div>
+                    <div class="topbar-search"><span>&#128269;</span><span>Search…</span></div>
+                    <div class="topbar-right">
+                        <button class="topbar-icon-btn" title="Help">?</button>
+                        <button class="topbar-icon-btn" title="Messages">&#9993;</button>
+                        <button class="topbar-icon-btn" title="Notifications">&#128276;</button>
+                        <div class="topbar-avatar" title="${esc(user.full_name || '')}">${esc(initials)}</div>
+                    </div>
                 </div>
                 <div id="content"></div>
             </div>
         </div>`;
 
         document.querySelectorAll('.nav-item').forEach((el) => {
-            el.addEventListener('click', () => navigate(el.dataset.path));
+            el.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.remove('open');
+                if (el.dataset.locked === '1') {
+                    toast("That feature isn't included in your current plan.", 'error');
+                    return navigate('plans');
+                }
+                navigate(el.dataset.path);
+            });
+        });
+        const upgradeBtn = document.getElementById('sidebar-upgrade-btn');
+        if (upgradeBtn) upgradeBtn.addEventListener('click', () => navigate('plans'));
+        document.getElementById('menu-toggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
         });
         document.getElementById('logout-btn').addEventListener('click', () => {
             Api.clearTokens();
@@ -154,33 +214,97 @@
        --------------------------------------------------------------- */
     async function renderDashboard(content) {
         const d = await Api.get('/dashboard');
-        const payments = (d.payment_breakdown || []).map((p) => `<span class="badge badge-muted">${esc(p.method)}: ${fmt(p.total)}</span>`).join(' ');
-        const bestSellers = (d.best_sellers || []).map((b) => `<tr><td>${esc(b.name)}</td><td>${b.total_qty}</td><td>${fmt(b.total_revenue)}</td></tr>`).join('') || '<tr><td colspan="3" class="text-muted">No sales yet</td></tr>';
+        const user = currentUser() || {};
+        const payments = d.payment_breakdown || [];
+        const bestSellers = (d.best_sellers || []).slice(0, 5);
+        const todayLabel = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        // Build a simple 12-bar overview chart from whatever monthly trend the API gives us,
+        // falling back to a flat series so the card never looks broken with no data.
+        const trend = (d.monthly_trend && d.monthly_trend.length === 12) ? d.monthly_trend
+            : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map((m, i) => ({ month: m, total: i === new Date().getMonth() ? (d.today_revenue || 0) * 20 : 0 }));
+        const maxVal = Math.max(1, ...trend.map((t) => Number(t.total || 0)));
+        const bars = trend.map((t, i) => {
+            const h = Math.max(4, Math.round((Number(t.total || 0) / maxVal) * 150));
+            const isPeak = Number(t.total || 0) === maxVal && maxVal > 0;
+            return `<div class="bar-col${isPeak ? ' peak' : ''}" title="${esc(t.month)}: ${fmt(t.total)}">
+                <div class="bar" style="height:${h}px;"></div>
+                <div class="bar-label">${esc(t.month)}</div>
+            </div>`;
+        }).join('');
+
+        const walletCards = payments.length ? payments.slice(0, 4).map((p) => `
+            <div class="wallet-mini">
+                <div class="wm-top"><span>${esc(p.method)}</span></div>
+                <div class="wm-value">${fmt(p.total)}</div>
+                <div class="wm-status active">Today</div>
+            </div>`).join('') : `
+            <div class="wallet-mini" style="grid-column: 1 / -1;"><span class="text-muted">No payments recorded today yet.</span></div>`;
+
+        const txRows = bestSellers.length ? bestSellers.map((b) => `
+            <tr>
+                <td><span class="tx-icon">&#128230;</span>${esc(b.name)}</td>
+                <td>${b.total_qty} sold</td>
+                <td>${fmt(b.total_revenue)}</td>
+                <td><span class="status-pill">Active</span></td>
+            </tr>`).join('') : `<tr><td colspan="4" class="text-muted">No sales yet — make your first sale from Quick Sale or POS.</td></tr>`;
 
         content.innerHTML = `
-        <div class="flex-between" style="margin-bottom:14px;">
-            <span></span>
-            <button class="btn btn-accent" id="quick-sale-btn">&#9889; Quick Sale</button>
-        </div>
-        <div class="grid grid-4">
-            <div class="card stat-card"><div class="stat-label">Today's Revenue</div><div class="stat-value">${fmt(d.today_revenue)}</div><div class="stat-sub">${d.today_sales_count} sale(s) today</div></div>
-            <div class="card stat-card"><div class="stat-label">Today's Profit</div><div class="stat-value">${fmt(d.today_profit)}</div><div class="stat-sub">Revenue − COGS − expenses</div></div>
-            <div class="card stat-card"><div class="stat-label">Stock Value</div><div class="stat-value">${fmt(d.stock_value)}</div><div class="stat-sub">At buying price</div></div>
-            <div class="card stat-card ${d.low_stock_count > 0 ? 'warn' : ''}"><div class="stat-label">Low / Out of Stock</div><div class="stat-value">${d.low_stock_count} / ${d.out_of_stock_count}</div><div class="stat-sub">Items need attention</div></div>
-        </div>
-
-        <div class="grid grid-2" style="margin-top:18px; align-items:start;">
+        <div class="page-header">
             <div>
-                <div class="section-title">Payment Method Breakdown (Today)</div>
-                <div class="card">${payments || '<span class="text-muted">No payments recorded today.</span>'}</div>
+                <h2>Welcome back, ${esc((user.full_name || 'there').split(' ')[0])}</h2>
+                <p>Monitor and control what happens with your business today.</p>
+            </div>
+            <div class="page-header-actions">
+                <span class="date-pill">&#128197; ${todayLabel}</span>
+                <button class="btn btn-dark" id="quick-sale-btn">&#9889; Quick Sale</button>
+            </div>
+        </div>
 
-                <div class="section-title">Best-Selling Products (30 days)</div>
-                <div class="table-wrap"><table><thead><tr><th>Product</th><th>Qty Sold</th><th>Revenue</th></tr></thead><tbody>${bestSellers}</tbody></table></div>
+        <div class="grid grid-3" style="margin-bottom:18px;">
+            <div class="card stat-card">
+                <div class="card-head"><div class="card-icon">&#128176;</div><button class="card-menu-dots">&#8942;</button></div>
+                <div class="stat-label">Today's Revenue</div>
+                <div class="stat-value">${fmt(d.today_revenue)}</div>
+                <div class="stat-sub"><span class="trend-pill up">&#8593; ${d.today_sales_count || 0}</span> sale(s) today</div>
+            </div>
+            <div class="card stat-card">
+                <div class="card-head"><div class="card-icon">&#128200;</div><button class="card-menu-dots">&#8942;</button></div>
+                <div class="stat-label">Today's Profit</div>
+                <div class="stat-value">${fmt(d.today_profit)}</div>
+                <div class="stat-sub">Revenue − COGS − expenses</div>
+            </div>
+            <div class="card stat-card ${d.low_stock_count > 0 ? 'warn' : ''}">
+                <div class="card-head"><div class="card-icon">&#128230;</div><button class="card-menu-dots">&#8942;</button></div>
+                <div class="stat-label">Stock Value</div>
+                <div class="stat-value">${fmt(d.stock_value)}</div>
+                <div class="stat-sub">${d.low_stock_count > 0 ? `<span class="trend-pill down">&#9888; ${d.low_stock_count} low</span>` : ''} ${d.out_of_stock_count > 0 ? `${d.out_of_stock_count} out of stock` : 'All items stocked'}</div>
+            </div>
+        </div>
+
+        <div class="dash-grid">
+            <div class="card chart-card">
+                <div class="card-head">
+                    <div class="card-head-title"><span class="card-icon">&#128202;</span> Overview</div>
+                    <div class="chart-legend"><span class="dot"></span> Revenue by month</div>
+                </div>
+                <div class="bar-chart">${bars}</div>
+            </div>
+            <div class="card">
+                <div class="card-head-title" style="margin-bottom:14px;"><span class="card-icon">&#128179;</span> Payment Breakdown (Today)</div>
+                <div class="wallet-grid">${walletCards}</div>
+            </div>
+        </div>
+
+        <div class="dash-grid-lower">
+            <div>
+                <div class="section-title">Best-Selling Products <span class="text-muted" style="font-weight:400; font-size:12px;">Last 30 days</span></div>
+                <div class="table-wrap"><table class="tx-table"><thead><tr><th>Product</th><th>Qty Sold</th><th>Revenue</th><th>Status</th></tr></thead><tbody>${txRows}</tbody></table></div>
             </div>
             <div>
                 <div class="section-title">AI Insights</div>
                 <div class="ai-widget" id="ai-widget">
-                    <h3>&#10024; Business Insights <span class="ai-tag">Gemini</span></h3>
+                    <h3>&#10024; Business Insights <span class="ai-tag">AI</span></h3>
                     <p style="opacity:0.85; margin: 6px 0 0; font-size:13px;">A plain-language summary of your trends, slow stock, and margins.</p>
                     <div id="ai-body"><div class="spinner" style="border-color: rgba(255,255,255,0.3); border-top-color:#fff; margin-top:16px;"></div></div>
                     <button class="btn" id="ai-refresh">Regenerate Insights</button>
@@ -852,33 +976,50 @@
        --------------------------------------------------------------- */
     async function renderOrders(content) {
         const orders = await Api.get('/orders');
+        const STAGES = ['ordered', 'accepted', 'on_delivery', 'delivered'];
+        const NEXT_LABEL = { ordered: 'Accept Order', accepted: 'Mark On Delivery', on_delivery: 'Mark Delivered' };
         const statusBadge = (status) => {
-            const map = { pending: 'badge-warn', processing: 'badge-muted', delivered: 'badge-success', cancelled: 'badge-danger' };
-            return `<span class="badge ${map[status] || 'badge-muted'}">${esc(status)}</span>`;
+            const map = { ordered: 'badge-warn', accepted: 'badge-muted', on_delivery: 'badge-muted', delivered: 'badge-success', cancelled: 'badge-danger' };
+            const label = { ordered: 'Ordered', accepted: 'Accepted', on_delivery: 'On Delivery', delivered: 'Delivered', cancelled: 'Cancelled' };
+            return `<span class="badge ${map[status] || 'badge-muted'}">${esc(label[status] || status)}</span>`;
+        };
+        const paidBadge = (o) => {
+            const paid = Number(o.amount_paid || 0), total = Number(o.total || 0);
+            if (paid >= total && total > 0) return `<span class="badge badge-success">${fmt(paid)} paid</span>`;
+            if (paid > 0) return `<span class="badge badge-warn">${fmt(paid)} / ${fmt(total)}</span>`;
+            return `<span class="badge badge-danger">Unpaid</span>`;
         };
         const actionsFor = (o) => {
-            if (o.status === 'pending') return `<button class="btn btn-sm btn-accent" data-accept="${o.id}">Accept</button> <button class="btn btn-sm btn-danger" data-cancel="${o.id}">Cancel</button>`;
-            if (o.status === 'processing') return `<button class="btn btn-sm btn-accent" data-deliver="${o.id}">Mark as Delivered</button>`;
+            if (o.status === 'ordered') {
+                // Accepting a fresh order converts it into a sale (deducts stock) via the dedicated /accept endpoint.
+                return `<button class="btn btn-sm btn-accent" data-accept="${o.id}">Accept Order</button> <button class="btn btn-sm btn-danger" data-cancel="${o.id}">Cancel</button>`;
+            }
+            const idx = STAGES.indexOf(o.status);
+            if (idx >= 0 && idx < STAGES.length - 1) {
+                const next = STAGES[idx + 1];
+                return `<button class="btn btn-sm btn-accent" data-advance="${o.id}" data-next="${next}">${NEXT_LABEL[o.status]}</button>`;
+            }
             return '—';
         };
         const rows = orders.map((o) => `
             <tr>
                 <td>${esc(o.order_no)}</td><td>${esc(o.customer_name)}</td><td>${fmt(o.total)}</td>
+                <td>${paidBadge(o)}</td>
                 <td>${statusBadge(o.status)}</td>
                 <td>${dt(o.created_at)}</td>
                 <td>${actionsFor(o)}</td>
-            </tr>`).join('') || '<tr><td colspan="6" class="text-muted">No online orders yet.</td></tr>';
+            </tr>`).join('') || '<tr><td colspan="7" class="text-muted">No online orders yet.</td></tr>';
 
         content.innerHTML = `
-        <p class="text-muted">Orders placed from your public online store at <a href="${window.APP_BASE || ''}/${slug}" target="_blank">/${slug}</a> appear here. Accepting a pending order moves it to <strong>processing</strong>; the customer is emailed at every status change.</p>
-        <div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+        <p class="text-muted">Orders placed from your public online store at <a href="${window.APP_BASE || ''}/${slug}" target="_blank">/${slug}</a> appear here. Every order moves through <strong>Ordered → Accepted → On Delivery → Delivered</strong>, and the customer is emailed at each step.</p>
+        <div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Payment</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 
         content.querySelectorAll('[data-accept]').forEach((btn) => btn.addEventListener('click', async () => {
             try { const r = await Api.post(`/orders/${btn.dataset.accept}/accept`); toast(`Order accepted → sale ${r.receipt_no}`); renderOrders(content); }
             catch (e) { toast(e.message, 'error'); }
         }));
-        content.querySelectorAll('[data-deliver]').forEach((btn) => btn.addEventListener('click', async () => {
-            try { await Api.put(`/orders/${btn.dataset.deliver}/status`, { status: 'delivered' }); toast('Order marked as delivered'); renderOrders(content); }
+        content.querySelectorAll('[data-advance]').forEach((btn) => btn.addEventListener('click', async () => {
+            try { await Api.put(`/orders/${btn.dataset.advance}/status`, { status: btn.dataset.next }); toast(`Order marked as ${btn.dataset.next.replace('_', ' ')}`); renderOrders(content); }
             catch (e) { toast(e.message, 'error'); }
         }));
         content.querySelectorAll('[data-cancel]').forEach((btn) => btn.addEventListener('click', async () => {
@@ -1488,12 +1629,100 @@
     }
 
     /* ---------------------------------------------------------------
+       PLANS & BILLING
+       --------------------------------------------------------------- */
+    async function renderPlans(content) {
+        const [plansRes, status] = await Promise.all([
+            fetch(`${window.APP_BASE || ''}/api/plans`).then((r) => r.json()),
+            Api.get('/plan-status'),
+        ]);
+        const plans = (plansRes && plansRes.data) || [];
+        const currentKey = status.plan ? status.plan.key : null;
+
+        const bannerHtml = status.status === 'expired'
+            ? `<div class="plan-locked-banner"><strong>Your free trial has expired.</strong> Choose a plan below to restore full access — your data is safe and waiting.</div>`
+            : status.status === 'trial'
+                ? `<div class="plan-locked-banner">You're on a free trial with <strong>${status.days_remaining}</strong> day(s) left. Pick a plan any time to keep going after it ends.</div>`
+                : `<div class="plan-locked-banner" style="background:#e7f8f0; border-color:#bfe9d3; color:#0e7a53;">You're on the <strong>${esc(status.plan ? status.plan.name : '')}</strong> plan — renews in ${status.days_remaining} day(s).</div>`;
+
+        const cardsHtml = plans.map((p) => {
+            const isCurrent = p.key === currentKey && status.status === 'active';
+            const features = (p.features || []).map((f) => `<li class="${f.enabled ? '' : 'text-muted'}">${f.enabled ? '&#10003;' : '&#10005;'} ${esc(f.feature_label)}</li>`).join('');
+            return `
+            <div class="card" style="${p.key === 'advanced' ? 'border-color: var(--color-primary); box-shadow: 0 0 0 2px var(--color-primary-light);' : ''}">
+                <div class="plan-pill ${esc(p.key)}">${esc(p.name)}</div>
+                <div style="font-size:30px; font-weight:800; margin: 14px 0 2px;">${fmt(p.price_monthly)}<span style="font-size:13px; font-weight:500; color:var(--color-text-muted);">/month</span></div>
+                <p class="text-muted" style="min-height:36px;">${esc(p.description || '')}</p>
+                <ul style="list-style:none; padding:0; margin: 14px 0; font-size:13px; display:flex; flex-direction:column; gap:8px;">${features}</ul>
+                <button class="btn ${isCurrent ? 'btn-secondary' : ''}" style="width:100%; justify-content:center;" data-plan="${esc(p.key)}" ${isCurrent ? 'disabled' : ''}>${isCurrent ? 'Current Plan' : 'Choose ' + esc(p.name)}</button>
+            </div>`;
+        }).join('');
+
+        content.innerHTML = `
+        <div class="page-header"><div><h2>Plans &amp; Billing</h2><p>Pick the plan that fits your business — upgrade or renew any time.</p></div></div>
+        ${bannerHtml}
+        <div class="grid grid-3" style="align-items:stretch; margin-top:16px;">${cardsHtml}</div>
+        <div id="pay-modal-root"></div>`;
+
+        content.querySelectorAll('[data-plan]').forEach((btn) => {
+            btn.addEventListener('click', () => startPlanCheckout(btn.dataset.plan, content));
+        });
+    }
+
+    async function startPlanCheckout(planKey, content) {
+        try {
+            const result = await Api.post('/payments/initialize', { plan_key: planKey });
+            if (result.simulated) {
+                const root = document.getElementById('pay-modal-root');
+                root.innerHTML = `
+                <div class="modal-backdrop">
+                    <div class="modal">
+                        <button class="modal-close" id="sim-close">&times;</button>
+                        <h3>Development checkout</h3>
+                        <p class="text-muted">Flutterwave isn't configured on this server yet, so here's a stand-in checkout for testing the flow end-to-end.</p>
+                        <button class="btn" id="sim-confirm" style="width:100%; justify-content:center;">Simulate Successful Payment</button>
+                    </div>
+                </div>`;
+                document.getElementById('sim-close').addEventListener('click', () => root.innerHTML = '');
+                document.getElementById('sim-confirm').addEventListener('click', async () => {
+                    try {
+                        await Api.post('/payments/verify', { tx_ref: result.tx_ref });
+                        toast('Payment confirmed — plan activated!', 'success');
+                        root.innerHTML = '';
+                        renderShell();
+                        navigate('');
+                    } catch (e) { toast(e.message, 'error'); }
+                });
+                return;
+            }
+            // Real Flutterwave checkout — send the browser to the hosted payment page.
+            window.location.href = result.link;
+        } catch (e) {
+            toast(e.message, 'error');
+        }
+    }
+
+    /* ---------------------------------------------------------------
        BOOT
        --------------------------------------------------------------- */
-    function boot() {
+    async function boot() {
         const { access } = Api.tokens();
         if (!access) { renderLogin(); return; }
+
+        // Fetch plan status before drawing the shell so the sidebar's locked
+        // icons and upgrade card reflect it from the very first paint.
+        let status = null;
+        try {
+            status = await Api.get('/plan-status');
+            localStorage.setItem('plan', JSON.stringify(status));
+        } catch (e) { /* best-effort — shell falls back to "nothing locked" */ }
+
         renderShell();
+
+        if (status && status.status === 'expired' && currentSub() !== 'plans') {
+            navigate('plans');
+            return;
+        }
         navigate(currentSub(), false);
     }
 

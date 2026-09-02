@@ -13,6 +13,25 @@ class User extends BaseModel
         return $row ?: null;
     }
 
+    /**
+     * Platform-level login doesn't know the tenant slug up front, so we look
+     * the user up by email alone. Owner accounts are expected to use a
+     * unique email per business in practice; if the same email was somehow
+     * used for more than one business, the most recently active tenant wins.
+     */
+    public static function findByEmailGlobal(string $email): ?array
+    {
+        $stmt = self::db()->prepare(
+            'SELECT u.*, t.slug AS tenant_slug FROM users u
+             JOIN tenants t ON t.id = u.tenant_id
+             WHERE u.email = ? AND u.is_active = 1 AND t.is_active = 1
+             ORDER BY u.id DESC LIMIT 1'
+        );
+        $stmt->execute([$email]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
+
     public static function allForTenant(int $tenantId, string $search = ''): array
     {
         $sql = 'SELECT id, tenant_id, branch_id, full_name, email, phone, role, is_active, created_at

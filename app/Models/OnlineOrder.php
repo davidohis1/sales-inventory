@@ -30,7 +30,7 @@ class OnlineOrder extends BaseModel
             $orderNo = 'ORD-' . str_pad((string) ((int) $stmt->fetchColumn() + 1), 4, '0', STR_PAD_LEFT);
 
             $stmt = $pdo->prepare('INSERT INTO online_orders (tenant_id, order_no, customer_name, customer_phone, customer_email, delivery_address, subtotal, total, status)
-                                    VALUES (?,?,?,?,?,?,?,?,\'pending\')');
+                                    VALUES (?,?,?,?,?,?,?,?,\'ordered\')');
             $stmt->execute([
                 $tenantId, $orderNo, $customer['name'], $customer['phone'] ?? null, $customer['email'] ?? null,
                 $customer['address'] ?? null, $subtotal, $subtotal,
@@ -83,6 +83,28 @@ class OnlineOrder extends BaseModel
         return $stmt->execute([$orderId, $tenantId]);
     }
 
+    /** Records the tx_ref against the order the moment a Flutterwave checkout is started for it. */
+    public static function attachTxRef(int $tenantId, int $orderId, string $txRef): bool
+    {
+        $stmt = self::db()->prepare('UPDATE online_orders SET flw_tx_ref = ? WHERE id = ? AND tenant_id = ?');
+        return $stmt->execute([$txRef, $orderId, $tenantId]);
+    }
+
+    /** Called once a Flutterwave transaction is verified successful for this order. */
+    public static function markPaidViaFlutterwave(int $tenantId, int $orderId, string $txRef, string $flwTransactionId, float $amountPaid): bool
+    {
+        $stmt = self::db()->prepare('UPDATE online_orders SET amount_paid = ?, flw_tx_ref = ?, flw_transaction_id = ?, customer_marked_paid = 1, customer_marked_paid_at = NOW()
+                                      WHERE id = ? AND tenant_id = ?');
+        return $stmt->execute([$amountPaid, $txRef, $flwTransactionId, $orderId, $tenantId]);
+    }
+
+    public static function findByTxRef(string $txRef): ?array
+    {
+        $stmt = self::db()->prepare('SELECT * FROM online_orders WHERE flw_tx_ref = ? LIMIT 1');
+        $stmt->execute([$txRef]);
+        return $stmt->fetch() ?: null;
+    }
+
     /** Convert an accepted online order into a proper POS sale record (for unified reporting). */
     public static function convertToSale(int $tenantId, int $orderId, ?int $userId): array
     {
@@ -108,8 +130,8 @@ class OnlineOrder extends BaseModel
                 $itemStmt->execute([$tenantId, $saleId, $item['product_id'], $item['quantity'], $product['buying_price'] ?? 0, $item['unit_price'], $item['line_total']]);
             }
 
-            // was: status = 'accepted'
-            $pdo->prepare('UPDATE online_orders SET status = \'processing\', sale_id = ? WHERE id = ? AND tenant_id = ?')->execute([$saleId, $orderId, $tenantId]);
+            // Accepting the order moves it from "ordered" to "accepted" — ready for delivery.
+            $pdo->prepare("UPDATE online_orders SET status = 'accepted', sale_id = ? WHERE id = ? AND tenant_id = ?")->execute([$saleId, $orderId, $tenantId]);
             $pdo->commit();
             return ['sale_id' => $saleId, 'receipt_no' => $receiptNo];
         } catch (\Throwable $e) {

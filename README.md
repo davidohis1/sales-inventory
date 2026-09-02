@@ -17,6 +17,33 @@ from a single entrypoint.
   apps built with plain `fetch()` + `history.pushState`. No React/Vue, no
   build step, and **no full-page reloads** when switching between modules.
 
+## What's new: Plans, Trials, Billing & Platform Admin
+
+- **Public marketing site**: `/` (landing), `/register` (business signup),
+  `/login` (platform-wide login — looks up your business by email, no slug
+  needed), `/plans` or `/pricing` (public pricing page).
+- **3-day free trial** starts automatically on registration. Every feature
+  is unlocked during the trial. Once it (or a paid subscription) expires,
+  feature API routes return `402` and the portal sends the user to
+  **Plans & Billing** to pay.
+- **Three plans** — Basic (₦3,500/mo: POS, Products, Customers, Expenses),
+  Advanced (₦5,500/mo: + Online Orders, Store, Reports), Premium (₦7,500/mo:
+  + Staff, Branches, AI Insights). Prices, names, descriptions and the
+  feature toggles are all editable from the platform admin.
+- **Flutterwave** powers both subscription payments and store-order
+  checkout (`app/Core/Flutterwave.php`, no SDK dependency). If
+  `FLW_SECRET_KEY` is left blank in `.env`, the app automatically falls
+  back to a "Simulate Successful Payment" flow so the whole loop is
+  testable without live keys.
+- **Platform admin** at `/platformadmin` — two pages: **Overview** (business
+  counts, 30-day revenue, recent payments, and inline plan/price/feature
+  editing) and **Businesses** (every tenant, their plan, color-coded days-
+  to-expiry — red at ≤7 days — and a "Send Reminder" button that emails
+  them). Separate login from tenant accounts; seeded credentials below.
+- **Online order fulfillment**: `Ordered → Accepted → On Delivery →
+  Delivered`, with `amount_paid` tracked per order and shown alongside the
+  total on the Orders page.
+
 ## Getting Started
 
 ### 1. Create the database
@@ -37,6 +64,14 @@ mysql -u root -p sales_inventory < database/schema.sql
 > checkout flow?** Run the follow-up migration:
 > ```bash
 > mysql -u root -p sales_inventory < database/migration_v3.sql
+> ```
+
+> **Already had this project running before Plans, Trials &amp; Billing?**
+> Run the v4 migration — it adds `plans`, `plan_features`, `payments`,
+> `platform_admins`, subscription/trial columns on `tenants`, and the
+> 4-stage order-fulfillment status on `online_orders`:
+> ```bash
+> mysql -u root -p sales_inventory < database/migration_v4.sql
 > ```
 
 ### 2. Configure environment
@@ -77,13 +112,22 @@ php -S localhost:8009 -t public
 
 | URL pattern              | Purpose                                   |
 |---------------------------|-------------------------------------------|
-| `/{slug}`                 | Public online storefront for a tenant     |
-| `/{slug}/product/{id}`    | Product detail page                       |
-| `/{slug}/cart`            | Shopping cart                             |
-| `/{slug}/checkout`        | Checkout / place order                    |
-| `/{slug}/receipt/{id}`    | Public, shareable/printable sales receipt |
-| `/{slug}portal`           | Admin/staff portal (SPA)                  |
-| `/api/{slug}/...`         | JSON API, scoped to that tenant           |
+| `/`                        | Marketing landing page                    |
+| `/register`                | Business self-signup (starts 3-day trial) |
+| `/login`                   | Platform-wide login (email-only, no slug) |
+| `/plans` or `/pricing`     | Public pricing page                       |
+| `/payments/callback`       | Flutterwave return URL                    |
+| `/platformadmin`           | Platform admin — Overview + plan editor   |
+| `/platformadmin/businesses`| Platform admin — business list + reminders|
+| `/{slug}`                  | Public online storefront for a tenant     |
+| `/{slug}/product/{id}`     | Product detail page                       |
+| `/{slug}/cart`             | Shopping cart                             |
+| `/{slug}/checkout`         | Checkout / place order                    |
+| `/{slug}/receipt/{id}`     | Public, shareable/printable sales receipt |
+| `/{slug}portal`            | Admin/staff portal (SPA)                  |
+| `/api/{slug}/...`          | JSON API, scoped to that tenant           |
+| `/api/auth/...`, `/api/plans`, `/api/payments/...` | Platform-level JSON API (no slug) |
+| `/api/platformadmin/...`   | Platform admin JSON API                   |
 
 Every relevant table carries a `tenant_id`, and `AuthMiddleware` cross-checks
 the JWT's tenant against the URL slug on every authenticated request, so
@@ -130,14 +174,17 @@ one-line change.
 
 ```
 app/
-  Core/         Database (PDO), Env, JWT, Router, Request, Response, Auth
-  Middleware/   AuthMiddleware, RoleMiddleware
-  Models/       One class per table, raw PDO + prepared statements
-  Controllers/Api/   One controller per module, returns JSON via Response
+  Core/         Database (PDO), Env, JWT, Router, Request, Response, Auth, Flutterwave, Mailer, Notifications
+  Middleware/   AuthMiddleware, RoleMiddleware, TenantStatusMiddleware, PlatformAdminMiddleware
+  Models/       One class per table, raw PDO + prepared statements (+ Plan, Payment, PlatformAdmin)
+  Controllers/Api/     One controller per tenant module, returns JSON via Response
+  Controllers/Admin/   Platform admin controllers (AdminAuthController, PlatformController)
 public/
-  index.php     SINGLE ENTRYPOINT — routes API, portal, and storefront
-  assets/       css/js for both the admin portal and the storefront
+  index.php     SINGLE ENTRYPOINT — routes marketing site, API, portal, storefront, and platform admin
+  assets/       css/js for the admin portal, storefront, and platform admin
                 assets/css/themes/  — one CSS file per storefront template
+  views/marketing     Landing, register, login, plans/pricing, payment-callback pages
+  views/platformadmin SPA shell (layout.php) for the platform admin — platformadmin.js renders the rest
   views/portal  SPA shell (layout.php) — admin.js renders everything else
   views/store   Server-rendered storefront pages (cart/checkout/receipt)
                 views/store/themes/ — the 5 storefront homepage templates
@@ -145,9 +192,9 @@ public/
                 per-tenant on the admin Store Page
   uploads/      Product images, organized by tenant_<id>/
 database/
-  schema.sql    Full MySQL schema (all tables, tenant_id scoping, images table)
-  seed.php      Demo data seeder (run with `php database/seed.php`)
-  migration_v2.sql / migration_v3.sql   Incremental migrations for existing installs
+  schema.sql    Full MySQL schema (all tables, tenant_id scoping, images table, plans/billing)
+  seed.php      Demo data seeder (run with `php database/seed.php`) — also seeds the platform admin login
+  migration_v2.sql / migration_v3.sql / migration_v4.sql   Incremental migrations for existing installs
 storage/
   mail_log.txt  Fallback log of emails when MAIL_LOG_ONLY=true or mail() fails
 vendor/
@@ -166,7 +213,7 @@ SMTP/mail working on your server.
 Emails are sent for:
 - **Every completed sale** (POS or Quick Sale) — admin gets a notification.
 - **Every online order placed** — admin gets notified; the customer gets a confirmation (email is now required at checkout).
-- **An online order marked "fulfilled"** — the customer gets a payment-confirmed email.
+- **An online order marked "delivered"** — the customer gets a payment/delivery-confirmed email (also fires at "accepted" and "on_delivery").
 - **A customer clicking "I Have Paid"** on a bank-transfer checkout — the admin gets a "please verify" email.
 
 The admin notification address is whatever's set on the Store Page's

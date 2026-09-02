@@ -41,6 +41,7 @@ class AuthController
                 'role' => $user['role'], 'branch_id' => $user['branch_id'],
             ],
             'tenant' => ['slug' => $tenant['slug'], 'business_name' => $tenant['business_name'], 'currency' => $tenant['currency']],
+            'plan_status' => \App\Models\Tenant::accessStatus($tenant),
         ], 'Login successful');
     }
 

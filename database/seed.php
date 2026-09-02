@@ -22,7 +22,8 @@ echo "Seeding demo data for tenant 'ajtech'...\n";
 // Wipe any existing demo tenant (cascades to all child tables via FKs)
 $pdo->exec("DELETE FROM tenants WHERE slug = 'ajtech'");
 
-$pdo->exec("INSERT INTO tenants (slug, business_name, currency, is_active) VALUES ('ajtech', 'AJ Tech Gadgets', 'NGN', 1)");
+$pdo->exec("INSERT INTO tenants (slug, business_name, owner_email, currency, plan_id, subscription_status, subscription_ends_at, is_active)
+            VALUES ('ajtech', 'AJ Tech Gadgets', 'owner@ajtech.com', 'NGN', 3, 'active', DATE_ADD(NOW(), INTERVAL 365 DAY), 1)");
 $tenantId = (int) $pdo->lastInsertId();
 
 $pdo->prepare("INSERT INTO branches (tenant_id, name, address, is_main, is_active) VALUES (?, 'Main Branch (Suleja)', 'Suleja, Niger State', 1, 1)")->execute([$tenantId]);
@@ -121,10 +122,18 @@ $pdo->prepare("INSERT INTO store_settings (tenant_id, theme, store_type, content
         'notification_email' => 'owner@ajtech.com',
     ])]);
 
+// Platform admin (the SaaS operator's own login) — created once, idempotent
+$pdo->exec("DELETE FROM platform_admins WHERE email = 'admin@platform.com'");
+$pdo->prepare("INSERT INTO platform_admins (full_name, email, password_hash) VALUES (?,?,?)")
+    ->execute(['Platform Admin', 'admin@platform.com', password_hash('admin12345', PASSWORD_BCRYPT)]);
+
 echo "Done!\n\n";
 echo "Storefront:   http://localhost:8009/ajtech\n";
 echo "Admin portal: http://localhost:8009/ajtechportal\n\n";
 echo "Login accounts (password: password123):\n";
 echo "  Owner:   owner@ajtech.com\n";
 echo "  Manager: manager@ajtech.com\n";
-echo "  Staff:   staff@ajtech.com\n";
+echo "  Staff:   staff@ajtech.com\n\n";
+echo "Platform admin: http://localhost:8009/platformadmin\n";
+echo "  Email:    admin@platform.com\n";
+echo "  Password: admin12345\n";

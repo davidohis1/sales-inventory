@@ -346,34 +346,74 @@ const StoreApp = (() => {
      *   - 'whatsapp'      -> a click-to-chat WhatsApp button with the order pre-filled
      *   - 'bank_transfer' -> account details + an "I Have Paid" button
      *   - 'email' (default) -> a plain confirmation (an email has already been sent)
+     * In every case, a "Pay with Flutterwave" button is also offered as the
+     * fastest way to pay instantly by card/bank/USSD.
      */
     function renderOrderConfirmation(root, result, cfg) {
         const storeLink = `${window.APP_BASE || ''}/${slug}`;
         const base = `<h2>Thank you!</h2><p>Your order <strong>${esc(result.order_no)}</strong> has been placed. A confirmation email is on its way to you.</p>`;
+        const flwBlock = `
+            <button class="btn-store" style="width:100%; margin-top:14px; background:#f5a623;" id="flw-pay-btn">&#9889; Pay ${fmt(result.total)} with Flutterwave</button>
+            <div id="flw-pay-status" style="margin-top:10px;"></div>`;
+
+        function wireFlutterwaveButton() {
+            const btn = document.getElementById('flw-pay-btn');
+            if (!btn) return;
+            btn.addEventListener('click', async () => {
+                btn.disabled = true;
+                btn.textContent = 'Starting checkout…';
+                try {
+                    const pay = await apiPost(`/store/order/${result.id}/pay`, {});
+                    if (pay.simulated) {
+                        document.getElementById('flw-pay-status').innerHTML = `
+                            <p class="text-muted" style="font-size:13px;">Flutterwave isn't configured on this store yet (dev mode).</p>
+                            <button class="btn-store outline" id="flw-simulate-btn" style="width:100%;">Simulate Successful Payment</button>`;
+                        document.getElementById('flw-simulate-btn').addEventListener('click', async (e) => {
+                            e.target.disabled = true; e.target.textContent = 'Confirming…';
+                            try {
+                                await apiPost(`/store/order/${result.id}/pay/verify`, { tx_ref: pay.tx_ref });
+                                document.getElementById('flw-pay-status').innerHTML = '<p style="color:#16a34a; font-weight:600;">Payment confirmed! The store has been notified.</p>';
+                                btn.style.display = 'none';
+                            } catch (err) { toast(err.message, 'error'); }
+                        });
+                        btn.disabled = false; btn.textContent = `\u26A1 Pay ${fmt(result.total)} with Flutterwave`;
+                        return;
+                    }
+                    window.location.href = pay.link;
+                } catch (err) {
+                    toast(err.message, 'error');
+                    btn.disabled = false; btn.textContent = `\u26A1 Pay ${fmt(result.total)} with Flutterwave`;
+                }
+            });
+        }
 
         if (cfg.orderChannel === 'whatsapp' && cfg.whatsappNumber) {
             const digits = String(cfg.whatsappNumber).replace(/[^\d+]/g, '');
             const text = encodeURIComponent(`Hi! I just placed order ${result.order_no} for ${fmt(result.total)}. I'd like to arrange payment and delivery.`);
             root.innerHTML = `<div class="empty-store">${base}
                 <a class="btn-store" href="https://wa.me/${digits}?text=${text}" target="_blank" style="background:#25D366; margin-top:10px;">&#128172; Chat on WhatsApp to Complete Your Order</a>
+                ${flwBlock}
                 <div style="margin-top:12px;"><a class="btn-store outline" href="${storeLink}">Continue Shopping</a></div>
             </div>`;
+            wireFlutterwaveButton();
             return;
         }
 
         if (cfg.orderChannel === 'bank_transfer' && (cfg.bankAccountNumber || cfg.bankName)) {
             root.innerHTML = `<div class="checkout-form">
                 <h2 style="margin-top:0;">Thank you!</h2>
-                <p>Your order <strong>${esc(result.order_no)}</strong> (${fmt(result.total)}) has been placed. Please complete payment using the account details below, then click "I Have Paid".</p>
-                <div class="bank-details-box">
+                <p>Your order <strong>${esc(result.order_no)}</strong> (${fmt(result.total)}) has been placed. Pay instantly with Flutterwave, or transfer manually using the account details below and click "I Have Paid".</p>
+                ${flwBlock}
+                <div class="bank-details-box" style="margin-top:16px;">
                     ${cfg.bankName ? `<div><span>Bank</span><strong>${esc(cfg.bankName)}</strong></div>` : ''}
                     ${cfg.bankAccountName ? `<div><span>Account Name</span><strong>${esc(cfg.bankAccountName)}</strong></div>` : ''}
                     ${cfg.bankAccountNumber ? `<div><span>Account Number</span><strong>${esc(cfg.bankAccountNumber)}</strong></div>` : ''}
                     <div><span>Amount</span><strong>${fmt(result.total)}</strong></div>
                 </div>
-                <button class="btn-store" style="width:100%; margin-top:14px;" id="paid-btn">I Have Paid</button>
+                <button class="btn-store outline" style="width:100%; margin-top:14px;" id="paid-btn">I Have Paid by Transfer</button>
                 <div id="paid-confirm" style="margin-top:12px;"></div>
             </div>`;
+            wireFlutterwaveButton();
             document.getElementById('paid-btn').addEventListener('click', async (e) => {
                 e.target.disabled = true;
                 e.target.textContent = 'Notifying store…';
@@ -385,13 +425,14 @@ const StoreApp = (() => {
                 } catch (err) {
                     toast(err.message, 'error');
                     e.target.disabled = false;
-                    e.target.textContent = 'I Have Paid';
+                    e.target.textContent = 'I Have Paid by Transfer';
                 }
             });
             return;
         }
 
-        root.innerHTML = `<div class="empty-store">${base}<a class="btn-store" href="${storeLink}">Continue Shopping</a></div>`;
+        root.innerHTML = `<div class="empty-store">${base}${flwBlock}<div style="margin-top:12px;"><a class="btn-store outline" href="${storeLink}">Continue Shopping</a></div></div>`;
+        wireFlutterwaveButton();
     }
 
     return { renderProductList, renderProductDetail, renderCartPage, renderCheckoutPage };

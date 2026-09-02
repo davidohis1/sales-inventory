@@ -11,12 +11,69 @@ CREATE TABLE IF NOT EXISTS tenants (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     slug VARCHAR(64) NOT NULL UNIQUE,
     business_name VARCHAR(191) NOT NULL,
+    owner_email VARCHAR(191) NULL,
+    owner_phone VARCHAR(40) NULL,
     currency VARCHAR(10) NOT NULL DEFAULT 'NGN',
     logo_path VARCHAR(255) NULL,
     ai_api_key VARCHAR(255) NULL COMMENT 'Optional per-tenant Gemini API key override',
+    plan_id INT UNSIGNED NULL COMMENT 'NULL while on trial / after expiry with no active plan',
+    subscription_status ENUM('trial','active','expired') NOT NULL DEFAULT 'trial',
+    trial_ends_at DATETIME NULL,
+    subscription_ends_at DATETIME NULL,
+    last_reminder_sent_at DATETIME NULL,
     is_active TINYINT(1) NOT NULL DEFAULT 1,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- PLANS + PLAN FEATURES (subscription tiers, feature gating)
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS plans (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `key` VARCHAR(32) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    price_monthly DECIMAL(14,2) NOT NULL DEFAULT 0,
+    description VARCHAR(255) NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS plan_features (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    plan_id INT UNSIGNED NOT NULL,
+    feature_key VARCHAR(64) NOT NULL,
+    feature_label VARCHAR(120) NOT NULL,
+    enabled TINYINT(1) NOT NULL DEFAULT 0,
+    FOREIGN KEY (plan_id) REFERENCES plans(id) ON DELETE CASCADE,
+    UNIQUE KEY uq_plan_feature (plan_id, feature_key)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS payments (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    plan_id INT UNSIGNED NOT NULL,
+    amount DECIMAL(14,2) NOT NULL,
+    currency VARCHAR(10) NOT NULL DEFAULT 'NGN',
+    tx_ref VARCHAR(100) NOT NULL UNIQUE,
+    flw_transaction_id VARCHAR(100) NULL,
+    status ENUM('pending','successful','failed') NOT NULL DEFAULT 'pending',
+    raw_response TEXT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    FOREIGN KEY (plan_id) REFERENCES plans(id),
+    INDEX idx_payments_tenant (tenant_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS platform_admins (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(150) NOT NULL,
+    email VARCHAR(191) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -284,10 +341,13 @@ CREATE TABLE IF NOT EXISTS online_orders (
     delivery_address VARCHAR(255) NULL,
     subtotal DECIMAL(14,2) NOT NULL DEFAULT 0,
     total DECIMAL(14,2) NOT NULL DEFAULT 0,
-    status ENUM('pending','accepted','fulfilled','cancelled') NOT NULL DEFAULT 'pending',
+    amount_paid DECIMAL(14,2) NOT NULL DEFAULT 0,
+    status ENUM('ordered','accepted','on_delivery','delivered','cancelled') NOT NULL DEFAULT 'ordered',
     sale_id INT UNSIGNED NULL COMMENT 'linked once converted to a sale on acceptance',
     customer_marked_paid TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'customer clicked "I Have Paid" on a bank-transfer checkout',
     customer_marked_paid_at DATETIME NULL,
+    flw_tx_ref VARCHAR(100) NULL,
+    flw_transaction_id VARCHAR(100) NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
     UNIQUE KEY uniq_tenant_order (tenant_id, order_no)
@@ -348,3 +408,46 @@ CREATE TABLE IF NOT EXISTS store_settings (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+-- =====================================================================
+-- DEFAULT PLANS (added in v4) — Basic / Advanced / Premium + per-plan
+-- feature gates. feature_key matches the SPA route paths in admin.js.
+-- =====================================================================
+INSERT IGNORE INTO plans (id, `key`, name, price_monthly, description, sort_order) VALUES
+    (1, 'basic',    'Basic',    3500.00, 'Everyday selling essentials for a single-location shop.', 1),
+    (2, 'advanced', 'Advanced', 5500.00, 'Adds online selling and business reporting.', 2),
+    (3, 'premium',  'Premium',  7500.00, 'Everything, including team, multi-branch and AI insights.', 3);
+
+INSERT IGNORE INTO plan_features (plan_id, feature_key, feature_label, enabled) VALUES
+    (1, 'pos',        'Sales / POS',             1),
+    (1, 'products',   'Products & Inventory',    1),
+    (1, 'customers',  'Customers & Debt',        1),
+    (1, 'expenses',   'Expenses',                1),
+    (1, 'orders',     'Online Orders',           0),
+    (1, 'store',      'Online Store',            0),
+    (1, 'reports',    'Reports',                 0),
+    (1, 'staff',      'Staff Management',        0),
+    (1, 'branches',   'Multi-Branch',            0),
+    (1, 'ai_insights','AI Insights',             0),
+
+    (2, 'pos',        'Sales / POS',             1),
+    (2, 'products',   'Products & Inventory',    1),
+    (2, 'customers',  'Customers & Debt',        1),
+    (2, 'expenses',   'Expenses',                1),
+    (2, 'orders',     'Online Orders',           1),
+    (2, 'store',      'Online Store',            1),
+    (2, 'reports',    'Reports',                 1),
+    (2, 'staff',      'Staff Management',        0),
+    (2, 'branches',   'Multi-Branch',            0),
+    (2, 'ai_insights','AI Insights',             0),
+
+    (3, 'pos',        'Sales / POS',             1),
+    (3, 'products',   'Products & Inventory',    1),
+    (3, 'customers',  'Customers & Debt',        1),
+    (3, 'expenses',   'Expenses',                1),
+    (3, 'orders',     'Online Orders',           1),
+    (3, 'store',      'Online Store',            1),
+    (3, 'reports',    'Reports',                 1),
+    (3, 'staff',      'Staff Management',        1),
+    (3, 'branches',   'Multi-Branch',            1),
+    (3, 'ai_insights','AI Insights',             1);

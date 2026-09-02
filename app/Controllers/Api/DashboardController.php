@@ -48,6 +48,20 @@ class DashboardController
         $stmt->execute([$tenantId]);
         $bestSellers = $stmt->fetchAll();
 
+        // Revenue for each of the last 12 months (for the dashboard overview chart)
+        $stmt = $pdo->prepare("SELECT DATE_FORMAT(created_at, '%Y-%m') AS ym, COALESCE(SUM(total),0) AS total
+                                FROM sales WHERE tenant_id = ? AND status != 'cancelled'
+                                  AND created_at >= DATE_SUB(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL 11 MONTH)
+                                GROUP BY ym");
+        $stmt->execute([$tenantId]);
+        $byMonth = array_column($stmt->fetchAll(), 'total', 'ym');
+        $monthlyTrend = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $ts = strtotime("-$i months");
+            $ym = date('Y-m', $ts);
+            $monthlyTrend[] = ['month' => date('M', $ts), 'total' => (float) ($byMonth[$ym] ?? 0)];
+        }
+
         Response::success([
             'today_revenue'    => (float) $todaySales['revenue'],
             'today_sales_count'=> (int) $todaySales['count'],
@@ -57,6 +71,7 @@ class DashboardController
             'out_of_stock_count' => Product::outOfStockCount($tenantId),
             'payment_breakdown'=> $paymentBreakdown,
             'best_sellers'     => $bestSellers,
+            'monthly_trend'    => $monthlyTrend,
         ]);
     }
 }

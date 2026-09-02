@@ -92,9 +92,13 @@ class Notifications
             $orderNo = $order['order_no'];
 
             $copy = [
-                'processing' => [
-                    'subject' => "Your order is being processed — {$orderNo}",
-                    'body' => "<h2>Good news, {$name}!</h2><p>Your order <strong>{$orderNo}</strong> has been accepted by <strong>{$biz}</strong> and is now being processed.</p><p>We'll let you know as soon as it's on its way.</p>",
+                'accepted' => [
+                    'subject' => "Your order was accepted — {$orderNo}",
+                    'body' => "<h2>Good news, {$name}!</h2><p>Your order <strong>{$orderNo}</strong> has been accepted by <strong>{$biz}</strong> and is being prepared.</p><p>We'll let you know as soon as it's on its way.</p>",
+                ],
+                'on_delivery' => [
+                    'subject' => "Your order is on its way — {$orderNo}",
+                    'body' => "<h2>On the way!</h2><p>Hi {$name}, your order <strong>{$orderNo}</strong> from <strong>{$biz}</strong> is out for delivery.</p>",
                 ],
                 'delivered' => [
                     'subject' => "Your order has been delivered — {$orderNo}",
@@ -106,7 +110,7 @@ class Notifications
                 ],
             ];
 
-            if (!isset($copy[$status])) return; // 'pending' has no customer-facing email — the placement confirmation already covers it
+            if (!isset($copy[$status])) return; // 'ordered' has no customer-facing email — the placement confirmation already covers it
             Mailer::send($email, $copy[$status]['subject'], $copy[$status]['body']);
         } catch (\Throwable $e) { /* best-effort */ }
     }
