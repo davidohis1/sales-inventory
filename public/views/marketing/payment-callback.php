@@ -32,6 +32,14 @@ if ($flwStatus === 'cancelled') {
         $redirectUrl = $base . '/' . $result['tenant_slug'];
         $redirectLabel = 'Back to the store';
     }
+} elseif (str_starts_with($txRef, 'DPP-')) {
+    $result = \App\Controllers\Api\DigitalProductPublicController::verifyPurchase($txRef, $transactionId);
+    $ok = $result['ok'];
+    $message = $result['message'];
+    if ($ok && !empty($result['download_token'])) {
+        $redirectUrl = $base . '/api/digital-products/download/' . $result['download_token'];
+        $redirectLabel = 'Download your product';
+    }
 } else {
     $message = 'Unrecognized payment reference.';
 }

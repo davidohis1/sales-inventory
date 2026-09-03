@@ -43,6 +43,19 @@ from a single entrypoint.
 - **Online order fulfillment**: `Ordered → Accepted → On Delivery →
   Delivered`, with `amount_paid` tracked per order and shown alongside the
   total on the Orders page.
+- **Digital Products** — free forever on every plan (not gated by trial or
+  subscription status). Sidebar → its own dashboard (revenue/sales,
+  date-filterable) → "Add Product" (name, price, compare-at price,
+  category, rich-text description, up to 8 images, a video URL, and the
+  downloadable file itself). Publishing creates a public checkout page at
+  the bare top-level URL `/{product-slug}` — Flutterwave-powered, with the
+  download link emailed on successful payment. Withdrawals (5% platform
+  fee) go through the same email-to-`PLATFORM_PAYOUT_EMAIL` flow as store
+  earnings, processed manually within ~3 hours.
+- **Header image bank** — platform admin uploads header/banner photos per
+  store category (Store Page → Theme tab on the tenant side); tenants pick
+  category → theme → one of the curated photos for their storefront hero,
+  or upload their own.
 
 ## Getting Started
 
@@ -72,6 +85,13 @@ mysql -u root -p sales_inventory < database/schema.sql
 > 4-stage order-fulfillment status on `online_orders`:
 > ```bash
 > mysql -u root -p sales_inventory < database/migration_v4.sql
+> ```
+> Then run v5 (store/digital-product withdrawals), v6 (the header-image
+> bank), and v7 (Digital Products) in order:
+> ```bash
+> mysql -u root -p sales_inventory < database/migration_v5.sql
+> mysql -u root -p sales_inventory < database/migration_v6.sql
+> mysql -u root -p sales_inventory < database/migration_v7.sql
 > ```
 
 ### 2. Configure environment

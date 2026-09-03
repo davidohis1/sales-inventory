@@ -38,6 +38,7 @@
         { path: 'orders', label: 'Online Orders', icon: '&#128722;', roles: null, render: renderOrders },
         { path: 'store', label: 'Store Page', icon: '&#127968;', roles: ['owner', 'manager'], render: renderStorePage },
         { path: 'earnings', label: 'Earnings', icon: '&#128176;', roles: ['owner', 'manager'], render: renderEarnings },
+        { path: 'digital-products', label: 'Digital Products', icon: '&#128190;', roles: ['owner', 'manager'], render: renderDigitalProducts },
         { path: 'staff', label: 'Staff', icon: '&#128101;', roles: ['owner', 'manager'], render: renderStaff },
         { path: 'branches', label: 'Branches', icon: '&#127970;', roles: ['owner', 'manager'], render: renderBranches },
         { path: 'reports', label: 'Reports', icon: '&#128202;', roles: ['owner', 'manager'], render: renderReports },
@@ -84,7 +85,7 @@
        SHELL (sidebar + topbar) — rendered once after login
        --------------------------------------------------------------- */
     const MAIN_PATHS = ['', 'pos'];
-    const FEATURE_PATHS = ['products', 'customers', 'expenses', 'orders', 'store', 'earnings', 'branches'];
+    const FEATURE_PATHS = ['products', 'customers', 'expenses', 'orders', 'store', 'earnings', 'digital-products', 'branches'];
     const GENERAL_PATHS = ['staff', 'reports'];
 
     function planInfo() {
@@ -1826,6 +1827,228 @@
                 document.getElementById('wd-error').textContent = err.message;
             }
         });
+    }
+
+    /* ---------------------------------------------------------------
+       DIGITAL PRODUCTS (free forever — Selar-style product sales)
+       --------------------------------------------------------------- */
+    let dpState = { view: 'dashboard', product: null };
+
+    async function renderDigitalProducts(content) {
+        if (dpState.view === 'editor') { renderDpEditor(content); return; }
+        await renderDpDashboard(content);
+    }
+
+    async function renderDpDashboard(content, from = '', to = '') {
+        const qs = from && to ? `?from=${from}&to=${to}` : '';
+        const [d, earnings] = await Promise.all([Api.get(`/digital-products/dashboard${qs}`), Api.get('/digital-products/earnings')]);
+
+        const productRows = (d.products || []).map((p) => `
+            <tr>
+                <td>${esc(p.name)}</td>
+                <td>${fmt(p.price)}</td>
+                <td>${p.sales_count}</td>
+                <td>${p.views_count}</td>
+                <td><span class="badge ${p.is_published ? 'badge-success' : 'badge-muted'}">${p.is_published ? 'Published' : 'Draft'}</span></td>
+                <td>
+                    <a href="${window.APP_BASE || ''}/${esc(p.slug)}" target="_blank" class="btn btn-sm btn-secondary">View</a>
+                    <button class="btn btn-sm btn-secondary" data-edit="${p.id}">Edit</button>
+                    <button class="btn btn-sm btn-danger" data-delete="${p.id}">Delete</button>
+                </td>
+            </tr>`).join('') || `<tr><td colspan="6" class="text-muted">No products yet — add your first one.</td></tr>`;
+
+        const orderRows = (d.recent_orders || []).map((o) => `
+            <tr><td>${esc(o.product_name)}</td><td>${esc(o.buyer_name)}</td><td>${fmt(o.amount)}</td><td>${new Date(o.created_at).toLocaleDateString()}</td></tr>
+        `).join('') || `<tr><td colspan="4" class="text-muted">No sales yet.</td></tr>`;
+
+        content.innerHTML = `
+        <div class="page-header">
+            <div><h2>Digital Products</h2><p>Sell ebooks, courses, or files with their own checkout page — free on every plan.</p></div>
+            <div class="page-header-actions"><button class="btn btn-dark" id="dp-add-btn">&#10133; Add Product</button></div>
+        </div>
+
+        <div class="grid grid-4" style="margin-bottom:20px;">
+            <div class="card stat-card"><div class="stat-label">Revenue</div><div class="stat-value">${fmt(d.revenue)}</div><div class="stat-sub">${from ? 'Selected range' : 'All time'}</div></div>
+            <div class="card stat-card"><div class="stat-label">Sales</div><div class="stat-value">${d.sales}</div><div class="stat-sub">${from ? 'Selected range' : 'All time'}</div></div>
+            <div class="card stat-card"><div class="stat-label">Products</div><div class="stat-value">${d.product_count}</div></div>
+            <div class="card stat-card"><div class="stat-label">Available Balance</div><div class="stat-value">${fmt(earnings.available_balance)}</div><div class="stat-sub">${earnings.fee_percent}% fee on withdrawal</div></div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+            <div class="flex-between" style="flex-wrap:wrap; gap:10px;">
+                <form id="dp-date-filter" class="flex" style="gap:8px; flex-wrap:wrap;">
+                    <input type="date" name="from" class="form-control" value="${esc(from)}">
+                    <input type="date" name="to" class="form-control" value="${esc(to)}">
+                    <button class="btn btn-sm" type="submit">Filter</button>
+                    ${from ? `<button class="btn btn-sm btn-secondary" type="button" id="dp-clear-filter">Clear</button>` : ''}
+                </form>
+                <button class="btn btn-sm btn-dark" id="dp-withdraw-btn">&#128176; Request Withdrawal</button>
+            </div>
+        </div>
+
+        <div class="section-title">Your Products</div>
+        <div class="table-wrap" style="margin-bottom:24px;"><table><thead><tr><th>Name</th><th>Price</th><th>Sales</th><th>Views</th><th>Status</th><th>Actions</th></tr></thead><tbody>${productRows}</tbody></table></div>
+
+        <div class="section-title">Recent Sales</div>
+        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Buyer</th><th>Amount</th><th>Date</th></tr></thead><tbody>${orderRows}</tbody></table></div>
+        <div id="dp-modal-root"></div>`;
+
+        document.getElementById('dp-add-btn').addEventListener('click', () => { dpState = { view: 'editor', product: null }; renderDigitalProducts(content); });
+        document.getElementById('dp-date-filter').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            renderDpDashboard(content, fd.get('from') || '', fd.get('to') || '');
+        });
+        const clearBtn = document.getElementById('dp-clear-filter');
+        if (clearBtn) clearBtn.addEventListener('click', () => renderDpDashboard(content));
+        document.getElementById('dp-withdraw-btn').addEventListener('click', () => openWithdrawModal('/digital-products/earnings/withdraw', earnings.available_balance, earnings.fee_percent, () => renderDpDashboard(content, from, to)));
+
+        content.querySelectorAll('[data-edit]').forEach((btn) => btn.addEventListener('click', async () => {
+            const product = await Api.get(`/digital-products/${btn.dataset.edit}`);
+            dpState = { view: 'editor', product };
+            renderDigitalProducts(content);
+        }));
+        content.querySelectorAll('[data-delete]').forEach((btn) => btn.addEventListener('click', async () => {
+            if (!confirm('Delete this product? This cannot be undone.')) return;
+            try { await Api.del(`/digital-products/${btn.dataset.delete}`); toast('Product deleted', 'success'); renderDpDashboard(content, from, to); }
+            catch (e) { toast(e.message, 'error'); }
+        }));
+    }
+
+    function renderDpEditor(content) {
+        const p = dpState.product || { id: null, name: '', price: '', compare_price: '', category: '', description: '', video_url: '', images: [], file_name: '', is_published: 1, slug: '' };
+        content.innerHTML = `
+        <div class="page-header">
+            <div><h2>${p.id ? 'Edit Product' : 'Add Digital Product'}</h2><p>${p.id ? `Live at ${window.APP_BASE || ''}/${esc(p.slug)}` : 'Fill in the details, then publish.'}</p></div>
+            <div class="page-header-actions"><button class="btn btn-secondary" id="dp-back-btn">&larr; Back to Digital Products</button></div>
+        </div>
+
+        <div class="dash-grid" style="grid-template-columns: 1.4fr 1fr;">
+            <div>
+                <div class="card" style="margin-bottom:16px;">
+                    <div class="form-group"><label>Product name</label><input class="form-control" id="dp-name" value="${esc(p.name)}" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Price</label><input class="form-control" id="dp-price" type="number" min="1" step="0.01" value="${esc(p.price)}" required></div>
+                        <div class="form-group"><label>Compare-at price (optional, shown struck-through)</label><input class="form-control" id="dp-compare" type="number" min="0" step="0.01" value="${esc(p.compare_price || '')}"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Category</label><input class="form-control" id="dp-category" value="${esc(p.category || '')}" placeholder="e.g. Ebook, Course, Template"></div>
+                        <div class="form-group"><label>Video URL (optional — YouTube or Vimeo)</label><input class="form-control" id="dp-video" value="${esc(p.video_url || '')}" placeholder="https://youtube.com/watch?v=..."></div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom:16px;">
+                    <label style="font-size:12.5px; font-weight:600; color:var(--color-text-muted); margin-bottom:8px; display:block;">Description</label>
+                    <div class="rt-toolbar">
+                        <button type="button" data-cmd="bold"><b>B</b></button>
+                        <button type="button" data-cmd="italic"><i>I</i></button>
+                        <button type="button" data-cmd="underline"><u>U</u></button>
+                        <button type="button" data-cmd="insertUnorderedList">&#8226; List</button>
+                        <button type="button" data-cmd="insertOrderedList">1. List</button>
+                        <button type="button" data-cmd="createLink">Link</button>
+                    </div>
+                    <div id="dp-description" class="rt-editor" contenteditable="true">${p.description || ''}</div>
+                </div>
+
+                <div class="card">
+                    <label style="font-size:12.5px; font-weight:600; color:var(--color-text-muted); margin-bottom:8px; display:block;">Images</label>
+                    <div class="grid grid-4" id="dp-image-grid" style="margin-bottom:10px;"></div>
+                    <input type="file" id="dp-image-input" accept="image/png,image/jpeg,image/webp" ${p.id ? '' : 'disabled'}>
+                    ${!p.id ? '<p class="text-muted" style="font-size:12px; margin-top:6px;">Save the product first, then add images.</p>' : ''}
+                </div>
+            </div>
+
+            <div>
+                <div class="card" style="margin-bottom:16px;">
+                    <label style="font-size:12.5px; font-weight:600; color:var(--color-text-muted); margin-bottom:8px; display:block;">The file buyers receive</label>
+                    <p class="text-muted" style="font-size:12.5px;">${p.file_name ? `Current: <strong>${esc(p.file_name)}</strong>` : 'No file uploaded yet.'}</p>
+                    <input type="file" id="dp-file-input" ${p.id ? '' : 'disabled'}>
+                    ${!p.id ? '<p class="text-muted" style="font-size:12px; margin-top:6px;">Save the product first, then upload the file.</p>' : ''}
+                </div>
+                <div class="card">
+                    <label class="flex" style="gap:8px; margin-bottom:14px;"><input type="checkbox" id="dp-published" ${p.is_published ? 'checked' : ''}> Published (visible to buyers)</label>
+                    <button class="btn" id="dp-save-btn" style="width:100%; justify-content:center;">${p.id ? 'Save Changes' : 'Create Product'}</button>
+                </div>
+            </div>
+        </div>`;
+
+        document.getElementById('dp-back-btn').addEventListener('click', () => { dpState = { view: 'dashboard', product: null }; renderDigitalProducts(content); });
+        content.querySelectorAll('.rt-toolbar [data-cmd]').forEach((btn) => btn.addEventListener('click', () => {
+            const cmd = btn.dataset.cmd;
+            if (cmd === 'createLink') {
+                const url = prompt('Link URL:');
+                if (url) document.execCommand(cmd, false, url);
+            } else {
+                document.execCommand(cmd, false, null);
+            }
+            document.getElementById('dp-description').focus();
+        }));
+
+        renderDpImageGrid(p);
+        if (p.id) {
+            document.getElementById('dp-image-input').addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const fd = new FormData(); fd.append('image', file);
+                try {
+                    const updated = await Api.upload(`/digital-products/${p.id}/images`, fd);
+                    dpState.product = updated;
+                    renderDpImageGrid(updated);
+                    toast('Image added', 'success');
+                } catch (err) { toast(err.message, 'error'); }
+                e.target.value = '';
+            });
+            document.getElementById('dp-file-input').addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const fd = new FormData(); fd.append('file', file);
+                try {
+                    const updated = await Api.upload(`/digital-products/${p.id}/file`, fd);
+                    dpState.product = updated;
+                    toast('File uploaded', 'success');
+                } catch (err) { toast(err.message, 'error'); }
+                e.target.value = '';
+            });
+        }
+
+        document.getElementById('dp-save-btn').addEventListener('click', () => saveDpProduct(content, p));
+    }
+
+    function renderDpImageGrid(p) {
+        const grid = document.getElementById('dp-image-grid');
+        if (!grid) return;
+        grid.innerHTML = (p.images || []).map((img) => `
+            <div class="card" style="padding:6px;">
+                <div class="listing-thumb" style="width:100%; height:80px;"><img src="${assetUrl(img)}" style="width:100%;height:100%;object-fit:cover;"></div>
+                <button class="btn btn-sm btn-danger" style="width:100%; margin-top:6px;" data-remove-img="${esc(img)}">Remove</button>
+            </div>`).join('') || '<p class="text-muted" style="grid-column:1/-1;">No images yet.</p>';
+        grid.querySelectorAll('[data-remove-img]').forEach((btn) => btn.addEventListener('click', async () => {
+            try {
+                const updated = await Api.post(`/digital-products/${p.id}/images/remove`, { path: btn.dataset.removeImg });
+                dpState.product = updated;
+                renderDpImageGrid(updated);
+            } catch (e) { toast(e.message, 'error'); }
+        }));
+    }
+
+    async function saveDpProduct(content, existing) {
+        const payload = {
+            name: document.getElementById('dp-name').value.trim(),
+            price: document.getElementById('dp-price').value,
+            compare_price: document.getElementById('dp-compare').value,
+            category: document.getElementById('dp-category').value.trim(),
+            video_url: document.getElementById('dp-video').value.trim(),
+            description: document.getElementById('dp-description').innerHTML,
+            is_published: document.getElementById('dp-published').checked ? 1 : 0,
+        };
+        try {
+            const saved = existing.id
+                ? await Api.put(`/digital-products/${existing.id}`, payload)
+                : await Api.post('/digital-products', payload);
+            toast(existing.id ? 'Product saved' : 'Product created — you can now add images and the file', 'success');
+            dpState = { view: 'editor', product: saved };
+            renderDigitalProducts(content);
+        } catch (e) { toast(e.message, 'error'); }
     }
 
     /* ---------------------------------------------------------------

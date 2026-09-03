@@ -205,6 +205,25 @@ $router->get('/api/{slug}/earnings', fn ($r) => (new App\Controllers\Api\Earning
 $router->post('/api/{slug}/earnings/withdraw', fn ($r) => (new App\Controllers\Api\EarningsController())->requestWithdrawal($r), [$auth, $tenantStatus]);
 
 // -----------------------------------------------------------------
+// DIGITAL PRODUCTS — free forever, deliberately NOT behind $tenantStatus
+// -----------------------------------------------------------------
+$router->get('/api/{slug}/digital-products/dashboard', fn ($r) => (new App\Controllers\Api\DigitalProductController())->dashboard($r), [$auth]);
+$router->get('/api/{slug}/digital-products/earnings', fn ($r) => (new App\Controllers\Api\DigitalProductController())->earnings($r), [$auth]);
+$router->post('/api/{slug}/digital-products/earnings/withdraw', fn ($r) => (new App\Controllers\Api\DigitalProductController())->requestWithdrawal($r), [$auth]);
+$router->get('/api/{slug}/digital-products', fn ($r) => (new App\Controllers\Api\DigitalProductController())->index($r), [$auth]);
+$router->post('/api/{slug}/digital-products', fn ($r) => (new App\Controllers\Api\DigitalProductController())->store($r), [$auth]);
+$router->get('/api/{slug}/digital-products/{id}', fn ($r) => (new App\Controllers\Api\DigitalProductController())->show($r), [$auth]);
+$router->put('/api/{slug}/digital-products/{id}', fn ($r) => (new App\Controllers\Api\DigitalProductController())->update($r), [$auth]);
+$router->delete('/api/{slug}/digital-products/{id}', fn ($r) => (new App\Controllers\Api\DigitalProductController())->destroy($r), [$auth]);
+$router->post('/api/{slug}/digital-products/{id}/images', fn ($r) => (new App\Controllers\Api\DigitalProductController())->uploadImage($r), [$auth]);
+$router->post('/api/{slug}/digital-products/{id}/images/remove', fn ($r) => (new App\Controllers\Api\DigitalProductController())->removeImage($r), [$auth]);
+$router->post('/api/{slug}/digital-products/{id}/file', fn ($r) => (new App\Controllers\Api\DigitalProductController())->uploadFile($r), [$auth]);
+
+// Public purchase flow — bare, no tenant slug or auth (the product page lives at /{product-slug})
+$router->post('/api/digital-products/{slug}/buy', fn ($r) => (new App\Controllers\Api\DigitalProductPublicController())->buy($r));
+$router->get('/api/digital-products/download/{token}', fn ($r) => (new App\Controllers\Api\DigitalProductPublicController())->download($r));
+
+// -----------------------------------------------------------------
 // PUBLIC MARKETING SITE + AUTH PAGES — must be registered before the
 // generic /{slug} storefront catch-all below so these literal paths
 // always win (slugs like "register" are also blocked at signup time).
@@ -261,10 +280,14 @@ $router->get('/{slug:*}portal/{sub:*}', function (Request $r) {
 });
 
 // -----------------------------------------------------------------
-// PUBLIC STOREFRONT — /{slug}[/...]
+// PUBLIC STOREFRONT — /{slug}[/...]  (also serves digital product pages,
+// since those live in this same bare top-level namespace)
 // -----------------------------------------------------------------
 $router->get('/{slug}', function (Request $r) {
-    renderStore($r->param('slug'));
+    $slug = $r->param('slug');
+    $product = \App\Models\DigitalProduct::findBySlug($slug);
+    if ($product) { renderDigitalProductPage($product); return; }
+    renderStore($slug);
 });
 $router->get('/{slug}/product/{id}', function (Request $r) {
     renderStore($r->param('slug'), 'product', ['id' => $r->param('id')]);
@@ -292,6 +315,16 @@ function renderPortalShell(string $slug): void
     $base = $GLOBALS['base'];
     header('Content-Type: text/html');
     require __DIR__ . '/views/portal/layout.php';
+}
+
+function renderDigitalProductPage(array $product): void
+{
+    \App\Models\DigitalProduct::incrementViews((int) $product['id']);
+    $tenant = \App\Models\Tenant::findById((int) $product['tenant_id']);
+    if (!$tenant) { http_response_code(404); echo 'Product not found.'; return; }
+    $base = $GLOBALS['base'];
+    header('Content-Type: text/html');
+    require __DIR__ . '/views/digital-products/show.php';
 }
 
 function renderStore(string $slug, string $page = 'index', array $params = []): void
