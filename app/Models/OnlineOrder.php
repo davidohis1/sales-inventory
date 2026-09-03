@@ -105,6 +105,28 @@ class OnlineOrder extends BaseModel
         return $stmt->fetch() ?: null;
     }
 
+    /** Total ever paid through Flutterwave on this store — the "earned" figure on the Earnings page. */
+    public static function totalFlutterwaveEarnings(int $tenantId): float
+    {
+        $stmt = self::db()->prepare("SELECT COALESCE(SUM(amount_paid),0) FROM online_orders WHERE tenant_id = ? AND flw_transaction_id IS NOT NULL");
+        $stmt->execute([$tenantId]);
+        return (float) $stmt->fetchColumn();
+    }
+
+    /** Recent Flutterwave-paid orders, for the Earnings page transaction list. */
+    public static function recentPaidPayments(int $tenantId, int $limit = 30): array
+    {
+        $stmt = self::db()->prepare(
+            "SELECT id, order_no, customer_name, amount_paid, flw_tx_ref, flw_transaction_id, created_at
+             FROM online_orders WHERE tenant_id = ? AND flw_transaction_id IS NOT NULL
+             ORDER BY created_at DESC LIMIT ?"
+        );
+        $stmt->bindValue(1, $tenantId, \PDO::PARAM_INT);
+        $stmt->bindValue(2, $limit, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     /** Convert an accepted online order into a proper POS sale record (for unified reporting). */
     public static function convertToSale(int $tenantId, int $orderId, ?int $userId): array
     {

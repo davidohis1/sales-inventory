@@ -37,6 +37,7 @@
         { path: 'expenses', label: 'Expenses', icon: '&#128176;', roles: null, render: renderExpenses },
         { path: 'orders', label: 'Online Orders', icon: '&#128722;', roles: null, render: renderOrders },
         { path: 'store', label: 'Store Page', icon: '&#127968;', roles: ['owner', 'manager'], render: renderStorePage },
+        { path: 'earnings', label: 'Earnings', icon: '&#128176;', roles: ['owner', 'manager'], render: renderEarnings },
         { path: 'staff', label: 'Staff', icon: '&#128101;', roles: ['owner', 'manager'], render: renderStaff },
         { path: 'branches', label: 'Branches', icon: '&#127970;', roles: ['owner', 'manager'], render: renderBranches },
         { path: 'reports', label: 'Reports', icon: '&#128202;', roles: ['owner', 'manager'], render: renderReports },
@@ -83,7 +84,7 @@
        SHELL (sidebar + topbar) — rendered once after login
        --------------------------------------------------------------- */
     const MAIN_PATHS = ['', 'pos'];
-    const FEATURE_PATHS = ['products', 'customers', 'expenses', 'orders', 'store', 'branches'];
+    const FEATURE_PATHS = ['products', 'customers', 'expenses', 'orders', 'store', 'earnings', 'branches'];
     const GENERAL_PATHS = ['staff', 'reports'];
 
     function planInfo() {
@@ -93,7 +94,9 @@
     function isPathLocked(path) {
         const plan = planInfo();
         if (!plan || !plan.locked_features) return false;
-        return plan.locked_features.includes(path);
+        // 'earnings' rides on the Online Store feature — no separate plan_features row for it.
+        const key = path === 'earnings' ? 'store' : path;
+        return plan.locked_features.includes(key);
     }
 
     function navGroupHtml(paths, user) {
@@ -1100,13 +1103,19 @@
     function drawThemeTab(root) {
         const themes = storeState.themes || THEME_CATALOG_FALLBACK;
         root.innerHTML = `
-        <p class="text-muted">Choose the template your public storefront uses. You can switch anytime — nothing is lost.</p>
-        <div class="grid grid-3" id="theme-cards"></div>
-        <div class="section-title">Store Type</div>
-        <p class="text-muted" style="margin-top:-6px;">Drives the decorative photography used in banners (e.g. fashion vs tech).</p>
+        <div class="section-title" style="margin-top:0;">1. Store Category</div>
+        <p class="text-muted" style="margin-top:-6px;">Choose what you sell — this drives the header photos and decorative imagery below.</p>
         <select class="form-control" id="store-type-select" style="max-width:260px;">
             ${(storeState.store_types || ['fashion', 'tech', 'beauty', 'grocery', 'general']).map((t) => `<option value="${t}" ${storeState.store_type === t ? 'selected' : ''}>${t[0].toUpperCase() + t.slice(1)}</option>`).join('')}
-        </select>`;
+        </select>
+
+        <div class="section-title">2. Theme</div>
+        <p class="text-muted" style="margin-top:-6px;">Choose the template your public storefront uses. You can switch anytime — nothing is lost.</p>
+        <div class="grid grid-3" id="theme-cards"></div>
+
+        <div class="section-title">3. Header Image</div>
+        <p class="text-muted" style="margin-top:-6px;">Pick a header photo curated for your category, or <a href="#" id="go-custom-banner">upload your own</a> from the Branding tab.</p>
+        <div class="grid grid-4" id="header-image-gallery"><div class="empty-state" style="grid-column:1/-1;"><div class="spinner"></div></div></div>`;
 
         document.getElementById('theme-cards').innerHTML = themes.map((t) => `
             <div class="card theme-card ${storeState.theme === t.id ? 'selected' : ''}" data-theme="${t.id}" style="cursor:pointer; border-color:${storeState.theme === t.id ? t.accent : ''};">
@@ -1120,7 +1129,47 @@
             storeState.theme = card.dataset.theme;
             drawThemeTab(root);
         }));
-        document.getElementById('store-type-select').addEventListener('change', (e) => { storeState.store_type = e.target.value; });
+        document.getElementById('store-type-select').addEventListener('change', (e) => {
+            storeState.store_type = e.target.value;
+            loadHeaderImageGallery();
+        });
+        document.getElementById('go-custom-banner').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('[data-tab="branding"]').click();
+        });
+
+        loadHeaderImageGallery();
+    }
+
+    async function loadHeaderImageGallery() {
+        const gallery = document.getElementById('header-image-gallery');
+        if (!gallery) return;
+        gallery.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="spinner"></div></div>';
+        try {
+            const images = await Api.get(`/store-settings/header-images?store_type=${encodeURIComponent(storeState.store_type)}`);
+            if (!images.length) {
+                gallery.innerHTML = `<p class="text-muted" style="grid-column:1/-1;">No curated header images for this category yet — <a href="#" id="go-custom-banner-2">upload your own</a> instead.</p>`;
+                const link = document.getElementById('go-custom-banner-2');
+                if (link) link.addEventListener('click', (e) => { e.preventDefault(); document.querySelector('[data-tab="branding"]').click(); });
+                return;
+            }
+            gallery.innerHTML = images.map((img) => `
+                <div class="card header-img-card ${storeState.content.banner_path === img.image_path ? 'selected' : ''}" data-id="${img.id}" style="cursor:pointer; padding:8px;">
+                    <div class="listing-thumb" style="width:100%; height:100px;"><img src="${assetUrl(img.image_path)}" style="width:100%;height:100%;object-fit:cover;"></div>
+                    ${storeState.content.banner_path === img.image_path ? '<span class="badge badge-success" style="margin-top:6px;">Selected</span>' : `<span class="text-muted" style="font-size:11px;">${esc(img.label || 'Header photo')}</span>`}
+                </div>`).join('');
+            gallery.querySelectorAll('.header-img-card').forEach((card) => card.addEventListener('click', async () => {
+                try {
+                    const updated = await Api.post('/store-settings/header-image', { header_image_id: card.dataset.id });
+                    // Only merge content back — theme/store_type may have unsaved local edits pending "Save Changes".
+                    storeState.content = { ...storeState.content, banner_path: updated.content.banner_path };
+                    toast('Header image applied');
+                    loadHeaderImageGallery();
+                } catch (e) { toast(e.message, 'error'); }
+            }));
+        } catch (e) {
+            gallery.innerHTML = `<p class="text-muted" style="grid-column:1/-1;">${esc(e.message)}</p>`;
+        }
     }
 
     function drawBrandingTab(root) {
@@ -1700,6 +1749,83 @@
         } catch (e) {
             toast(e.message, 'error');
         }
+    }
+
+    /* ---------------------------------------------------------------
+       EARNINGS (online store — Flutterwave payments + withdrawals)
+       --------------------------------------------------------------- */
+    async function renderEarnings(content) {
+        const d = await Api.get('/earnings');
+        const paymentsRows = (d.recent_payments || []).map((p) => `
+            <tr><td>${esc(p.order_no)}</td><td>${esc(p.customer_name)}</td><td>${fmt(p.amount_paid)}</td><td>${new Date(p.created_at).toLocaleDateString()}</td></tr>
+        `).join('') || `<tr><td colspan="4" class="text-muted">No Flutterwave payments yet.</td></tr>`;
+
+        const statusBadge = (s) => ({
+            requested: 'badge-warn', processing: 'badge-warn', paid: 'badge-success', rejected: 'badge-danger',
+        }[s] || 'badge-muted');
+
+        const withdrawalRows = (d.withdrawals || []).map((w) => `
+            <tr>
+                <td>${fmt(w.amount)}</td>
+                <td>${fmt(w.net_amount)} ${Number(w.fee_percent) > 0 ? `<span class="text-muted">(${w.fee_percent}% fee)</span>` : ''}</td>
+                <td><span class="badge ${statusBadge(w.status)}">${esc(w.status)}</span></td>
+                <td>${new Date(w.created_at).toLocaleDateString()}</td>
+            </tr>`).join('') || `<tr><td colspan="4" class="text-muted">No withdrawal requests yet.</td></tr>`;
+
+        content.innerHTML = `
+        <div class="page-header">
+            <div><h2>Earnings</h2><p>Payments collected through your online store via Flutterwave.</p></div>
+            <div class="page-header-actions"><button class="btn btn-dark" id="withdraw-btn">&#128176; Request Withdrawal</button></div>
+        </div>
+        <div class="grid grid-3" style="margin-bottom:20px;">
+            <div class="card stat-card"><div class="stat-label">Total Earned</div><div class="stat-value">${fmt(d.total_earned)}</div><div class="stat-sub">All-time, via Flutterwave</div></div>
+            <div class="card stat-card"><div class="stat-label">Available Balance</div><div class="stat-value">${fmt(d.available_balance)}</div><div class="stat-sub">Ready to withdraw</div></div>
+            <div class="card stat-card"><div class="stat-label">Withdrawal Fee</div><div class="stat-value">${d.fee_percent}%</div><div class="stat-sub">Charged on store withdrawals</div></div>
+        </div>
+        <div class="section-title">Recent Payments</div>
+        <div class="table-wrap" style="margin-bottom:24px;"><table><thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Date</th></tr></thead><tbody>${paymentsRows}</tbody></table></div>
+        <div class="section-title">Withdrawal History</div>
+        <div class="table-wrap"><table><thead><tr><th>Requested</th><th>You'll receive</th><th>Status</th><th>Date</th></tr></thead><tbody>${withdrawalRows}</tbody></table></div>
+        <div id="withdraw-modal-root"></div>`;
+
+        document.getElementById('withdraw-btn').addEventListener('click', () => openWithdrawModal('/earnings/withdraw', d.available_balance, d.fee_percent, () => renderEarnings(content)));
+    }
+
+    function openWithdrawModal(endpoint, availableBalance, feePercent, onDone) {
+        const root = document.getElementById('withdraw-modal-root') || (() => {
+            const el = document.createElement('div'); document.body.appendChild(el); return el;
+        })();
+        root.innerHTML = `
+        <div class="modal-backdrop">
+            <div class="modal">
+                <button class="modal-close" id="wd-close">&times;</button>
+                <h3>Request Withdrawal</h3>
+                <p class="text-muted">Available balance: <strong>${fmt(availableBalance)}</strong>${feePercent > 0 ? ` &middot; ${feePercent}% fee applies` : ''}. Withdrawals are processed manually and take a maximum of 3 hours.</p>
+                <form id="wd-form">
+                    <div class="form-group"><label>Amount</label><input class="form-control" name="amount" type="number" min="1" step="0.01" max="${availableBalance}" required></div>
+                    <div class="form-group"><label>Bank name</label><input class="form-control" name="bank_name" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Account name</label><input class="form-control" name="account_name" required></div>
+                        <div class="form-group"><label>Account number</label><input class="form-control" name="account_number" required></div>
+                    </div>
+                    <div id="wd-error" class="form-error"></div>
+                    <button class="btn" type="submit" style="width:100%; justify-content:center;">Submit Request</button>
+                </form>
+            </div>
+        </div>`;
+        document.getElementById('wd-close').addEventListener('click', () => root.innerHTML = '');
+        document.getElementById('wd-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.target).entries());
+            try {
+                await Api.post(endpoint, data);
+                toast('Withdrawal requested — processed within 3 hours.', 'success');
+                root.innerHTML = '';
+                if (onDone) onDone();
+            } catch (err) {
+                document.getElementById('wd-error').textContent = err.message;
+            }
+        });
     }
 
     /* ---------------------------------------------------------------

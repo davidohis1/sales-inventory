@@ -108,9 +108,7 @@ class PlatformController
     public function plans(Request $request): void
     {
         Response::success(Plan::withFeatures(false));
-    }
-
-    public function updatePlan(Request $request): void
+    }    public function updatePlan(Request $request): void
     {
         $id = (int) $request->param('id');
         $plan = Plan::find($id);

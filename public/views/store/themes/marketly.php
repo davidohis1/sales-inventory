@@ -1,11 +1,11 @@
 <?php
 use App\Core\StockImages;
+use App\Models\Category;
 $content = $settings['content'] ?? [];
 $h = fn ($k, $d) => htmlspecialchars($content[$k] ?? $d);
 $storeType = $settings['store_type'] ?? 'general';
-$heroImg = !empty($content['banner_path']) ? $base . $content['banner_path'] : StockImages::url($storeType, 0, 700, 700);
-$banner1 = StockImages::url($storeType, 4, 700, 500);
-$banner2 = StockImages::url($storeType, 5, 700, 500);
+$heroImg = !empty($content['banner_path']) ? $base . $content['banner_path'] : StockImages::url($storeType, 0, 900, 600);
+$categories = Category::allForTenant((int) $tenant['id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,63 +16,93 @@ $banner2 = StockImages::url($storeType, 5, 700, 500);
 <link rel="stylesheet" href="<?= $base ?>/assets/css/themes/marketly.css">
 </head>
 <body class="theme-marketly">
-<div class="mk-announce">&#127881; <?= $h('announcement', 'Mega Sale is Live! Get up to 60% off') ?> &rarr;</div>
-<nav class="mk-nav">
+<div class="mk-topbar">Enterprise-level commerce platform &middot; <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>/cart">Track Order</a></div>
+<header class="mk-header">
     <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>" class="mk-logo">
-        <?php if (!empty($content['logo_path'])): ?><img src="<?= $base . htmlspecialchars($content['logo_path']) ?>" alt="" class="mk-logo-img"><?php else: ?>&#128717;<?php endif; ?>
+        <?php if (!empty($content['logo_path'])): ?><img src="<?= $base . htmlspecialchars($content['logo_path']) ?>" alt="" class="mk-logo-img"><?php endif; ?>
         <?= htmlspecialchars($tenant['business_name']) ?>
     </a>
-    <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>/cart" class="mk-cart">&#128722; <span class="cart-count" id="cart-count">0</span></a>
+    <span class="mk-cat-btn">&#9776; Category</span>
+    <div class="mk-search-wrap"><span class="mk-ai-tag">&#10024; AI</span><input id="store-search" placeholder="AI-powered search..."></div>
+    <div class="mk-header-icons">
+        <span>&#9825;</span>
+        <span>&#128276;</span>
+        <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>/cart" class="mk-cart">&#128722; <span class="cart-count" id="cart-count">0</span></a>
+    </div>
+</header>
+<nav class="mk-subnav">
+    <span>&#9989; Free Shipping</span>
+    <span>&#128179; Secure Payment</span>
+    <span>&#128260; Easy Returns</span>
+    <span>&#127911; 24/7 Support</span>
 </nav>
-<div class="mk-search-bar"><input id="store-search" placeholder="Search for products and more..."><button>&#128269;</button></div>
-
-<div class="mk-cat-strip" id="cat-filter-list" data-mode="pills"></div>
 
 <section class="mk-hero">
     <div class="mk-hero-text">
-        <span class="mk-eyebrow">PREMIUM QUALITY. PREMIUM YOU.</span>
-        <h1><?= $h('hero_heading', 'Everything You Need, All in One Place') ?></h1>
-        <p><?= $h('hero_subheading', 'Discover great products from a store you can trust. Best prices, premium quality & unbeatable service.') ?></p>
-        <div class="mk-hero-actions"><a href="#products" class="btn-store">Shop Now &rarr;</a><a href="#products" class="btn-store outline">Explore Deals</a></div>
+        <span class="mk-eyebrow"><?= $h('eyebrow', 'AUTUMN LUXURY COLLECTION') ?></span>
+        <h1><?= $h('hero_heading', 'Elevate Your Style') ?></h1>
+        <p><?= $h('hero_subheading', 'Explore our curated selection of seasonal and trending essentials.') ?></p>
+        <a href="#shop" class="btn-store">Shop Now &rarr;</a>
     </div>
     <div class="mk-hero-image"><img src="<?= htmlspecialchars($heroImg) ?>" alt=""></div>
 </section>
 
-<section class="mk-deal">
-    <div><strong>&#9889; Flash Deal</strong><span>Limited Time Offer — check today's featured picks below</span></div>
-    <div class="mk-countdown" id="mk-countdown">--:--:--</div>
+<section class="mk-cat-grid" id="categories">
+    <div class="mk-section-head"><h2>Featured Category Grid</h2><span class="mk-view-all">See all &rarr;</span></div>
+    <div class="mk-cat-tiles">
+        <?php $icons = ['&#128092;','&#128241;','&#128132;','&#127968;','&#9917;','&#127911;','&#128717;']; $i = 0; ?>
+        <?php foreach (array_slice($categories, 0, 7) as $cat): ?>
+        <a href="?category_id=<?= (int) $cat['id'] ?>" class="mk-cat-tile" style="background-image:url('<?= htmlspecialchars(StockImages::url($storeType, $i + 1, 300, 300)) ?>')"><span><?= htmlspecialchars($cat['name']) ?></span></a>
+        <?php $i++; endforeach; ?>
+        <?php if (empty($categories)): ?><span class="text-muted">Add categories to show them here</span><?php endif; ?>
+    </div>
 </section>
 
-<section class="mk-banners">
-    <div class="mk-banner" style="background-image:url('<?= htmlspecialchars($banner1) ?>')"><div><strong>Summer Collection</strong><span>Up to 50% Off</span></div></div>
-    <div class="mk-banner" style="background-image:url('<?= htmlspecialchars($banner2) ?>')"><div><strong>Essentials for Better Living</strong><span>Up to 40% Off</span></div></div>
+<section class="mk-flash">
+    <div class="mk-flash-head">
+        <div><span class="mk-eyebrow">FLASH SALES</span><h2>Deals Ending Soon</h2></div>
+        <div class="mk-countdown" id="mk-countdown">
+            <div><span id="mk-h">03</span><em>H</em></div><div><span id="mk-m">09</span><em>M</em></div><div><span id="mk-s">55</span><em>S</em></div>
+        </div>
+    </div>
 </section>
 
-<section class="mk-products" id="products">
-    <div class="mk-section-head"><h2>Shop All Products</h2><span id="result-count" class="text-muted"></span></div>
+<section class="mk-products" id="shop">
+    <div class="mk-section-head"><h2>All Products</h2><span id="result-count" class="text-muted"></span></div>
+    <div id="cat-filter-list" class="mk-cat-pills" data-mode="pills"></div>
     <div class="product-grid" id="product-grid"></div>
 </section>
 
-<?php include __DIR__ . '/../partials/footer.php'; ?>
+<section class="mk-deals" id="deals">
+    <div class="mk-section-head"><h2>Deals &amp; Offers</h2></div>
+    <div class="mk-deals-grid">
+        <a href="#shop" class="mk-deal-tile mk-deal-1"><strong>Daily Deals</strong><span>Up to 40% off</span></a>
+        <a href="#shop" class="mk-deal-tile mk-deal-2"><strong>Mega Sale Event</strong><span>Storewide savings</span></a>
+        <a href="#shop" class="mk-deal-tile mk-deal-3"><strong>Buy One Get One</strong><span>Selected items</span></a>
+        <a href="#shop" class="mk-deal-tile mk-deal-4"><strong>Bundle Discounts</strong><span>Save more together</span></a>
+    </div>
+</section>
 
-<nav class="mk-bottom-nav">
-    <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>" class="active">&#127968;<span>Home</span></a>
-    <a href="#products">&#128203;<span>Categories</span></a>
-    <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>/cart">&#128722;<span>Cart</span></a>
-</nav>
+<section class="mk-newsletter">
+    <div><h3>Stay in the loop</h3><p>Get AI-curated picks and offers straight to your inbox.</p></div>
+    <form id="mk-newsletter-form"><input type="email" placeholder="Enter your email" required><button class="btn-store" type="submit">Subscribe</button></form>
+</section>
+
+<?php include __DIR__ . '/../partials/footer.php'; ?>
 
 <div class="toast-container" id="toast-container"></div>
 <script>window.APP_BASE = <?= json_encode($base) ?>; window.TENANT_SLUG = <?= json_encode($slug) ?>; window.TENANT_CURRENCY = <?= json_encode($tenant['currency']) ?>;</script>
 <script src="<?= $base ?>/assets/js/store.js"></script>
 <script>
 StoreApp.renderProductList();
+document.getElementById('mk-newsletter-form').addEventListener('submit', (e) => { e.preventDefault(); e.target.reset(); alert('Thanks for subscribing!'); });
 (function countdown() {
-    let seconds = 2 * 86400 + 12 * 3600 + 45 * 60 + 30;
-    const el = document.getElementById('mk-countdown');
+    let total = 3 * 3600 + 9 * 60 + 55;
     setInterval(() => {
-        seconds = Math.max(0, seconds - 1);
-        const d = Math.floor(seconds / 86400), h = Math.floor((seconds % 86400) / 3600), m = Math.floor((seconds % 3600) / 60), s = seconds % 60;
-        el.textContent = `${d}d ${h}h ${m}m ${s}s`;
+        total = total > 0 ? total - 1 : 0;
+        document.getElementById('mk-h').textContent = String(Math.floor(total / 3600)).padStart(2, '0');
+        document.getElementById('mk-m').textContent = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
+        document.getElementById('mk-s').textContent = String(total % 60).padStart(2, '0');
     }, 1000);
 })();
 </script>

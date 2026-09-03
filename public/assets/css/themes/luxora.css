@@ -1,79 +1,108 @@
-/* Luxora theme — elegant editorial fashion storefront. Warm beige/cream. */
-.theme-luxora { --lx-ink: #2c241b; --lx-cream: #faf6ef; --lx-accent: #8a6d3b; --lx-border: #ece4d6; background: var(--lx-cream); color: var(--lx-ink); font-family: Georgia, 'Times New Roman', serif; }
-.theme-luxora .lx-announce { background: var(--lx-ink); color: #fff; text-align: center; font-size: 12px; padding: 7px; letter-spacing: 0.03em; font-family: -apple-system, sans-serif; }
-.theme-luxora .lx-nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; flex-wrap: wrap; gap: 14px; font-family: -apple-system, sans-serif; }
-.theme-luxora .lx-logo { font-family: Georgia, serif; font-weight: 700; font-size: 20px; letter-spacing: 0.04em; color: var(--lx-ink); display: flex; align-items: center; gap: 8px; }
+/* Luxora theme — elegant editorial fashion storefront. Warm beige/cream, serif headings. */
+.theme-luxora { --lx-ink: #221d16; --lx-cream: #f6f1e8; --lx-accent: #8a6d3b; --lx-border: #e8e0d0; background: #fff; color: var(--lx-ink); font-family: Georgia, 'Times New Roman', serif; }
+.theme-luxora .lx-nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 44px; flex-wrap: wrap; gap: 14px; font-family: -apple-system, sans-serif; border-bottom: 1px solid var(--lx-border); }
+.theme-luxora .lx-logo { font-family: Georgia, serif; font-weight: 700; font-size: 21px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--lx-ink); display: flex; align-items: center; gap: 8px; }
 .theme-luxora .lx-logo-img { width: 30px; height: 30px; border-radius: 6px; object-fit: cover; }
-.theme-luxora .lx-links { display: flex; gap: 22px; font-size: 13.5px; }
+.theme-luxora .lx-links { display: flex; gap: 26px; font-size: 13px; letter-spacing: 0.02em; }
 .theme-luxora .lx-links a { color: var(--lx-ink); }
-.theme-luxora .lx-nav-actions { display: flex; align-items: center; gap: 14px; }
-.theme-luxora .lx-search { padding: 8px 14px; border: 1px solid var(--lx-border); border-radius: 999px; background: #fff; font-family: -apple-system, sans-serif; font-size: 13px; }
+.theme-luxora .lx-nav-actions { display: flex; align-items: center; gap: 16px; }
+.theme-luxora .lx-search { padding: 8px 14px; border: 1px solid var(--lx-border); border-radius: 999px; background: var(--lx-cream); font-family: -apple-system, sans-serif; font-size: 13px; }
 .theme-luxora .lx-cart { font-size: 15px; position: relative; }
-.theme-luxora .cart-count { background: var(--lx-accent); color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 10.5px; margin-left: 3px; }
+.theme-luxora .cart-count { background: var(--lx-ink); color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 10.5px; margin-left: 3px; }
 
-.theme-luxora .lx-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; max-width: 1200px; margin: 20px auto; padding: 20px 40px; }
-.theme-luxora .lx-eyebrow { font-family: -apple-system, sans-serif; font-size: 12px; letter-spacing: 0.1em; color: var(--lx-accent); }
-.theme-luxora .lx-hero h1 { font-size: 42px; line-height: 1.15; margin: 14px 0 16px; }
-.theme-luxora .lx-hero p { font-family: -apple-system, sans-serif; color: #6b6355; margin-bottom: 22px; max-width: 420px; }
-.theme-luxora .lx-hero-image { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 4/5; }
-.theme-luxora .lx-hero-image img { width: 100%; height: 100%; object-fit: cover; }
-.theme-luxora .lx-hero-badge { position: absolute; top: 18px; right: 18px; background: var(--lx-cream); border-radius: 50%; width: 78px; height: 78px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 11.5px; font-weight: 700; font-family: -apple-system, sans-serif; padding: 6px; }
+.theme-luxora .lx-hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; align-items: stretch; }
+.theme-luxora .lx-hero-text { padding: 70px 60px; display: flex; flex-direction: column; justify-content: center; background: var(--lx-cream); }
+.theme-luxora .lx-eyebrow { font-family: -apple-system, sans-serif; font-size: 11.5px; letter-spacing: 0.14em; color: var(--lx-accent); text-transform: uppercase; font-weight: 700; }
+.theme-luxora .lx-hero h1 { font-size: 46px; line-height: 1.12; margin: 14px 0 16px; font-weight: 400; }
+.theme-luxora .lx-hero p { font-family: -apple-system, sans-serif; color: #7a7161; margin-bottom: 26px; max-width: 400px; font-size: 14.5px; line-height: 1.6; }
+.theme-luxora .lx-hero-actions { display: flex; align-items: center; gap: 22px; margin-bottom: 40px; }
+.theme-luxora .lx-watch { font-family: -apple-system, sans-serif; font-size: 13.5px; font-weight: 600; color: var(--lx-ink); display: inline-flex; align-items: center; gap: 8px; }
+.theme-luxora .lx-trust-row { display: flex; gap: 30px; font-family: -apple-system, sans-serif; }
+.theme-luxora .lx-trust-row div { display: flex; flex-direction: column; font-size: 11.5px; }
+.theme-luxora .lx-trust-row strong { font-size: 12.5px; margin-bottom: 2px; }
+.theme-luxora .lx-trust-row span { color: #a99d87; }
+.theme-luxora .lx-hero-image { overflow: hidden; }
+.theme-luxora .lx-hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 460px; }
 
-.theme-luxora .lx-promo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1200px; margin: 30px auto; padding: 0 40px; }
-.theme-luxora .lx-promo-card { height: 180px; border-radius: 14px; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 18px; position: relative; }
-.theme-luxora .lx-promo-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 60%); border-radius: 14px; }
+.theme-luxora .lx-cat-strip { display: flex; gap: 6px; overflow-x: auto; max-width: 1100px; margin: -34px auto 0; padding: 24px 30px; background: #fff; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.08); position: relative; z-index: 5; }
+.theme-luxora .lx-cat-icon { flex: 1; min-width: 80px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: -apple-system, sans-serif; font-size: 12px; color: var(--lx-ink); text-align: center; }
+.theme-luxora .lx-cat-circle { width: 56px; height: 56px; border-radius: 50%; background: var(--lx-cream); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.theme-luxora .lx-cat-circle-dark { background: var(--lx-ink); color: #fff; font-size: 10px; font-weight: 800; }
+
+.theme-luxora .lx-find-style, .theme-luxora .lx-shop { max-width: 1200px; margin: 60px auto; padding: 0 44px; }
+.theme-luxora .lx-section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 26px; flex-wrap: wrap; gap: 12px; }
+.theme-luxora .lx-section-head h2 { font-size: 28px; margin: 6px 0 0; font-weight: 400; }
+.theme-luxora .lx-view-all { font-family: -apple-system, sans-serif; font-size: 13px; font-weight: 600; color: var(--lx-ink); }
+
+.theme-luxora .lx-cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.theme-luxora .lx-cat-tile { display: flex; align-items: flex-end; height: 340px; border-radius: 14px; background-size: cover; background-position: center; padding: 18px; position: relative; overflow: hidden; }
+.theme-luxora .lx-cat-tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 55%); }
+.theme-luxora .lx-cat-tile span { position: relative; z-index: 1; color: #fff; font-family: -apple-system, sans-serif; font-weight: 700; font-size: 14.5px; display: flex; flex-direction: column; gap: 4px; }
+.theme-luxora .lx-cat-tile em { font-style: normal; font-size: 12px; font-weight: 500; opacity: 0.9; }
+
+.theme-luxora .lx-promo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 1200px; margin: 30px auto; padding: 0 44px; }
+.theme-luxora .lx-promo-card { height: 220px; border-radius: 14px; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 26px; position: relative; }
+.theme-luxora .lx-promo-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 60%); border-radius: 14px; }
 .theme-luxora .lx-promo-text { position: relative; z-index: 1; color: #fff; font-family: -apple-system, sans-serif; }
-.theme-luxora .lx-promo-text span { font-size: 11.5px; opacity: 0.85; display: block; }
-.theme-luxora .lx-promo-text strong { font-size: 15px; }
+.theme-luxora .lx-promo-text span { font-size: 11px; opacity: 0.85; letter-spacing: 0.06em; }
+.theme-luxora .lx-promo-text strong { font-size: 22px; display: block; margin: 6px 0 12px; font-weight: 700; }
+.theme-luxora .lx-promo-btn { background: #fff; color: var(--lx-ink); padding: 9px 16px; border-radius: 999px; font-size: 12.5px; font-weight: 700; }
 
-.theme-luxora .lx-shop { max-width: 1200px; margin: 40px auto; padding: 0 40px; }
-.theme-luxora .lx-shop-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-.theme-luxora .lx-shop-head h2 { font-size: 24px; margin: 0; }
+.theme-luxora .lx-shop-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.theme-luxora .lx-shop-head h2 { font-size: 26px; margin: 6px 0 0; font-weight: 400; }
 .theme-luxora .lx-cat-pills { display: flex; gap: 8px; flex-wrap: wrap; font-family: -apple-system, sans-serif; }
 .theme-luxora .cat-pill { border: 1px solid var(--lx-border); background: #fff; border-radius: 999px; padding: 7px 16px; font-size: 12.5px; }
 .theme-luxora .cat-pill.active { background: var(--lx-ink); color: #fff; border-color: var(--lx-ink); }
 
-.theme-luxora .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; font-family: -apple-system, sans-serif; }
+.theme-luxora .product-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; font-family: -apple-system, sans-serif; }
 .theme-luxora .product-card { display: block; }
-.theme-luxora .thumb { position: relative; aspect-ratio: 3/4; background: #f1ece1; border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #cabfa9; font-size: 12px; }
+.theme-luxora .thumb { position: relative; aspect-ratio: 1; background: var(--lx-cream); border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #cabfa9; font-size: 12px; }
 .theme-luxora .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.theme-luxora .wish-btn { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: none; font-size: 13px; }
-.theme-luxora .info { padding: 10px 2px; }
-.theme-luxora .name { font-weight: 600; font-size: 13.5px; }
-.theme-luxora .cat-tag { font-size: 11px; color: #a99d87; margin-bottom: 6px; }
+.theme-luxora .wish-btn { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: none; font-size: 13px; }
+.theme-luxora .info { padding: 12px 2px; }
+.theme-luxora .name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.theme-luxora .cat-tag { font-size: 11px; color: #a99d87; display: none; }
 .theme-luxora .price-row { display: flex; justify-content: space-between; align-items: center; }
-.theme-luxora .price { color: var(--lx-accent); font-weight: 700; font-size: 13.5px; }
-.theme-luxora .quick-add { background: var(--lx-ink); color: #fff; border: none; width: 28px; height: 28px; border-radius: 50%; }
+.theme-luxora .price { color: var(--lx-ink); font-weight: 700; font-size: 13.5px; }
+.theme-luxora .quick-add { background: var(--lx-ink); color: #fff; border: none; width: 26px; height: 26px; border-radius: 50%; }
 .theme-luxora .grid-loading, .theme-luxora .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #a99d87; font-family: -apple-system, sans-serif; }
 
-.theme-luxora .lx-testimonials { background: #fff; padding: 50px 40px; text-align: center; font-family: -apple-system, sans-serif; }
-.theme-luxora .lx-testimonials h2 { font-family: Georgia, serif; margin-bottom: 26px; }
-.theme-luxora .lx-testimonial-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
-.theme-luxora .lx-testimonial-row blockquote { margin: 0; background: var(--lx-cream); padding: 20px; border-radius: 12px; font-size: 13.5px; color: #6b6355; }
+.theme-luxora .lx-features { display: flex; justify-content: space-around; gap: 20px; flex-wrap: wrap; background: var(--lx-cream); padding: 26px 44px; font-family: -apple-system, sans-serif; margin: 40px 0 0; }
+.theme-luxora .lx-features div { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 3px; font-size: 12px; }
+.theme-luxora .lx-features strong { font-size: 13px; }
+.theme-luxora .lx-features span { color: #a99d87; }
 
-.theme-luxora .lx-newsletter { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; background: var(--lx-ink); color: #fff; padding: 34px 40px; font-family: -apple-system, sans-serif; }
-.theme-luxora .lx-newsletter h3 { margin: 0 0 4px; font-family: Georgia, serif; }
-.theme-luxora .lx-newsletter p { margin: 0; opacity: 0.8; font-size: 13.5px; }
-.theme-luxora .lx-newsletter form { display: flex; gap: 8px; }
-.theme-luxora .lx-newsletter input { padding: 10px 14px; border-radius: 999px; border: none; min-width: 220px; }
-
-.theme-luxora .lx-footer { display: flex; justify-content: space-between; padding: 24px 40px; font-family: -apple-system, sans-serif; font-size: 12.5px; color: #9c927e; flex-wrap: wrap; gap: 8px; }
+.theme-luxora .lx-newsletter { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+.theme-luxora .lx-newsletter-img { background-size: cover; background-position: center; min-height: 280px; }
+.theme-luxora .lx-newsletter-form { padding: 60px; display: flex; flex-direction: column; justify-content: center; font-family: -apple-system, sans-serif; }
+.theme-luxora .lx-newsletter-form h3 { font-family: Georgia, serif; font-size: 26px; font-weight: 400; margin: 8px 0 10px; }
+.theme-luxora .lx-newsletter-form p { color: #7a7161; margin: 0 0 20px; font-size: 13.5px; }
+.theme-luxora .lx-newsletter-form form { display: flex; gap: 8px; max-width: 380px; }
+.theme-luxora .lx-newsletter-form input { flex: 1; padding: 11px 16px; border-radius: 999px; border: 1px solid var(--lx-border); }
 
 .theme-luxora .btn-store { background: var(--lx-ink); font-family: -apple-system, sans-serif; }
 .theme-luxora .btn-store:hover { background: #4a3f2f; }
+.theme-luxora .store-footer { background: #17130d; }
 
-@media (max-width: 900px) {
-    .theme-luxora .lx-hero { grid-template-columns: 1fr; padding: 10px 24px; }
+@media (max-width: 980px) {
+    .theme-luxora .lx-hero { grid-template-columns: 1fr; }
+    .theme-luxora .lx-hero-text { padding: 44px 24px; }
+    .theme-luxora .lx-hero-image img { min-height: 320px; }
+    .theme-luxora .lx-cat-strip { margin-top: 0; border-radius: 0; box-shadow: none; }
+    .theme-luxora .lx-cat-grid { grid-template-columns: repeat(2, 1fr); }
     .theme-luxora .lx-promo-row { grid-template-columns: 1fr; padding: 0 24px; }
-    .theme-luxora .lx-shop { padding: 0 24px; }
-    .theme-luxora .lx-testimonial-row { grid-template-columns: 1fr; }
-    .theme-luxora .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-luxora .lx-find-style, .theme-luxora .lx-shop { padding: 0 24px; }
+    .theme-luxora .product-grid { grid-template-columns: repeat(3, 1fr); }
     .theme-luxora .lx-links { display: none; }
-    .theme-luxora .lx-newsletter { flex-direction: column; text-align: center; padding: 30px 24px; }
-    .theme-luxora .lx-footer { flex-direction: column; text-align: center; padding: 20px 24px; }
+    .theme-luxora .lx-newsletter { grid-template-columns: 1fr; }
+    .theme-luxora .lx-newsletter-img { min-height: 180px; }
+    .theme-luxora .lx-newsletter-form { padding: 30px 24px; }
 }
-@media (max-width: 520px) {
+@media (max-width: 560px) {
     .theme-luxora .lx-nav { padding: 14px 18px; }
     .theme-luxora .lx-hero h1 { font-size: 30px; }
     .theme-luxora .lx-search { display: none; }
+    .theme-luxora .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-luxora .lx-cat-grid { grid-template-columns: 1fr; }
+    .theme-luxora .lx-trust-row { flex-direction: column; gap: 10px; }
 }

@@ -1,74 +1,97 @@
-/* Marketly theme — bold marketplace layout. Blue accent, mobile-first with bottom nav. */
-.theme-marketly { --mk-blue: #2563eb; --mk-border: #e5e7eb; background: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 60px; }
-.theme-marketly .mk-announce { background: var(--mk-blue); color: #fff; text-align: center; padding: 9px; font-size: 13px; font-weight: 600; }
-.theme-marketly .mk-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; background: #fff; border-bottom: 1px solid var(--mk-border); }
-.theme-marketly .mk-logo { font-weight: 800; font-size: 18px; color: var(--mk-blue); display: flex; align-items: center; gap: 8px; }
-.theme-marketly .mk-logo-img { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; }
-.theme-marketly .mk-cart { position: relative; font-size: 20px; }
-.theme-marketly .cart-count { position: absolute; top: -6px; right: -10px; background: var(--mk-blue); color: #fff; border-radius: 999px; font-size: 10.5px; padding: 1px 6px; }
-.theme-marketly .mk-search-bar { display: flex; gap: 8px; padding: 14px 24px; background: #fff; }
-.theme-marketly .mk-search-bar input { flex: 1; padding: 11px 16px; border: 1px solid var(--mk-border); border-radius: 10px; background: #f8fafc; }
-.theme-marketly .mk-search-bar button { background: var(--mk-blue); color: #fff; border: none; border-radius: 10px; padding: 0 18px; }
+/* Marketly theme — dense enterprise AI-powered marketplace storefront. */
+.theme-marketly { --mk-purple: #5b21b6; --mk-purple-dark: #3b0f80; --mk-bg: #f7f7fb; --mk-border: #eceaf4; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1b1730; background: var(--mk-bg); }
+.theme-marketly .mk-topbar { background: #0d0a1a; color: #cfc9e6; text-align: center; padding: 7px; font-size: 11.5px; }
+.theme-marketly .mk-topbar a { color: #fff; margin-left: 10px; text-decoration: underline; }
+.theme-marketly .mk-header { background: #fff; display: flex; align-items: center; gap: 18px; padding: 16px 40px; flex-wrap: wrap; border-bottom: 1px solid var(--mk-border); }
+.theme-marketly .mk-logo { font-weight: 800; font-size: 19px; display: flex; align-items: center; gap: 8px; color: var(--mk-purple-dark); }
+.theme-marketly .mk-logo-img { width: 30px; height: 30px; border-radius: 8px; object-fit: cover; }
+.theme-marketly .mk-cat-btn { background: var(--mk-purple); color: #fff; padding: 9px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+.theme-marketly .mk-search-wrap { flex: 1; min-width: 200px; display: flex; align-items: center; background: var(--mk-bg); border: 1px solid var(--mk-border); border-radius: 8px; padding: 4px 6px 4px 12px; gap: 8px; }
+.theme-marketly .mk-ai-tag { background: linear-gradient(120deg, var(--mk-purple), #a855f7); color: #fff; font-size: 10.5px; font-weight: 700; padding: 4px 8px; border-radius: 999px; }
+.theme-marketly .mk-search-wrap input { flex: 1; border: none; background: none; padding: 8px 0; font-size: 13.5px; }
+.theme-marketly .mk-search-wrap input:focus { outline: none; }
+.theme-marketly .mk-header-icons { display: flex; align-items: center; gap: 18px; font-size: 17px; }
+.theme-marketly .mk-cart { position: relative; }
+.theme-marketly .cart-count { position: absolute; top: -8px; right: -10px; background: var(--mk-purple); color: #fff; border-radius: 999px; padding: 1px 6px; font-size: 10px; }
 
-.theme-marketly .mk-cat-strip { display: flex; gap: 10px; overflow-x: auto; padding: 4px 24px 16px; background: #fff; }
-.theme-marketly .cat-pill { flex-shrink: 0; border: 1px solid var(--mk-border); background: #fff; border-radius: 999px; padding: 8px 16px; font-size: 12.5px; white-space: nowrap; }
-.theme-marketly .cat-pill.active { background: var(--mk-blue); color: #fff; border-color: var(--mk-blue); }
+.theme-marketly .mk-subnav { display: flex; justify-content: center; gap: 30px; background: var(--mk-purple-dark); color: #e5defa; padding: 8px; font-size: 11.5px; flex-wrap: wrap; }
 
-.theme-marketly .mk-hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; align-items: center; max-width: 1200px; margin: 20px auto; padding: 20px 24px; }
-.theme-marketly .mk-eyebrow { font-size: 11.5px; font-weight: 700; color: #f59e0b; letter-spacing: 0.05em; }
-.theme-marketly .mk-hero h1 { font-size: 32px; margin: 10px 0 12px; color: #0f172a; }
-.theme-marketly .mk-hero p { color: #64748b; margin-bottom: 18px; }
-.theme-marketly .mk-hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.theme-marketly .btn-store.outline { background: #fff; color: var(--mk-blue); border: 1px solid var(--mk-blue); }
-.theme-marketly .mk-hero-image { border-radius: 18px; overflow: hidden; aspect-ratio: 1; }
-.theme-marketly .mk-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+.theme-marketly .mk-hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; align-items: stretch; background: linear-gradient(120deg, #f1edfb, #fbf8ff); }
+.theme-marketly .mk-hero-text { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
+.theme-marketly .mk-eyebrow { color: var(--mk-purple); font-weight: 800; font-size: 11.5px; letter-spacing: 0.08em; }
+.theme-marketly .mk-hero h1 { font-size: 40px; margin: 12px 0 14px; font-weight: 800; }
+.theme-marketly .mk-hero-text > p { color: #6b6480; margin-bottom: 24px; max-width: 380px; }
+.theme-marketly .mk-hero-image { overflow: hidden; }
+.theme-marketly .mk-hero-image img { width: 100%; height: 100%; object-fit: cover; min-height: 340px; }
 
-.theme-marketly .mk-deal { max-width: 1200px; margin: 0 auto 20px; padding: 18px 24px; background: var(--mk-blue); border-radius: 16px; color: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-left: 24px; margin-right: 24px; }
-.theme-marketly .mk-deal strong { display: block; font-size: 15px; }
-.theme-marketly .mk-deal span { font-size: 12.5px; opacity: 0.85; }
-.theme-marketly .mk-countdown { background: rgba(255,255,255,0.18); padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 14px; }
+.theme-marketly .mk-cat-grid, .theme-marketly .mk-products, .theme-marketly .mk-deals { max-width: 1250px; margin: 0 auto; padding: 40px 40px 10px; }
+.theme-marketly .mk-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.theme-marketly .mk-section-head h2 { font-size: 22px; margin: 4px 0 0; }
+.theme-marketly .mk-view-all { font-size: 12.5px; font-weight: 700; color: var(--mk-purple); }
+.theme-marketly .mk-cat-tiles { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
+.theme-marketly .mk-cat-tile { height: 100px; border-radius: 12px; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 10px; position: relative; overflow: hidden; }
+.theme-marketly .mk-cat-tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,10,40,0.6), transparent 60%); }
+.theme-marketly .mk-cat-tile span { position: relative; z-index: 1; color: #fff; font-size: 11.5px; font-weight: 700; }
 
-.theme-marketly .mk-banners { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1200px; margin: 0 auto 26px; padding: 0 24px; }
-.theme-marketly .mk-banner { height: 140px; border-radius: 14px; background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 20px; position: relative; }
-.theme-marketly .mk-banner::after { content: ''; position: absolute; inset: 0; background: rgba(15,23,42,0.4); border-radius: 14px; }
-.theme-marketly .mk-banner div { position: relative; z-index: 1; color: #fff; }
-.theme-marketly .mk-banner strong { display: block; font-size: 16px; margin-bottom: 4px; }
-.theme-marketly .mk-banner span { font-size: 12.5px; }
+.theme-marketly .mk-flash { background: linear-gradient(120deg, var(--mk-purple), #a855f7); color: #fff; padding: 20px 40px; margin: 20px 0; }
+.theme-marketly .mk-flash-head { max-width: 1250px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+.theme-marketly .mk-flash-head .mk-eyebrow { color: #f5d0fe; }
+.theme-marketly .mk-flash-head h2 { margin: 4px 0 0; font-size: 20px; }
+.theme-marketly .mk-countdown { display: flex; gap: 8px; }
+.theme-marketly .mk-countdown div { background: rgba(255,255,255,0.15); border-radius: 8px; padding: 8px 12px; text-align: center; min-width: 46px; }
+.theme-marketly .mk-countdown span { display: block; font-size: 17px; font-weight: 700; }
+.theme-marketly .mk-countdown em { font-style: normal; font-size: 9px; opacity: 0.75; }
 
-.theme-marketly .mk-products { max-width: 1200px; margin: 0 auto; padding: 0 24px 30px; }
-.theme-marketly .mk-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.theme-marketly .mk-section-head h2 { font-size: 19px; margin: 0; }
-.theme-marketly .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.theme-marketly .product-card { background: #fff; border: 1px solid var(--mk-border); border-radius: 12px; overflow: hidden; display: block; }
-.theme-marketly .thumb { position: relative; aspect-ratio: 1; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #cbd5e1; font-size: 12px; }
+.theme-marketly .mk-cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.theme-marketly .cat-pill { border: 1px solid var(--mk-border); background: #fff; border-radius: 999px; padding: 7px 16px; font-size: 12.5px; font-weight: 600; }
+.theme-marketly .cat-pill.active { background: var(--mk-purple); color: #fff; border-color: var(--mk-purple); }
+
+.theme-marketly .product-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.theme-marketly .product-card { background: #fff; border: 1px solid var(--mk-border); border-radius: 12px; overflow: hidden; }
+.theme-marketly .thumb { position: relative; aspect-ratio: 1; background: var(--mk-bg); }
 .theme-marketly .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.theme-marketly .wish-btn { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: none; font-size: 13px; }
+.theme-marketly .wish-btn { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: none; font-size: 12px; }
 .theme-marketly .info { padding: 10px 12px; }
-.theme-marketly .name { font-weight: 600; font-size: 13px; }
-.theme-marketly .cat-tag { font-size: 11px; color: #94a3b8; margin-bottom: 6px; }
+.theme-marketly .name { font-weight: 600; font-size: 12px; margin-bottom: 4px; }
+.theme-marketly .cat-tag { display: none; }
 .theme-marketly .price-row { display: flex; justify-content: space-between; align-items: center; }
-.theme-marketly .price { color: var(--mk-blue); font-weight: 700; font-size: 13.5px; }
-.theme-marketly .quick-add { background: var(--mk-blue); border: none; color: #fff; width: 28px; height: 28px; border-radius: 8px; }
-.theme-marketly .grid-loading, .theme-marketly .empty-store { grid-column: 1/-1; text-align: center; padding: 40px 20px; color: #94a3b8; }
+.theme-marketly .price { color: var(--mk-purple-dark); font-weight: 800; font-size: 13px; }
+.theme-marketly .quick-add { background: var(--mk-purple); color: #fff; border: none; width: 26px; height: 26px; border-radius: 8px; }
+.theme-marketly .grid-loading, .theme-marketly .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #8a839e; }
 
-.theme-marketly .mk-footer { text-align: center; padding: 20px; color: #94a3b8; font-size: 12.5px; }
-.theme-marketly .mk-bottom-nav { display: none; }
+.theme-marketly .mk-deals-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+.theme-marketly .mk-deal-tile { border-radius: 14px; padding: 22px; color: #fff; display: flex; flex-direction: column; gap: 6px; height: 110px; justify-content: center; }
+.theme-marketly .mk-deal-tile strong { font-size: 15px; }
+.theme-marketly .mk-deal-tile span { font-size: 12px; opacity: 0.9; }
+.theme-marketly .mk-deal-1 { background: linear-gradient(120deg, #f97316, #ea580c); }
+.theme-marketly .mk-deal-2 { background: linear-gradient(120deg, #5b21b6, #a855f7); }
+.theme-marketly .mk-deal-3 { background: linear-gradient(120deg, #16a34a, #0e7a53); }
+.theme-marketly .mk-deal-4 { background: linear-gradient(120deg, #1a1a2e, #3b0f80); }
 
-@media (max-width: 880px) {
+.theme-marketly .mk-newsletter { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; background: #0d0a1a; color: #fff; padding: 34px 40px; margin-top: 20px; }
+.theme-marketly .mk-newsletter h3 { margin: 0 0 4px; }
+.theme-marketly .mk-newsletter p { margin: 0; opacity: 0.75; font-size: 13.5px; }
+.theme-marketly .mk-newsletter form { display: flex; gap: 8px; }
+.theme-marketly .mk-newsletter input { padding: 10px 14px; border-radius: 8px; border: none; min-width: 230px; }
+
+.theme-marketly .btn-store { background: var(--mk-purple); border-radius: 8px; }
+.theme-marketly .btn-store:hover { background: var(--mk-purple-dark); }
+.theme-marketly .store-footer { background: #0d0a1a; }
+
+@media (max-width: 980px) {
     .theme-marketly .mk-hero { grid-template-columns: 1fr; }
-    .theme-marketly .mk-banners { grid-template-columns: 1fr; }
-    .theme-marketly .product-grid { grid-template-columns: repeat(2, 1fr); }
-    .theme-marketly .mk-bottom-nav {
-        display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: #fff;
-        border-top: 1px solid var(--mk-border); padding: 8px 0; z-index: 30;
-    }
-    .theme-marketly .mk-bottom-nav a { flex: 1; text-align: center; font-size: 10.5px; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 2px; }
-    .theme-marketly .mk-bottom-nav a.active { color: var(--mk-blue); font-weight: 700; }
-    .theme-marketly .wa-float-btn { bottom: 78px; }
-    body.theme-marketly { padding-bottom: 70px; }
+    .theme-marketly .mk-hero-text { padding: 40px 24px; }
+    .theme-marketly .mk-hero-image img { min-height: 260px; }
+    .theme-marketly .mk-cat-tiles { grid-template-columns: repeat(4, 1fr); }
+    .theme-marketly .mk-cat-grid, .theme-marketly .mk-products, .theme-marketly .mk-deals { padding: 30px 24px 10px; }
+    .theme-marketly .product-grid { grid-template-columns: repeat(3, 1fr); }
+    .theme-marketly .mk-deals-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-marketly .mk-subnav { display: none; }
 }
-@media (max-width: 520px) {
-    .theme-marketly .mk-nav, .theme-marketly .mk-search-bar, .theme-marketly .mk-cat-strip { padding-left: 16px; padding-right: 16px; }
-    .theme-marketly .mk-hero, .theme-marketly .mk-banners, .theme-marketly .mk-products { padding-left: 16px; padding-right: 16px; }
-    .theme-marketly .mk-deal { margin-left: 16px; margin-right: 16px; flex-direction: column; align-items: flex-start; }
+@media (max-width: 560px) {
+    .theme-marketly .mk-header { padding: 14px 18px; }
+    .theme-marketly .mk-hero h1 { font-size: 26px; }
+    .theme-marketly .mk-cat-tiles { grid-template-columns: repeat(2, 1fr); }
+    .theme-marketly .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-marketly .mk-deals-grid { grid-template-columns: 1fr; }
 }

@@ -1,53 +1,104 @@
-/* Aurora theme — minimal grid + sidebar filters. Indigo accent. */
-.theme-aurora { --ar-accent: #4f46e5; --ar-bg: #fafafa; --ar-border: #eceef1; background: var(--ar-bg); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-.theme-aurora .ar-header { display: flex; align-items: center; gap: 20px; padding: 16px 28px; background: #fff; border-bottom: 1px solid var(--ar-border); position: sticky; top: 0; z-index: 20; flex-wrap: wrap; }
-.theme-aurora .ar-logo { font-weight: 800; font-size: 18px; color: #1a1a2e; display: flex; align-items: center; gap: 8px; }
-.theme-aurora .ar-logo-mark { color: var(--ar-accent); }
-.theme-aurora .ar-search-wrap { flex: 1; min-width: 160px; }
-.theme-aurora .ar-search { width: 100%; max-width: 420px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--ar-border); background: #f5f6fa; }
-.theme-aurora .ar-cart { background: var(--ar-accent); color: #fff; padding: 9px 16px; border-radius: 999px; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-.theme-aurora .cart-count { background: rgba(255,255,255,0.25); border-radius: 999px; padding: 1px 7px; font-size: 11px; }
+/* Aurora theme — blue marketplace-style storefront with sidebar categories (ShopNova style). */
+.theme-aurora { --ar-blue: #1a3fa0; --ar-blue-dark: #12296e; --ar-bg: #f5f7fb; --ar-border: #e6e9f2; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1c2233; background: var(--ar-bg); }
+.theme-aurora .ar-topbar { background: var(--ar-blue-dark); color: #fff; display: flex; justify-content: center; gap: 34px; padding: 7px 16px; font-size: 11.5px; flex-wrap: wrap; }
+.theme-aurora .ar-topbar-hide { display: none; }
+@media (min-width: 700px) { .theme-aurora .ar-topbar-hide { display: inline; } }
 
-.theme-aurora .ar-shell { display: grid; grid-template-columns: 240px 1fr; gap: 26px; max-width: 1240px; margin: 0 auto; padding: 26px 28px 60px; }
-.theme-aurora .ar-filter-toggle { display: none; }
-.theme-aurora .ar-sidebar { background: #fff; border: 1px solid var(--ar-border); border-radius: 14px; padding: 18px; align-self: start; position: sticky; top: 84px; }
-.theme-aurora .ar-side-block { margin-bottom: 22px; }
-.theme-aurora .ar-side-block h4 { font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.05em; color: #9094a6; margin: 0 0 12px; }
-.theme-aurora .cat-checkbox { display: flex; align-items: center; gap: 8px; font-size: 13.5px; margin-bottom: 9px; color: #333; cursor: pointer; }
+.theme-aurora .ar-header { background: #fff; display: flex; align-items: center; gap: 20px; padding: 16px 40px; flex-wrap: wrap; }
+.theme-aurora .ar-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; color: var(--ar-blue); }
+.theme-aurora .ar-logo em { display: block; font-style: normal; font-size: 10.5px; font-weight: 500; color: #8a8fa8; }
+.theme-aurora .ar-logo-mark { background: var(--ar-blue); color: #fff; width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.theme-aurora .ar-logo-img { width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
+.theme-aurora .ar-search-wrap { flex: 1; min-width: 200px; display: flex; }
+.theme-aurora .ar-search { flex: 1; padding: 10px 16px; border: 1px solid var(--ar-border); border-radius: 8px 0 0 8px; }
+.theme-aurora .ar-search-btn { background: var(--ar-blue); color: #fff; border: none; padding: 0 18px; border-radius: 0 8px 8px 0; }
+.theme-aurora .ar-cart { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 13.5px; white-space: nowrap; }
+.theme-aurora .cart-count { background: var(--ar-blue); color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 10.5px; }
+
+.theme-aurora .ar-subnav { background: var(--ar-blue); color: #fff; display: flex; align-items: center; padding: 10px 40px; gap: 24px; flex-wrap: wrap; }
+.theme-aurora .ar-cat-dropdown { background: rgba(255,255,255,0.12); padding: 7px 14px; border-radius: 6px; font-size: 12.5px; font-weight: 600; }
+.theme-aurora .ar-sublinks { display: flex; gap: 20px; font-size: 13px; flex: 1; }
+.theme-aurora .ar-sublinks a { color: #dbe4ff; }
+.theme-aurora .ar-sublinks a.active { color: #fff; font-weight: 700; }
+.theme-aurora .ar-hot-offers { background: #e53e3e; padding: 6px 14px; border-radius: 999px; font-size: 11.5px; font-weight: 700; }
+
+.theme-aurora .ar-shell { display: grid; grid-template-columns: 250px 1fr; gap: 24px; max-width: 1300px; margin: 20px auto; padding: 0 30px; align-items: start; }
+.theme-aurora .ar-filter-toggle { display: none; margin: 10px 30px 0; }
+.theme-aurora .ar-sidebar { background: #fff; border: 1px solid var(--ar-border); border-radius: 12px; padding: 16px; position: sticky; top: 16px; }
+.theme-aurora .ar-side-block { margin-bottom: 18px; }
+.theme-aurora .ar-side-block h4 { font-size: 13px; margin: 0 0 10px; }
 .theme-aurora .ar-price-row { display: flex; gap: 8px; }
-.theme-aurora .ar-price-row input { width: 50%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--ar-border); }
+.theme-aurora .ar-price-row input { width: 50%; padding: 8px; border: 1px solid var(--ar-border); border-radius: 6px; }
 
-.theme-aurora .ar-hero { background: linear-gradient(120deg, #eef0ff, #f7f8ff); background-size: cover; background-position: center; border-radius: 16px; padding: 30px 30px; margin-bottom: 20px; }
-.theme-aurora .ar-logo-img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
-.theme-aurora .ar-hero h1 { margin: 0 0 8px; font-size: 26px; color: #1a1a2e; }
-.theme-aurora .ar-hero p { margin: 0; color: #6b6f80; }
-.theme-aurora .ar-toolbar { display: flex; justify-content: flex-end; margin-bottom: 14px; }
+.theme-aurora .ar-hero { background: linear-gradient(120deg, var(--ar-blue), #2f5fd4); border-radius: 16px; padding: 40px; display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 20px; color: #fff; margin-bottom: 24px; }
+.theme-aurora .ar-eyebrow { font-size: 12px; opacity: 0.8; }
+.theme-aurora .ar-hero h1 { font-size: 32px; margin: 8px 0 10px; }
+.theme-aurora .ar-hero-text p { opacity: 0.85; font-size: 13.5px; margin: 0 0 20px; max-width: 340px; }
+.theme-aurora .ar-hero .btn-store { background: #fff; color: var(--ar-blue-dark); }
+.theme-aurora .ar-hero-image { display: flex; justify-content: center; }
+.theme-aurora .ar-hero-image img { max-width: 100%; border-radius: 12px; aspect-ratio: 1; object-fit: cover; width: 220px; }
 
-.theme-aurora .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.theme-aurora .product-card { background: #fff; border: 1px solid var(--ar-border); border-radius: 14px; overflow: hidden; display: block; transition: box-shadow 0.15s, transform 0.15s; }
-.theme-aurora .product-card:hover { box-shadow: 0 10px 26px rgba(79,70,229,0.12); transform: translateY(-2px); }
-.theme-aurora .thumb { position: relative; aspect-ratio: 1; background: #f1f2f7; display: flex; align-items: center; justify-content: center; color: #b8bacb; font-size: 12px; }
+.theme-aurora .ar-features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; background: #fff; border: 1px solid var(--ar-border); border-radius: 12px; padding: 18px; margin-bottom: 30px; }
+.theme-aurora .ar-features div { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.theme-aurora .ar-features strong { font-size: 20px; }
+.theme-aurora .ar-features em { font-style: normal; color: #8a8fa8; font-size: 11px; }
+
+.theme-aurora .ar-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.theme-aurora .ar-section-head h2 { font-size: 21px; margin: 0; }
+.theme-aurora .ar-cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.theme-aurora .ar-popular { margin-bottom: 34px; }
+
+.theme-aurora .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.theme-aurora .product-card { background: #fff; border: 1px solid var(--ar-border); border-radius: 12px; overflow: hidden; }
+.theme-aurora .thumb { position: relative; aspect-ratio: 1; background: #f2f4fa; }
 .theme-aurora .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.theme-aurora .wish-btn { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.12); font-size: 14px; }
+.theme-aurora .wish-btn { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: none; }
 .theme-aurora .info { padding: 12px 14px; }
-.theme-aurora .name { font-weight: 600; font-size: 14px; color: #1a1a2e; margin-bottom: 3px; }
-.theme-aurora .cat-tag { font-size: 11.5px; color: #9094a6; margin-bottom: 8px; }
-.theme-aurora .price-row { display: flex; align-items: center; justify-content: space-between; }
-.theme-aurora .price { color: var(--ar-accent); font-weight: 700; }
-.theme-aurora .quick-add { background: var(--ar-accent); border: none; color: #fff; width: 30px; height: 30px; border-radius: 8px; }
-.theme-aurora .grid-loading, .theme-aurora .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #9094a6; }
+.theme-aurora .name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.theme-aurora .cat-tag { display: none; }
+.theme-aurora .price-row { display: flex; justify-content: space-between; align-items: center; }
+.theme-aurora .price { color: var(--ar-blue); font-weight: 800; font-size: 14px; }
+.theme-aurora .quick-add { background: var(--ar-blue); color: #fff; border: none; width: 28px; height: 28px; border-radius: 8px; }
+.theme-aurora .grid-loading, .theme-aurora .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #8a8fa8; }
 
-@media (max-width: 880px) {
-    .theme-aurora .ar-shell { grid-template-columns: 1fr; }
-    .theme-aurora .ar-filter-toggle { display: block; background: #fff; border: 1px solid var(--ar-border); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; width: fit-content; }
-    .theme-aurora .ar-sidebar { display: none; position: static; }
+.theme-aurora .ar-cats { margin-bottom: 34px; }
+.theme-aurora .ar-cat-row { display: flex; gap: 14px; flex-wrap: wrap; }
+.theme-aurora .ar-cat-item { flex: 1; min-width: 100px; background: #fff; border: 1px solid var(--ar-border); border-radius: 12px; padding: 18px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; text-align: center; }
+.theme-aurora .ar-cat-item span { font-size: 24px; }
+.theme-aurora .ar-cat-item:hover { border-color: var(--ar-blue); }
+
+.theme-aurora .ar-deal { background: linear-gradient(120deg, #16213e, #1a3fa0); border-radius: 16px; padding: 36px; color: #fff; margin-bottom: 10px; }
+.theme-aurora .ar-deal-tag { color: #ffd166; font-weight: 700; font-size: 12px; letter-spacing: 0.05em; }
+.theme-aurora .ar-deal-text h2 { margin: 8px 0 20px; font-size: 24px; }
+.theme-aurora .ar-countdown { display: flex; gap: 10px; margin-bottom: 22px; }
+.theme-aurora .ar-countdown div { background: rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 14px; text-align: center; min-width: 56px; }
+.theme-aurora .ar-countdown span { display: block; font-size: 18px; font-weight: 700; }
+.theme-aurora .ar-countdown em { font-style: normal; font-size: 9px; opacity: 0.7; }
+.theme-aurora .ar-deal .btn-store { background: #fff; color: var(--ar-blue-dark); }
+
+.theme-aurora .ar-newsletter { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; background: #fff; border-top: 1px solid var(--ar-border); padding: 30px 40px; max-width: 1300px; margin: 0 auto; }
+.theme-aurora .ar-newsletter h3 { margin: 0 0 4px; font-size: 17px; }
+.theme-aurora .ar-newsletter p { margin: 0; color: #8a8fa8; font-size: 13px; }
+.theme-aurora .ar-newsletter form { display: flex; gap: 8px; }
+.theme-aurora .ar-newsletter input { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--ar-border); min-width: 220px; }
+
+.theme-aurora .btn-store { background: var(--ar-blue); border-radius: 8px; }
+.theme-aurora .btn-store:hover { background: var(--ar-blue-dark); }
+.theme-aurora .store-footer { background: #0d1530; }
+
+@media (max-width: 980px) {
+    .theme-aurora .ar-shell { grid-template-columns: 1fr; padding: 0 20px; }
+    .theme-aurora .ar-filter-toggle { display: block; }
+    .theme-aurora .ar-sidebar { display: none; position: fixed; inset: 0; z-index: 500; border-radius: 0; overflow-y: auto; }
     .theme-aurora .ar-sidebar.open { display: block; }
+    .theme-aurora .ar-sublinks { display: none; }
+    .theme-aurora .ar-hero { grid-template-columns: 1fr; text-align: center; }
+    .theme-aurora .ar-hero-image { order: -1; }
+    .theme-aurora .ar-features { grid-template-columns: repeat(2, 1fr); }
     .theme-aurora .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-aurora .ar-newsletter { padding: 24px 20px; }
 }
-@media (max-width: 520px) {
-    .theme-aurora .ar-header { padding: 12px 16px; }
-    .theme-aurora .ar-shell { padding: 18px 16px 40px; }
-    .theme-aurora .product-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-    .theme-aurora .ar-hero { padding: 22px 18px; }
-    .theme-aurora .ar-hero h1 { font-size: 20px; }
+@media (max-width: 560px) {
+    .theme-aurora .ar-header { padding: 14px 18px; }
+    .theme-aurora .ar-hero h1 { font-size: 24px; }
 }

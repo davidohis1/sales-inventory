@@ -1,52 +1,101 @@
-/* Wink theme — clean product-list, black/white minimal with a promo strip. */
-.theme-wink { --wk-ink: #111827; --wk-border: #e5e7eb; background: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--wk-ink); }
-.theme-wink .wk-nav { display: flex; align-items: center; gap: 18px; padding: 16px 28px; border-bottom: 1px solid var(--wk-border); position: sticky; top: 0; background: #fff; z-index: 20; flex-wrap: wrap; }
-.theme-wink .wk-logo { font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: var(--wk-ink); display: flex; align-items: center; gap: 8px; }
-.theme-wink .wk-logo-img { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; }
-.theme-wink .wk-search-wrap { flex: 1; min-width: 160px; position: relative; }
-.theme-wink .wk-search { width: 100%; max-width: 460px; padding: 10px 40px 10px 14px; border: 1px solid var(--wk-border); border-radius: 999px; background: #f9fafb; }
-.theme-wink .wk-search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 13px; color: #9ca3af; }
-.theme-wink .wk-cart { position: relative; font-size: 20px; }
-.theme-wink .cart-count { position: absolute; top: -6px; right: -10px; background: var(--wk-ink); color: #fff; border-radius: 999px; font-size: 10.5px; padding: 1px 6px; }
+/* Wink theme — bold green/orange deals-driven storefront (ShopEase style). */
+.theme-wink { --wk-green: #17351f; --wk-orange: #f4622d; --wk-bg: #ffffff; --wk-border: #eee7dd; --wk-cream: #faf3ea; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1c2118; }
+.theme-wink .wk-topbar { background: var(--wk-green); color: #fff; display: flex; justify-content: center; gap: 40px; padding: 8px 16px; font-size: 12px; flex-wrap: wrap; }
+.theme-wink .wk-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; flex-wrap: wrap; gap: 14px; }
+.theme-wink .wk-logo { font-weight: 800; font-size: 19px; display: flex; align-items: center; gap: 8px; color: var(--wk-green); }
+.theme-wink .wk-logo-icon { background: var(--wk-orange); color: #fff; width: 30px; height: 30px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; }
+.theme-wink .wk-logo-img { width: 30px; height: 30px; border-radius: 8px; object-fit: cover; }
+.theme-wink .wk-links { display: flex; gap: 24px; font-size: 13.5px; font-weight: 600; }
+.theme-wink .wk-links a { color: #1c2118; }
+.theme-wink .wk-shop-btn { background: var(--wk-orange); color: #fff; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; }
 
-.theme-wink .wk-promo { background: var(--wk-ink); color: #fff; text-align: center; padding: 9px; font-size: 13px; }
-.theme-wink .wk-crumb { max-width: 1240px; margin: 16px auto 0; padding: 0 28px; font-size: 12.5px; color: #9ca3af; }
+.theme-wink .wk-hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 30px; align-items: center; max-width: 1200px; margin: 10px auto 30px; padding: 0 40px; }
+.theme-wink .wk-hero-card { background: var(--wk-green); color: #fff; border-radius: 22px; padding: 46px 44px; }
+.theme-wink .wk-hero-tag { background: rgba(255,255,255,0.12); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; padding: 5px 12px; border-radius: 999px; display: inline-block; margin-bottom: 16px; }
+.theme-wink .wk-hero-card h1 { font-size: 38px; margin: 0 0 10px; line-height: 1.1; }
+.theme-wink .wk-hero-card > p { opacity: 0.85; margin: 0 0 22px; font-size: 14px; }
+.theme-wink .wk-hero-trust { display: flex; gap: 22px; margin-bottom: 26px; font-size: 12px; flex-wrap: wrap; }
+.theme-wink .wk-hero-trust em { font-style: normal; opacity: 0.7; font-size: 10.5px; }
+.theme-wink .wk-hero-card .btn-store { background: var(--wk-orange); }
+.theme-wink .wk-hero-card .btn-store:hover { background: #d94e1c; }
+.theme-wink .wk-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 1/1; }
+.theme-wink .wk-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+.theme-wink .wk-badge { position: absolute; top: 16px; right: 16px; background: var(--wk-orange); color: #fff; width: 76px; height: 76px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; text-align: center; line-height: 1.2; }
+.theme-wink .wk-badge strong { font-size: 17px; }
 
-.theme-wink .wk-shell { display: grid; grid-template-columns: 230px 1fr; gap: 30px; max-width: 1240px; margin: 0 auto; padding: 16px 28px 60px; }
-.theme-wink .wk-filter-toggle { display: none; }
-.theme-wink .wk-sidebar { align-self: start; position: sticky; top: 90px; }
-.theme-wink .wk-side-block { margin-bottom: 26px; }
-.theme-wink .wk-side-head { display: flex; justify-content: space-between; font-weight: 700; font-size: 13.5px; margin-bottom: 12px; }
-.theme-wink .wk-side-head span { font-weight: 400; color: #9ca3af; font-size: 12px; cursor: pointer; }
-.theme-wink .cat-checkbox { display: flex; align-items: center; gap: 8px; font-size: 13.5px; margin-bottom: 10px; cursor: pointer; }
-.theme-wink .wk-price-row { display: flex; gap: 8px; }
-.theme-wink .wk-price-row input { width: 50%; padding: 8px 10px; border: 1px solid var(--wk-border); border-radius: 6px; }
+.theme-wink .wk-features { display: flex; justify-content: space-around; gap: 16px; flex-wrap: wrap; background: var(--wk-cream); padding: 20px 40px; max-width: 1200px; margin: 0 auto 40px; border-radius: 16px; }
+.theme-wink .wk-features div { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 12px; text-align: center; }
+.theme-wink .wk-features span { color: #8a8578; }
 
-.theme-wink .wk-title-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
-.theme-wink .wk-title-row h1 { font-size: 22px; margin: 0 0 4px; }
+.theme-wink .wk-cats { max-width: 1200px; margin: 0 auto 50px; padding: 0 40px; }
+.theme-wink .wk-cats h2 { text-align: center; font-size: 24px; margin-bottom: 26px; }
+.theme-wink .wk-cat-row { display: flex; justify-content: center; gap: 26px; flex-wrap: wrap; }
+.theme-wink .wk-cat-item { display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; width: 110px; text-align: center; }
+.theme-wink .wk-cat-thumb { width: 90px; height: 90px; border-radius: 50%; background-size: cover; background-position: center; background-color: var(--wk-cream); }
 
-.theme-wink .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 16px; }
-.theme-wink .product-card { display: block; }
-.theme-wink .thumb { position: relative; aspect-ratio: 4/5; background: #f3f4f6; overflow: hidden; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #c1c5cc; font-size: 12px; }
+.theme-wink .wk-deal { display: grid; grid-template-columns: 1.2fr 1fr; gap: 0; max-width: 1200px; margin: 0 auto 50px; background: var(--wk-cream); border-radius: 20px; overflow: hidden; }
+.theme-wink .wk-deal-text { padding: 44px; }
+.theme-wink .wk-deal-tag { color: var(--wk-orange); font-weight: 800; font-size: 12px; letter-spacing: 0.05em; }
+.theme-wink .wk-deal-text h2 { font-size: 28px; margin: 8px 0; }
+.theme-wink .wk-deal-text > p { color: #8a8578; margin: 0 0 20px; }
+.theme-wink .wk-countdown { display: flex; gap: 8px; align-items: center; margin-bottom: 24px; font-weight: 700; }
+.theme-wink .wk-countdown div { background: var(--wk-green); color: #fff; border-radius: 10px; padding: 8px 12px; text-align: center; min-width: 46px; }
+.theme-wink .wk-countdown span { display: block; font-size: 18px; }
+.theme-wink .wk-countdown em { font-style: normal; font-size: 9px; opacity: 0.7; font-weight: 500; }
+.theme-wink .wk-deal-card { background: #fff; margin: 24px 24px 24px 0; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; }
+.theme-wink .wk-deal-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 12px; }
+.theme-wink .wk-deal-info strong { display: block; font-size: 14.5px; }
+.theme-wink .wk-deal-cat { font-size: 12px; color: #8a8578; }
+.theme-wink .wk-deal-bar { height: 6px; background: var(--wk-border); border-radius: 999px; margin: 10px 0 6px; overflow: hidden; }
+.theme-wink .wk-deal-bar div { height: 100%; background: var(--wk-orange); }
+.theme-wink .wk-deal-left { font-size: 11.5px; color: var(--wk-orange); font-weight: 700; }
+
+.theme-wink .wk-arrivals { max-width: 1200px; margin: 0 auto 40px; padding: 0 40px; }
+.theme-wink .wk-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.theme-wink .wk-section-head h2 { font-size: 24px; margin: 0; }
+.theme-wink .wk-cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.theme-wink .cat-pill { border: 1px solid var(--wk-border); background: #fff; border-radius: 999px; padding: 7px 16px; font-size: 12.5px; }
+.theme-wink .cat-pill.active { background: var(--wk-green); color: #fff; border-color: var(--wk-green); }
+
+.theme-wink .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.theme-wink .product-card { border: 1px solid var(--wk-border); border-radius: 14px; overflow: hidden; }
+.theme-wink .thumb { position: relative; aspect-ratio: 1; background: var(--wk-cream); }
 .theme-wink .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.theme-wink .wish-btn { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: none; font-size: 14px; }
-.theme-wink .info { padding: 10px 2px; }
-.theme-wink .name { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+.theme-wink .wish-btn { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: none; }
+.theme-wink .info { padding: 12px 14px; }
+.theme-wink .name { font-weight: 700; font-size: 13.5px; margin-bottom: 4px; }
 .theme-wink .cat-tag { display: none; }
-.theme-wink .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
-.theme-wink .price { font-weight: 700; }
-.theme-wink .quick-add { background: var(--wk-ink); color: #fff; border: none; width: 30px; height: 30px; border-radius: 50%; }
-.theme-wink .grid-loading, .theme-wink .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #9ca3af; }
+.theme-wink .price-row { display: flex; justify-content: space-between; align-items: center; }
+.theme-wink .price { color: var(--wk-green); font-weight: 800; font-size: 14px; }
+.theme-wink .quick-add { background: var(--wk-orange); color: #fff; border: none; width: 28px; height: 28px; border-radius: 8px; }
+.theme-wink .grid-loading, .theme-wink .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #8a8578; }
 
-@media (max-width: 880px) {
-    .theme-wink .wk-shell { grid-template-columns: 1fr; }
-    .theme-wink .wk-filter-toggle { display: block; border: 1px solid var(--wk-border); border-radius: 8px; padding: 9px 14px; margin-bottom: 14px; width: fit-content; }
-    .theme-wink .wk-sidebar { display: none; position: static; }
-    .theme-wink .wk-sidebar.open { display: block; }
+.theme-wink .wk-newsletter { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; background: var(--wk-green); color: #fff; padding: 34px 40px; margin-top: 40px; }
+.theme-wink .wk-newsletter h3 { margin: 0 0 4px; }
+.theme-wink .wk-newsletter p { margin: 0; opacity: 0.8; font-size: 13.5px; }
+.theme-wink .wk-newsletter form { display: flex; gap: 8px; }
+.theme-wink .wk-newsletter input { padding: 10px 14px; border-radius: 8px; border: none; min-width: 240px; }
+.theme-wink .wk-newsletter .btn-store { background: var(--wk-orange); }
+
+.theme-wink .btn-store { background: var(--wk-orange); border-radius: 8px; }
+.theme-wink .btn-store:hover { background: #d94e1c; }
+.theme-wink .store-footer { background: #10190f; }
+
+@media (max-width: 980px) {
+    .theme-wink .wk-hero { grid-template-columns: 1fr; padding: 0 24px; }
+    .theme-wink .wk-links { display: none; }
+    .theme-wink .wk-deal { grid-template-columns: 1fr; }
+    .theme-wink .wk-deal-card { margin: 0 24px 24px; }
+    .theme-wink .wk-cats, .theme-wink .wk-arrivals { padding: 0 24px; }
     .theme-wink .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-wink .wk-features { padding: 18px 20px; }
 }
-@media (max-width: 520px) {
-    .theme-wink .wk-nav { padding: 12px 16px; }
-    .theme-wink .wk-shell { padding: 12px 16px 40px; }
-    .theme-wink .wk-crumb { padding: 0 16px; }
+@media (max-width: 560px) {
+    .theme-wink .wk-nav { padding: 14px 18px; }
+    .theme-wink .wk-hero-card { padding: 30px 24px; }
+    .theme-wink .wk-hero-card h1 { font-size: 28px; }
+    .theme-wink .wk-topbar { flex-direction: column; gap: 4px; text-align: center; }
+    .theme-wink .wk-cat-row { gap: 16px; }
+    .theme-wink .wk-cat-item { width: 80px; }
+    .theme-wink .wk-cat-thumb { width: 70px; height: 70px; }
 }

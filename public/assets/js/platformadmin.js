@@ -53,6 +53,26 @@
         get: (p) => PA.request('GET', p),
         post: (p, b) => PA.request('POST', p, b),
         put: (p, b) => PA.request('PUT', p, b),
+        del: (p) => PA.request('DELETE', p),
+        async upload(path, formData) {
+            loading(true);
+            const token = PA.token();
+            const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+            let res;
+            try {
+                res = await fetch(`${BASE}/api/platformadmin${path}`, { method: 'POST', headers, body: formData });
+            } catch (e) {
+                loading(false);
+                throw new Error('Network error — could not reach the server.');
+            }
+            loading(false);
+            const json = await res.json().catch(() => ({ success: false, message: 'Invalid server response' }));
+            if (!json.success) {
+                if (res.status === 401) { PA.clearToken(); renderLogin(); }
+                throw new Error(json.message || 'Upload failed');
+            }
+            return json.data;
+        },
     };
 
     /* ---------------------------------------------------------------
@@ -166,9 +186,70 @@
         <div class="table-wrap" style="margin-bottom:26px;"><table><thead><tr><th>Business</th><th>Plan</th><th>Amount</th><th>Date</th></tr></thead><tbody>${recentRows}</tbody></table></div>
 
         <div class="section-title">Manage Plans, Pricing &amp; Features</div>
-        <div class="grid grid-3" id="plan-editor-grid"></div>`;
+        <div class="grid grid-3" id="plan-editor-grid"></div>
+
+        <div class="section-title">Header Image Bank (per store category)</div>
+        <p class="text-muted" style="margin-top:-6px;">Tenants pick one of these as their storefront's header photo based on their store category.</p>
+        <div class="form-row" style="max-width:520px; align-items:flex-end;">
+            <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" id="hdr-category">
+                    ${(stats.store_types || ['fashion', 'tech', 'beauty', 'grocery', 'general']).map((t) => `<option value="${t}">${t[0].toUpperCase() + t.slice(1)}</option>`).join('')}
+                </select>
+            </div>
+        </div>
+        <form id="hdr-upload-form" class="flex" style="gap:8px; margin-bottom:18px;">
+            <input type="file" name="image" accept="image/png,image/jpeg,image/webp" required>
+            <input type="text" name="label" class="form-control" placeholder="Label (optional)" style="max-width:220px;">
+            <button class="btn btn-sm" type="submit">Upload</button>
+        </form>
+        <div class="grid grid-4" id="hdr-gallery"></div>`;
 
         renderPlanEditors(plans);
+        await loadHeaderImages();
+        document.getElementById('hdr-category').addEventListener('change', renderHeaderGallery);
+        document.getElementById('hdr-upload-form').addEventListener('submit', uploadHeaderImage);
+    }
+
+    let headerImagesByCategory = {};
+    async function loadHeaderImages() {
+        const res = await PA.get('/header-images');
+        headerImagesByCategory = res.images || {};
+        renderHeaderGallery();
+    }
+    function renderHeaderGallery() {
+        const category = document.getElementById('hdr-category').value;
+        const images = headerImagesByCategory[category] || [];
+        const gallery = document.getElementById('hdr-gallery');
+        gallery.innerHTML = images.length ? images.map((img) => `
+            <div class="card" style="padding:8px;">
+                <div class="listing-thumb" style="width:100%; height:100px;"><img src="${BASE}${img.image_path}" style="width:100%;height:100%;object-fit:cover;"></div>
+                <div class="flex-between" style="margin-top:6px;">
+                    <span class="text-muted" style="font-size:11px;">${esc(img.label || 'Untitled')}</span>
+                    <button class="btn btn-sm btn-danger" data-remove="${img.id}">Remove</button>
+                </div>
+            </div>`).join('') : `<p class="text-muted" style="grid-column:1/-1;">No header images for this category yet — upload one above.</p>`;
+
+        gallery.querySelectorAll('[data-remove]').forEach((btn) => btn.addEventListener('click', async () => {
+            if (!confirm('Remove this header image? Tenants currently using it will keep it until they pick another.')) return;
+            try {
+                await PA.del(`/header-images/${btn.dataset.remove}`);
+                toast('Header image removed', 'success');
+                await loadHeaderImages();
+            } catch (e) { toast(e.message, 'error'); }
+        }));
+    }
+    async function uploadHeaderImage(e) {
+        e.preventDefault();
+        const form = e.target;
+        const fd = new FormData(form);
+        fd.append('store_type', document.getElementById('hdr-category').value);
+        try {
+            await PA.upload('/header-images', fd);
+            toast('Header image uploaded', 'success');
+            form.reset();
+            await loadHeaderImages();
+        } catch (err) { toast(err.message, 'error'); }
     }
 
     function renderPlanEditors(plans) {

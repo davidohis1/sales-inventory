@@ -1,56 +1,93 @@
-/* NovaTrend theme — trendy lifestyle storefront. Orange accent. */
-.theme-novatrend { --nt-orange: #ea580c; --nt-border: #e5e7eb; background: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-.theme-novatrend .nt-topbar { background: #111827; color: #fff; text-align: center; font-size: 12px; padding: 7px; }
-.theme-novatrend .nt-nav { display: flex; align-items: center; gap: 18px; padding: 16px 28px; border-bottom: 1px solid var(--nt-border); flex-wrap: wrap; }
-.theme-novatrend .nt-logo { font-weight: 800; font-size: 19px; color: #111827; display: flex; align-items: center; gap: 8px; }
-.theme-novatrend .nt-logo-img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
-.theme-novatrend .nt-search-wrap { flex: 1; min-width: 160px; }
-.theme-novatrend .nt-search-wrap input { width: 100%; max-width: 440px; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--nt-border); background: #f9fafb; }
-.theme-novatrend .nt-cart { position: relative; font-weight: 600; font-size: 14px; color: #111827; }
-.theme-novatrend .cart-count { background: var(--nt-orange); color: #fff; border-radius: 999px; padding: 1px 7px; font-size: 10.5px; margin-left: 4px; }
+/* NovaTrend theme — bold orange/black trendy streetwear-style storefront. */
+.theme-novatrend { --nv-black: #16181d; --nv-orange: #ff5722; --nv-bg: #fff; --nv-border: #eee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--nv-black); }
+.theme-novatrend .nt-topbar { background: var(--nv-black); color: #fff; display: flex; justify-content: center; gap: 34px; padding: 8px 16px; font-size: 12px; flex-wrap: wrap; }
+.theme-novatrend .nt-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; border-bottom: 1px solid var(--nv-border); flex-wrap: wrap; gap: 14px; }
+.theme-novatrend .nt-logo { font-weight: 800; font-size: 20px; display: flex; align-items: center; gap: 8px; }
+.theme-novatrend .nt-logo-img { width: 30px; height: 30px; border-radius: 8px; object-fit: cover; }
+.theme-novatrend .nt-links { display: flex; gap: 26px; font-size: 13.5px; font-weight: 600; }
+.theme-novatrend .nt-links a { color: var(--nv-black); padding-bottom: 4px; }
+.theme-novatrend .nt-links a.active { color: var(--nv-orange); border-bottom: 2px solid var(--nv-orange); }
+.theme-novatrend .nt-icons { display: flex; align-items: center; gap: 18px; font-size: 16px; }
+.theme-novatrend .nt-cart { position: relative; }
+.theme-novatrend .cart-count { position: absolute; top: -8px; right: -10px; background: var(--nv-orange); color: #fff; border-radius: 999px; padding: 1px 6px; font-size: 10px; }
+.theme-novatrend .nt-search-wrap { max-height: 0; overflow: hidden; transition: max-height 0.2s; background: #fafafa; }
+.theme-novatrend .nt-search-wrap.open { max-height: 60px; padding: 12px 40px; }
+.theme-novatrend .nt-search-wrap input { width: 100%; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--nv-border); }
 
-.theme-novatrend .nt-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; max-width: 1200px; margin: 20px auto; padding: 20px 28px; }
-.theme-novatrend .nt-eyebrow { color: var(--nt-orange); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; }
-.theme-novatrend .nt-hero h1 { font-size: 36px; margin: 12px 0 14px; color: #111827; line-height: 1.15; }
-.theme-novatrend .nt-hero p { color: #6b7280; margin-bottom: 20px; max-width: 420px; }
-.theme-novatrend .nt-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5; background: #f3f4f6; }
+.theme-novatrend .nt-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; max-width: 1200px; margin: 20px auto; padding: 30px 40px; }
+.theme-novatrend .nt-eyebrow { color: var(--nv-orange); font-weight: 800; font-size: 12px; letter-spacing: 0.08em; }
+.theme-novatrend .nt-hero h1 { font-size: 44px; line-height: 1.1; margin: 12px 0 16px; font-weight: 800; }
+.theme-novatrend .nt-hero-text > p { color: #6b7280; font-size: 14.5px; margin-bottom: 24px; max-width: 400px; }
+.theme-novatrend .nt-hero-actions { display: flex; gap: 12px; margin-bottom: 22px; }
+.theme-novatrend .nt-outline-btn { border: 2px solid var(--nv-black); color: var(--nv-black); padding: 11px 20px; border-radius: 999px; font-weight: 700; font-size: 13.5px; }
+.theme-novatrend .nt-outline-btn.light { border-color: #fff; color: #fff; }
+.theme-novatrend .nt-loved { font-size: 12.5px; color: #6b7280; font-weight: 600; }
+.theme-novatrend .nt-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5; background: #f4f4f4; }
 .theme-novatrend .nt-hero-image img { width: 100%; height: 100%; object-fit: cover; }
-.theme-novatrend .btn-store { background: var(--nt-orange); }
-.theme-novatrend .btn-store:hover { background: #c2410c; }
+.theme-novatrend .nt-float { position: absolute; background: #fff; border-radius: 12px; padding: 10px 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); font-size: 12px; }
+.theme-novatrend .nt-float strong { display: block; font-size: 12.5px; }
+.theme-novatrend .nt-float span { color: var(--nv-orange); font-weight: 700; }
+.theme-novatrend .nt-float-1 { top: 12%; left: -8%; }
+.theme-novatrend .nt-float-2 { top: 8%; right: -8%; }
+.theme-novatrend .nt-float-3 { bottom: 18%; left: -6%; }
+@media (max-width: 980px) { .theme-novatrend .nt-float { display: none; } }
 
-.theme-novatrend .nt-features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1200px; margin: 10px auto 30px; padding: 20px 28px; border-top: 1px solid var(--nt-border); border-bottom: 1px solid var(--nt-border); }
-.theme-novatrend .nt-features div { text-align: center; }
-.theme-novatrend .nt-features strong { display: block; font-size: 13.5px; margin-bottom: 3px; }
-.theme-novatrend .nt-features span { font-size: 11.5px; color: #9ca3af; }
+.theme-novatrend .nt-features { display: flex; justify-content: space-around; gap: 16px; flex-wrap: wrap; background: #fafafa; padding: 22px 40px; }
+.theme-novatrend .nt-features div { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 12px; text-align: center; }
+.theme-novatrend .nt-features span { color: #8a8f98; }
+.theme-novatrend .nt-features-bottom { background: #fff; border-top: 1px solid var(--nv-border); margin-top: 10px; }
 
-.theme-novatrend .nt-categories, .theme-novatrend .nt-products { max-width: 1200px; margin: 0 auto; padding: 0 28px 30px; }
-.theme-novatrend .nt-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.theme-novatrend .nt-section-head h2 { font-size: 19px; margin: 0; }
-.theme-novatrend .nt-cat-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; }
-.theme-novatrend .cat-pill { flex-shrink: 0; border: 1px solid var(--nt-border); background: #fff; border-radius: 999px; padding: 9px 18px; font-size: 12.5px; white-space: nowrap; }
-.theme-novatrend .cat-pill.active { background: var(--nt-orange); color: #fff; border-color: var(--nt-orange); }
+.theme-novatrend .nt-categories, .theme-novatrend .nt-products { max-width: 1200px; margin: 0 auto; padding: 40px; }
+.theme-novatrend .nt-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+.theme-novatrend .nt-section-head h2 { font-size: 24px; margin: 0; font-weight: 800; }
+.theme-novatrend .nt-view-all { font-size: 13px; font-weight: 700; color: var(--nv-orange); }
+.theme-novatrend .nt-cat-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.theme-novatrend .nt-cat-tile { background: #fafafa; border-radius: 14px; padding: 22px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; text-align: center; }
+.theme-novatrend .nt-cat-tile span { font-size: 26px; }
+.theme-novatrend .nt-cat-tile:hover { background: #fff0ea; }
 
-.theme-novatrend .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.theme-novatrend .product-card { display: block; }
-.theme-novatrend .thumb { position: relative; aspect-ratio: 1; background: #f3f4f6; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #d1d5db; font-size: 12px; }
+.theme-novatrend .nt-cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.theme-novatrend .cat-pill { border: 1px solid var(--nv-border); background: #fff; border-radius: 999px; padding: 7px 16px; font-size: 12.5px; font-weight: 600; }
+.theme-novatrend .cat-pill.active { background: var(--nv-black); color: #fff; border-color: var(--nv-black); }
+
+.theme-novatrend .product-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.theme-novatrend .product-card { border: 1px solid var(--nv-border); border-radius: 14px; overflow: hidden; }
+.theme-novatrend .thumb { position: relative; aspect-ratio: 1; background: #fafafa; }
 .theme-novatrend .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.theme-novatrend .wish-btn { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: none; font-size: 14px; }
-.theme-novatrend .info { padding: 10px 4px; }
-.theme-novatrend .name { font-weight: 600; font-size: 13.5px; }
-.theme-novatrend .cat-tag { font-size: 11px; color: #9ca3af; margin-bottom: 6px; }
+.theme-novatrend .wish-btn { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: none; font-size: 12px; }
+.theme-novatrend .info { padding: 10px 12px; }
+.theme-novatrend .name { font-weight: 700; font-size: 12.5px; margin-bottom: 4px; }
+.theme-novatrend .cat-tag { display: none; }
 .theme-novatrend .price-row { display: flex; justify-content: space-between; align-items: center; }
-.theme-novatrend .price { font-weight: 700; color: var(--nt-orange); }
-.theme-novatrend .quick-add { background: #111827; color: #fff; border: none; width: 28px; height: 28px; border-radius: 8px; }
-.theme-novatrend .grid-loading, .theme-novatrend .empty-store { grid-column: 1/-1; text-align: center; padding: 40px 20px; color: #9ca3af; }
+.theme-novatrend .price { color: var(--nv-black); font-weight: 800; font-size: 13.5px; }
+.theme-novatrend .quick-add { background: var(--nv-black); color: #fff; border: none; width: 26px; height: 26px; border-radius: 8px; }
+.theme-novatrend .quick-add:hover { background: var(--nv-orange); }
+.theme-novatrend .grid-loading, .theme-novatrend .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #8a8f98; }
 
-.theme-novatrend .nt-footer { text-align: center; padding: 22px; color: #9ca3af; font-size: 12.5px; border-top: 1px solid var(--nt-border); }
+.theme-novatrend .nt-promo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 1200px; margin: 20px auto 0; padding: 0 40px; }
+.theme-novatrend .nt-promo-card { border-radius: 16px; height: 190px; padding: 26px; display: flex; flex-direction: column; justify-content: center; background-size: cover; background-position: center; position: relative; }
+.theme-novatrend .nt-promo-dark { background: linear-gradient(135deg, var(--nv-orange), #c2410c); color: #fff; }
+.theme-novatrend .nt-promo-dark span { font-size: 12px; opacity: 0.9; }
+.theme-novatrend .nt-promo-dark strong { font-size: 24px; margin: 6px 0 14px; }
+.theme-novatrend .nt-promo-overlay { position: relative; z-index: 1; color: #fff; }
+.theme-novatrend .nt-promo-overlay span { font-size: 12px; opacity: 0.9; }
+.theme-novatrend .nt-promo-overlay strong { font-size: 24px; display: block; margin: 6px 0 14px; }
+.theme-novatrend .nt-promo-card:not(.nt-promo-dark)::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); border-radius: 16px; }
 
-@media (max-width: 880px) {
-    .theme-novatrend .nt-hero { grid-template-columns: 1fr; }
-    .theme-novatrend .nt-features { grid-template-columns: repeat(2, 1fr); }
+.theme-novatrend .btn-store { background: var(--nv-black); border-radius: 999px; }
+.theme-novatrend .btn-store:hover { background: var(--nv-orange); }
+.theme-novatrend .store-footer { background: #0d0e11; }
+
+@media (max-width: 980px) {
+    .theme-novatrend .nt-hero { grid-template-columns: 1fr; padding: 20px 24px; }
+    .theme-novatrend .nt-links { display: none; }
+    .theme-novatrend .nt-cat-grid { grid-template-columns: repeat(3, 1fr); }
     .theme-novatrend .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-novatrend .nt-categories, .theme-novatrend .nt-products { padding: 30px 24px; }
+    .theme-novatrend .nt-promo-row { grid-template-columns: 1fr; padding: 0 24px; }
 }
-@media (max-width: 520px) {
-    .theme-novatrend .nt-nav, .theme-novatrend .nt-hero, .theme-novatrend .nt-features, .theme-novatrend .nt-categories, .theme-novatrend .nt-products { padding-left: 16px; padding-right: 16px; }
-    .theme-novatrend .nt-hero h1 { font-size: 26px; }
+@media (max-width: 560px) {
+    .theme-novatrend .nt-nav { padding: 14px 18px; }
+    .theme-novatrend .nt-hero h1 { font-size: 30px; }
+    .theme-novatrend .nt-cat-grid { grid-template-columns: repeat(2, 1fr); }
 }

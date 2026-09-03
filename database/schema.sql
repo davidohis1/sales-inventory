@@ -76,6 +76,35 @@ CREATE TABLE IF NOT EXISTS platform_admins (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS withdrawals (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    tenant_id INT UNSIGNED NOT NULL,
+    source ENUM('store','digital_product') NOT NULL DEFAULT 'store',
+    amount DECIMAL(14,2) NOT NULL,
+    fee_percent DECIMAL(5,2) NOT NULL DEFAULT 0,
+    fee_amount DECIMAL(14,2) NOT NULL DEFAULT 0,
+    net_amount DECIMAL(14,2) NOT NULL,
+    bank_name VARCHAR(120) NULL,
+    account_name VARCHAR(120) NULL,
+    account_number VARCHAR(40) NULL,
+    status ENUM('requested','processing','paid','rejected') NOT NULL DEFAULT 'requested',
+    admin_notes VARCHAR(255) NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    processed_at DATETIME NULL,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE,
+    INDEX idx_withdrawals_tenant (tenant_id, source)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS header_images (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    store_type VARCHAR(32) NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    label VARCHAR(120) NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_header_images_type (store_type)
+) ENGINE=InnoDB;
+
 -- ---------------------------------------------------------------------
 -- BRANCHES (Phase 2 - Multi-Branch, scaffolded now)
 -- ---------------------------------------------------------------------

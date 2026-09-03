@@ -1,6 +1,12 @@
 <?php
+use App\Core\StockImages;
+use App\Models\Category;
 $content = $settings['content'] ?? [];
 $h = fn ($k, $d) => htmlspecialchars($content[$k] ?? $d);
+$storeType = $settings['store_type'] ?? 'general';
+$heroImg = !empty($content['banner_path']) ? $base . $content['banner_path'] : StockImages::url($storeType, 0, 800, 700);
+$categories = Category::allForTenant((int) $tenant['id']);
+$dealImg = StockImages::url($storeType, 1, 500, 500);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,47 +17,94 @@ $h = fn ($k, $d) => htmlspecialchars($content[$k] ?? $d);
 <link rel="stylesheet" href="<?= $base ?>/assets/css/themes/wink.css">
 </head>
 <body class="theme-wink">
+<div class="wk-topbar">
+    <span>&#128666; Free Shipping — On orders over <?= htmlspecialchars($tenant['currency']) ?>75</span>
+    <span>&#127991; Extra 10% Off — On prepaid orders</span>
+</div>
 <nav class="wk-nav">
     <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>" class="wk-logo">
-        <?php if (!empty($content['logo_path'])): ?><img src="<?= $base . htmlspecialchars($content['logo_path']) ?>" alt="" class="wk-logo-img"><?php endif; ?>
+        <?php if (!empty($content['logo_path'])): ?><img src="<?= $base . htmlspecialchars($content['logo_path']) ?>" alt="" class="wk-logo-img"><?php else: ?><span class="wk-logo-icon">&#128717;</span><?php endif; ?>
         <?= htmlspecialchars($tenant['business_name']) ?>
     </a>
-    <div class="wk-search-wrap"><input id="store-search" class="wk-search" placeholder="Search…"><span class="wk-search-icon">&#128269;</span></div>
-    <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>/cart" class="wk-cart">&#128722;<span class="cart-count" id="cart-count">0</span></a>
+    <div class="wk-links"><a href="#shop">New In</a><a href="#categories">Categories</a><a href="#deal">Deals</a></div>
+    <a href="#shop" class="wk-shop-btn">Shop Now</a>
 </nav>
 
-<div class="wk-promo"><?= $h('announcement', $h('hero_subheading', 'New arrivals every week — shop the collection now')) ?></div>
-
-<div class="wk-crumb">Home &gt; <?= $h('collection_title', 'Our Collection') ?></div>
-
-<div class="wk-shell">
-    <button class="wk-filter-toggle" id="wk-filter-toggle">&#9776; Filter</button>
-    <aside class="wk-sidebar" id="wk-sidebar">
-        <div class="wk-side-block">
-            <div class="wk-side-head">Category <span>Reset</span></div>
-            <div id="cat-filter-list" data-mode="checkbox"></div>
+<section class="wk-hero">
+    <div class="wk-hero-card">
+        <span class="wk-hero-tag">LIMITED TIME ONLY</span>
+        <h1><?= $h('hero_heading', 'Shop More, Save More!') ?></h1>
+        <p><?= $h('hero_subheading', 'Discover amazing deals on your favorite products.') ?></p>
+        <div class="wk-hero-trust">
+            <span>&#9989; Best Prices<br><em>Guaranteed</em></span>
+            <span>&#128274; Secure Payments</span>
+            <span>&#128666; Fast Delivery<br><em>Worldwide</em></span>
         </div>
-        <div class="wk-side-block">
-            <div class="wk-side-head">Price</div>
-            <div class="wk-price-row">
-                <input type="number" id="price-min" placeholder="Min">
-                <input type="number" id="price-max" placeholder="Max">
-            </div>
-            <button class="btn-store" id="filter-apply" style="width:100%; margin-top:10px;">Apply</button>
-        </div>
-    </aside>
+        <a href="#shop" class="btn-store">Explore Collection &rarr;</a>
+    </div>
+    <div class="wk-hero-image">
+        <img src="<?= htmlspecialchars($heroImg) ?>" alt="">
+        <div class="wk-badge">Up to<br><strong>50%</strong><br>OFF</div>
+    </div>
+</section>
 
-    <main class="wk-main">
-        <div class="wk-title-row">
-            <div>
-                <h1><?= $h('hero_heading', 'Explore The Various Collection') ?></h1>
-                <p class="text-muted"><?= $h('hero_subheading', "Don't miss out on shopping with us.") ?></p>
-            </div>
-            <span id="result-count" class="text-muted"></span>
+<section class="wk-features">
+    <div><strong>&#128666; Free Shipping</strong><span>On orders over <?= htmlspecialchars($tenant['currency']) ?>75</span></div>
+    <div><strong>&#128260; Easy Returns</strong><span>30-day returns</span></div>
+    <div><strong>&#127942; Premium Quality</strong><span>100% original products</span></div>
+    <div><strong>&#127911; 24/7 Support</strong><span>We're here to help</span></div>
+</section>
+
+<section class="wk-cats" id="categories">
+    <h2>Shop By Category</h2>
+    <div class="wk-cat-row">
+        <?php $icons = ['&#128092;','&#128100;','&#127968;','&#128142;','&#127911;','&#128241;']; $i = 0; ?>
+        <?php foreach (array_slice($categories, 0, 6) as $cat): ?>
+        <a href="?category_id=<?= (int) $cat['id'] ?>" class="wk-cat-item">
+            <span class="wk-cat-thumb" style="background-image:url('<?= htmlspecialchars(StockImages::url($storeType, $i + 2, 300, 300)) ?>')"></span>
+            <?= htmlspecialchars($cat['name']) ?>
+        </a>
+        <?php $i++; endforeach; ?>
+        <?php if (empty($categories)): ?><span class="text-muted">Add categories to show them here</span><?php endif; ?>
+    </div>
+</section>
+
+<section class="wk-deal" id="deal">
+    <div class="wk-deal-text">
+        <span class="wk-deal-tag">DEAL OF THE DAY</span>
+        <h2>Grab It Before It's Gone!</h2>
+        <p>Hurry! Limited stock available.</p>
+        <div class="wk-countdown" id="wk-countdown">
+            <div><span id="wk-h">08</span><em>Hrs</em></div>:
+            <div><span id="wk-m">12</span><em>Mins</em></div>:
+            <div><span id="wk-s">45</span><em>Secs</em></div>
         </div>
-        <div class="product-grid" id="product-grid"></div>
-    </main>
-</div>
+        <a href="#shop" class="btn-store">Shop The Deal &rarr;</a>
+    </div>
+    <div class="wk-deal-card">
+        <img src="<?= htmlspecialchars($dealImg) ?>" alt="">
+        <div class="wk-deal-info">
+            <strong><?= $h('deal_product_name', 'Featured Product') ?></strong>
+            <span class="wk-deal-cat"><?= $h('deal_category', 'Trending pick') ?></span>
+            <div class="wk-deal-bar"><div style="width:68%;"></div></div>
+            <span class="wk-deal-left">Only a few items left!</span>
+        </div>
+    </div>
+</section>
+
+<section class="wk-arrivals" id="shop">
+    <div class="wk-section-head"><h2>New Arrivals</h2><span id="result-count" class="text-muted"></span></div>
+    <div id="cat-filter-list" class="wk-cat-pills" data-mode="pills"></div>
+    <div class="product-grid" id="product-grid"></div>
+</section>
+
+<section class="wk-newsletter">
+    <div>
+        <h3>&#9993; Get Exclusive Offers &amp; Updates</h3>
+        <p>Sign up now and get 10% off on your first order!</p>
+    </div>
+    <form id="wk-newsletter-form"><input type="email" placeholder="Enter your email address" required><button class="btn-store" type="submit">Subscribe</button></form>
+</section>
 
 <?php include __DIR__ . '/../partials/footer.php'; ?>
 
@@ -60,7 +113,19 @@ $h = fn ($k, $d) => htmlspecialchars($content[$k] ?? $d);
 <script src="<?= $base ?>/assets/js/store.js"></script>
 <script>
 StoreApp.renderProductList();
-document.getElementById('wk-filter-toggle').addEventListener('click', () => document.getElementById('wk-sidebar').classList.toggle('open'));
+document.getElementById('wk-newsletter-form').addEventListener('submit', (e) => { e.preventDefault(); e.target.reset(); alert('Thanks for subscribing!'); });
+(function countdown() {
+    let total = 8 * 3600 + 12 * 60 + 45;
+    setInterval(() => {
+        total = total > 0 ? total - 1 : 0;
+        const h = String(Math.floor(total / 3600)).padStart(2, '0');
+        const m = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
+        const s = String(total % 60).padStart(2, '0');
+        document.getElementById('wk-h').textContent = h;
+        document.getElementById('wk-m').textContent = m;
+        document.getElementById('wk-s').textContent = s;
+    }, 1000);
+})();
 </script>
 </body>
 </html>

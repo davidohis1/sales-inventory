@@ -61,6 +61,32 @@ class StoreSettingsController
         Response::success(StockImages::bank($storeType, 10));
     }
 
+    /** Pre-uploaded header images for a category, for the tenant's header picker (Theme tab). */
+    public function headerImages(Request $request): void
+    {
+        $storeType = (string) $request->input('store_type', 'general');
+        if (!in_array($storeType, StoreSettings::STORE_TYPES, true)) { Response::error('Invalid category', 422); return; }
+        Response::success(\App\Models\HeaderImage::forCategory($storeType));
+    }
+
+    /** Sets the storefront banner to one of the pre-uploaded header images (instead of a custom upload). */
+    public function selectHeaderImage(Request $request): void
+    {
+        if (!Auth::hasRole(['owner', 'manager'])) { Response::error('Forbidden', 403); return; }
+        $tenantId = Auth::tenantId();
+        $imageId = (int) $request->input('header_image_id', 0);
+        $image = \App\Models\HeaderImage::find($imageId);
+        if (!$image) { Response::error('Header image not found', 404); return; }
+
+        $settings = StoreSettings::get($tenantId);
+        $content = $settings['content'];
+        $content['banner_path'] = $image['image_path'];
+        StoreSettings::upsert($tenantId, $settings['theme'], $settings['store_type'], $content);
+        ActivityLog::record($tenantId, Auth::id(), 'store.header_select', 'Selected a pre-uploaded header image');
+
+        Response::success(StoreSettings::get($tenantId), 'Header image applied');
+    }
+
     /** Uploads the store's logo or hero banner image (kind = logo|banner) and saves its path into content. */
     public function uploadAsset(Request $request): void
     {

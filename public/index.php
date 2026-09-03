@@ -38,7 +38,40 @@ $GLOBALS['base'] = rtrim(Env::get('APP_BASE_PATH', ''), '/');
 if (Env::get('APP_DEBUG', 'false') === 'true') {
     ini_set('display_errors', '1');
     error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', '0');
 }
+
+// Any uncaught PHP error/exception (e.g. a query against a column that
+// doesn't exist yet on an un-migrated database) was previously left to
+// PHP's default handler, which prints raw HTML ("<br />\n<b>Fatal
+// error</b>...") straight into the response body. On an /api/* request
+// that breaks every fetch()'s response.json() with "Unexpected token '<'"
+// even though the underlying bug had nothing to do with the frontend.
+// Convert both into a clean JSON error response instead, so the real
+// cause is visible in the message rather than swallowed by a JSON parse
+// failure.
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) return false;
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+set_exception_handler(function (\Throwable $e) {
+    $isApi = str_starts_with($_SERVER['REQUEST_URI'] ?? '', rtrim(($GLOBALS['base'] ?? '') . '/api', '/'));
+    $debug = Env::get('APP_DEBUG', 'false') === 'true';
+    if (ob_get_level() > 0) ob_end_clean();
+    http_response_code(500);
+    if ($isApi) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false,
+            'message' => $debug ? $e->getMessage() : 'Something went wrong on the server. Please try again.',
+            'errors'  => $debug ? [$e->getFile() . ':' . $e->getLine()] : null,
+        ]);
+    } else {
+        echo $debug ? '<pre>' . htmlspecialchars($e->getMessage() . "\n" . $e->getTraceAsString()) . '</pre>' : 'Something went wrong.';
+    }
+    exit;
+});
 
 $router = new Router();
 $request = new Request();
@@ -82,6 +115,9 @@ $router->get('/api/platformadmin/businesses', fn ($r) => (new App\Controllers\Ad
 $router->post('/api/platformadmin/businesses/{id}/remind', fn ($r) => (new App\Controllers\Admin\PlatformController())->remind($r), [$platformAdmin]);
 $router->get('/api/platformadmin/plans', fn ($r) => (new App\Controllers\Admin\PlatformController())->plans($r), [$platformAdmin]);
 $router->put('/api/platformadmin/plans/{id}', fn ($r) => (new App\Controllers\Admin\PlatformController())->updatePlan($r), [$platformAdmin]);
+$router->get('/api/platformadmin/header-images', fn ($r) => (new App\Controllers\Admin\HeaderImageAdminController())->index($r), [$platformAdmin]);
+$router->post('/api/platformadmin/header-images', fn ($r) => (new App\Controllers\Admin\HeaderImageAdminController())->upload($r), [$platformAdmin]);
+$router->delete('/api/platformadmin/header-images/{id}', fn ($r) => (new App\Controllers\Admin\HeaderImageAdminController())->delete($r), [$platformAdmin]);
 
 // -----------------------------------------------------------------
 // API ROUTES  — /api/{slug}/...
@@ -149,6 +185,8 @@ $router->get('/api/{slug}/store-settings', fn ($r) => (new App\Controllers\Api\S
 $router->put('/api/{slug}/store-settings', fn ($r) => (new App\Controllers\Api\StoreSettingsController())->update($r), [$auth, $tenantStatus]);
 $router->get('/api/{slug}/store-settings/stock-images', fn ($r) => (new App\Controllers\Api\StoreSettingsController())->stockImages($r), [$auth, $tenantStatus]);
 $router->post('/api/{slug}/store-settings/upload/{kind}', fn ($r) => (new App\Controllers\Api\StoreSettingsController())->uploadAsset($r), [$auth, $tenantStatus]);
+$router->get('/api/{slug}/store-settings/header-images', fn ($r) => (new App\Controllers\Api\StoreSettingsController())->headerImages($r), [$auth, $tenantStatus]);
+$router->post('/api/{slug}/store-settings/header-image', fn ($r) => (new App\Controllers\Api\StoreSettingsController())->selectHeaderImage($r), [$auth, $tenantStatus]);
 
 $router->get('/api/{slug}/orders', fn ($r) => (new App\Controllers\Api\OrderController())->index($r), [$auth, $tenantStatus]);
 $router->get('/api/{slug}/orders/{id}', fn ($r) => (new App\Controllers\Api\OrderController())->show($r), [$auth, $tenantStatus]);
@@ -163,6 +201,8 @@ $router->post('/api/{slug}/store/order', fn ($r) => (new App\Controllers\Api\Ord
 $router->post('/api/{slug}/store/order/{id}/mark-paid', fn ($r) => (new App\Controllers\Api\OrderController())->markPaid($r));
 $router->post('/api/{slug}/store/order/{id}/pay', fn ($r) => (new App\Controllers\Api\OrderController())->payInit($r));
 $router->post('/api/{slug}/store/order/{id}/pay/verify', fn ($r) => (new App\Controllers\Api\OrderController())->verifyPayment($r));
+$router->get('/api/{slug}/earnings', fn ($r) => (new App\Controllers\Api\EarningsController())->summary($r), [$auth, $tenantStatus]);
+$router->post('/api/{slug}/earnings/withdraw', fn ($r) => (new App\Controllers\Api\EarningsController())->requestWithdrawal($r), [$auth, $tenantStatus]);
 
 // -----------------------------------------------------------------
 // PUBLIC MARKETING SITE + AUTH PAGES — must be registered before the
