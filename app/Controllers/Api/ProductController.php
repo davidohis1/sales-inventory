@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\StockLog;
+use PDOException;
 
 class ProductController
 {
@@ -37,18 +38,31 @@ class ProductController
         $sku = trim((string) $request->input('sku', ''));
         if ($name === '' || $sku === '') { Response::error('Name and SKU are required', 422); return; }
 
-        $id = Product::create([
-            'tenant_id'       => $tenantId,
-            'category_id'     => $request->input('category_id') ?: null,
-            'branch_id'       => $request->input('branch_id') ?: Auth::user()['branch_id'],
-            'name'            => $name,
-            'sku'             => $sku,
-            'description'     => $request->input('description'),
-            'buying_price'    => (float) $request->input('buying_price', 0),
-            'selling_price'   => (float) $request->input('selling_price', 0),
-            'quantity'        => (int) $request->input('quantity', 0),
-            'min_stock_level' => (int) $request->input('min_stock_level', 5),
-        ]);
+        try {
+            $id = Product::create([
+                'tenant_id'       => $tenantId,
+                'category_id'     => $request->input('category_id') ?: null,
+                'branch_id'       => $request->input('branch_id') ?: Auth::user()['branch_id'],
+                'name'            => $name,
+                'sku'             => $sku,
+                'description'     => $request->input('description'),
+                'buying_price'    => (float) $request->input('buying_price', 0),
+                'selling_price'   => (float) $request->input('selling_price', 0),
+                'quantity'        => (int) $request->input('quantity', 0),
+                'min_stock_level' => (int) $request->input('min_stock_level', 5),
+            ]);
+        } catch (PDOException $e) {
+            // 23000 = integrity constraint violation (duplicate key or bad FK).
+            if ($e->getCode() === '23000') {
+                if (str_contains($e->getMessage(), 'uniq_tenant_sku')) {
+                    Response::error("A product with SKU \"$sku\" already exists. Please use a different SKU.", 422);
+                    return;
+                }
+                Response::error('The selected category or branch no longer exists. Please refresh and try again.', 422);
+                return;
+            }
+            throw $e; // anything else: let the global handler log/report it as before
+        }
 
         $qty = (int) $request->input('quantity', 0);
         if ($qty > 0) {
