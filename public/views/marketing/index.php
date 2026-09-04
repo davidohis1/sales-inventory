@@ -103,6 +103,112 @@
     </div>
 </section>
 
+<section class="ld-section" id="online-store">
+    <div class="ld-split">
+        <div class="ld-split-text">
+            <span class="ld-eyebrow-tag">ONLINE STORE</span>
+            <h2>Sell online without touching a line of code</h2>
+            <p>Turn on a branded storefront in minutes. Pick a theme, choose a header photo for your category, and edit every heading — no developer needed.</p>
+            <ul class="ld-check-list">
+                <li>5 ready-made themes, each fully customizable</li>
+                <li>Organize products into categories customers can filter</li>
+                <li>Flutterwave checkout built in, with order tracking from "Ordered" to "Delivered"</li>
+                <li>See exactly how much you've earned and withdraw any time</li>
+            </ul>
+            <a href="<?= $base ?>/register" class="ld-pill-btn">Start Selling Online &rarr;</a>
+        </div>
+        <div class="ld-split-visual">
+            <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Online store preview">
+                <rect x="10" y="10" width="400" height="320" rx="20" fill="#f6f5fc"/>
+                <rect x="30" y="30" width="360" height="46" rx="12" fill="#fff"/>
+                <circle cx="52" cy="53" r="10" fill="#6c5ce7"/>
+                <rect x="72" y="45" width="90" height="16" rx="4" fill="#d9d3fb"/>
+                <rect x="300" y="42" width="70" height="22" rx="11" fill="#14141a"/>
+                <rect x="30" y="90" width="170" height="110" rx="12" fill="#fff"/>
+                <rect x="46" y="104" width="138" height="60" rx="8" fill="#e4e0fb"/>
+                <rect x="46" y="174" width="100" height="10" rx="3" fill="#d9d3fb"/>
+                <rect x="46" y="190" width="60" height="12" rx="4" fill="#6c5ce7"/>
+                <rect x="216" y="90" width="174" height="110" rx="12" fill="#fff"/>
+                <rect x="232" y="104" width="142" height="60" rx="8" fill="#d7f5df"/>
+                <rect x="232" y="174" width="100" height="10" rx="3" fill="#d9d3fb"/>
+                <rect x="232" y="190" width="60" height="12" rx="4" fill="#17a672"/>
+                <rect x="30" y="216" width="360" height="94" rx="12" fill="#14141a"/>
+                <rect x="50" y="236" width="120" height="14" rx="4" fill="#fff"/>
+                <rect x="50" y="260" width="180" height="10" rx="3" fill="#5a5a66"/>
+                <rect x="50" y="278" width="90" height="20" rx="10" fill="#6c5ce7"/>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<section class="ld-section" id="sales-inventory">
+    <div class="ld-split ld-split-reverse">
+        <div class="ld-split-visual">
+            <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sales and inventory dashboard preview">
+                <rect x="10" y="10" width="400" height="320" rx="20" fill="#f6f5fc"/>
+                <rect x="30" y="30" width="170" height="90" rx="12" fill="#fff"/>
+                <rect x="46" y="46" width="90" height="10" rx="3" fill="#d9d3fb"/>
+                <rect x="46" y="68" width="60" height="20" rx="4" fill="#14141a"/>
+                <rect x="46" y="96" width="70" height="8" rx="3" fill="#17a672"/>
+                <rect x="220" y="30" width="170" height="90" rx="12" fill="#fff"/>
+                <rect x="236" y="46" width="90" height="10" rx="3" fill="#d9d3fb"/>
+                <rect x="236" y="68" width="60" height="20" rx="4" fill="#14141a"/>
+                <rect x="236" y="96" width="70" height="8" rx="3" fill="#f97066"/>
+                <rect x="30" y="134" width="360" height="176" rx="12" fill="#fff"/>
+                <rect x="48" y="152" width="140" height="12" rx="4" fill="#14141a"/>
+                <g>
+                    <rect x="48" y="184" width="60" height="70" rx="6" fill="#e4e0fb"/>
+                    <rect x="118" y="204" width="60" height="50" rx="6" fill="#e4e0fb"/>
+                    <rect x="188" y="164" width="60" height="90" rx="6" fill="#6c5ce7"/>
+                    <rect x="258" y="194" width="60" height="60" rx="6" fill="#e4e0fb"/>
+                    <rect x="328" y="174" width="40" height="80" rx="6" fill="#e4e0fb"/>
+                </g>
+            </svg>
+        </div>
+        <div class="ld-split-text">
+            <span class="ld-eyebrow-tag">SALES &amp; INVENTORY</span>
+            <h2>Never lose track of stock again</h2>
+            <p>Ring up sales in seconds with POS, and watch stock levels update automatically across every branch — no more guessing what's left on the shelf.</p>
+            <ul class="ld-check-list">
+                <li>Real-time stock levels with low-stock alerts</li>
+                <li>Point-of-sale built for fast, in-person checkout</li>
+                <li>Profit tracking — revenue minus cost minus expenses, automatically</li>
+                <li>AI insights that explain your trends in plain language</li>
+            </ul>
+            <a href="<?= $base ?>/register" class="ld-pill-btn">Start Free Trial &rarr;</a>
+        </div>
+    </div>
+</section>
+
+<section class="ld-section" id="why-oripio">
+    <div class="ld-section-head">
+        <h2>Why your business needs this</h2>
+        <p>Running a business on notebooks and spreadsheets works — until it doesn't.</p>
+    </div>
+    <div class="ld-why-grid">
+        <div class="ld-why-card">
+            <span class="ld-why-icon">&#9203;</span>
+            <strong>Save hours every week</strong>
+            <p>Stop re-typing the same sale into three different books. One entry updates stock, revenue, and customer history at once.</p>
+        </div>
+        <div class="ld-why-card">
+            <span class="ld-why-icon">&#128200;</span>
+            <strong>Stop guessing, start knowing</strong>
+            <p>See exactly what's selling, what's not, and where your money is going — instead of finding out at the end of the month.</p>
+        </div>
+        <div class="ld-why-card">
+            <span class="ld-why-icon">&#127760;</span>
+            <strong>Sell beyond your shop</strong>
+            <p>Your customers aren't only the ones who walk in. An online store and digital products let you sell to anyone, anywhere.</p>
+        </div>
+        <div class="ld-why-card">
+            <span class="ld-why-icon">&#128101;</span>
+            <strong>Grow your team with confidence</strong>
+            <p>Add staff with role-based access, so everyone can help run the business without you losing visibility or control.</p>
+        </div>
+    </div>
+</section>
+
 <section class="ld-section" id="features">
     <div class="ld-bento">
         <div class="ld-bento-card ld-bento-green">
