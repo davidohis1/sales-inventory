@@ -6,6 +6,7 @@ $h = fn ($k, $d) => htmlspecialchars($content[$k] ?? $d);
 $storeType = $settings['store_type'] ?? 'general';
 $heroImg = !empty($content['banner_path']) ? $base . $content['banner_path'] : StockImages::url($storeType, 0, 800, 1000);
 $categories = Category::allForTenant((int) $tenant['id']);
+$promo1Img = !empty($content['promo1_path']) ? $base . $content['promo1_path'] : StockImages::url($storeType, 4, 700, 500);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,16 +70,16 @@ $categories = Category::allForTenant((int) $tenant['id']);
 </section>
 
 <section class="nt-products" id="shop">
-    <div class="nt-section-head"><h2>New Arrivals</h2><span id="result-count" class="text-muted"></span></div>
+    <div class="nt-section-head"><h2><?= $h('arrivals_heading', 'New Arrivals') ?></h2><span id="result-count" class="text-muted"></span></div>
     <div id="cat-filter-list" class="nt-cat-pills" data-mode="pills"></div>
     <div class="product-grid" id="product-grid"></div>
 </section>
 
 <section class="nt-promo-row">
     <div class="nt-promo-card nt-promo-dark">
-        <span>Flash Sale</span><strong>Up to 70% Off</strong><a href="#shop" class="nt-outline-btn light">Shop Sale &rarr;</a>
+        <span><?= $h('promo1_tag', 'Flash Sale') ?></span><strong><?= $h('promo1_heading', 'Up to 70% Off') ?></strong><a href="#shop" class="nt-outline-btn light">Shop Sale &rarr;</a>
     </div>
-    <div class="nt-promo-card" style="background-image:url('<?= htmlspecialchars(StockImages::url($storeType, 4, 700, 500)) ?>')">
+    <div class="nt-promo-card" style="background-image:url('<?= htmlspecialchars($promo1Img) ?>')">
         <div class="nt-promo-overlay"><span>New Collection</span><strong><?= $h('promo_heading', 'Summer 2025') ?></strong><a href="#shop" class="btn-store">Shop Collection &rarr;</a></div>
     </div>
 </section>

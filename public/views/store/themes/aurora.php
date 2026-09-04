@@ -71,7 +71,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
         </section>
 
         <section class="ar-popular" id="shop">
-            <div class="ar-section-head"><h2>Popular Products</h2><span id="result-count" class="text-muted"></span></div>
+            <div class="ar-section-head"><h2><?= $h('popular_heading', 'Popular Products') ?></h2><span id="result-count" class="text-muted"></span></div>
             <div class="product-grid" id="product-grid"></div>
         </section>
 
@@ -103,7 +103,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
 </div>
 
 <section class="ar-newsletter">
-    <div><h3>Subscribe To Our Newsletter</h3><p>Get the latest updates on new arrivals, offers &amp; more.</p></div>
+    <div><h3><?= $h('newsletter_heading', 'Subscribe To Our Newsletter') ?></h3><p><?= $h('newsletter_subheading', 'Get the latest updates on new arrivals, offers &amp; more.') ?></p></div>
     <form id="ar-newsletter-form"><input type="email" placeholder="Enter your email address" required><button class="btn-store" type="submit">Subscribe</button></form>
 </section>
 

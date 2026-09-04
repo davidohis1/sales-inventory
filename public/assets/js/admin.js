@@ -120,12 +120,14 @@
         <div class="app-shell">
             <div class="sidebar" id="sidebar">
                 <div class="sidebar-brand"><span class="logo-dot"></span> ${esc(window.TENANT_NAME)}</div>
-                <div class="nav-section-label">Main Menu</div>
-                <div class="nav-group">${navGroupHtml(MAIN_PATHS, user)}</div>
-                <div class="nav-section-label">Features</div>
-                <div class="nav-group">${navGroupHtml(FEATURE_PATHS, user)}</div>
-                <div class="nav-section-label">General</div>
-                <div class="nav-group">${navGroupHtml(GENERAL_PATHS, user)}</div>
+                <div class="sidebar-nav-scroll">
+                    <div class="nav-section-label">Main Menu</div>
+                    <div class="nav-group">${navGroupHtml(MAIN_PATHS, user)}</div>
+                    <div class="nav-section-label">Features</div>
+                    <div class="nav-group">${navGroupHtml(FEATURE_PATHS, user)}</div>
+                    <div class="nav-section-label">General</div>
+                    <div class="nav-group">${navGroupHtml(GENERAL_PATHS, user)}</div>
+                </div>
                 <div class="sidebar-footer">
                     ${plan && plan.name !== 'premium' ? `
                     <div class="upgrade-card">
@@ -1044,11 +1046,72 @@
         { id: 'novatrend', name: 'NovaTrend', description: 'Trendy lifestyle storefront with a model hero.', accent: '#ea580c' },
     ];
     const THEME_FIELDS = {
-        aurora:    [{ key: 'announcement', label: 'Announcement Bar Text', aiKind: 'announcement' }, { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' }, { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' }],
-        wink:      [{ key: 'collection_title', label: 'Collection Title' }, { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' }, { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' }],
-        luxora:    [{ key: 'eyebrow', label: 'Eyebrow Label' }, { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' }, { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' }, { key: 'promo_badge', label: 'Promo Badge Text' }],
-        marketly:  [{ key: 'announcement', label: 'Announcement Bar Text', aiKind: 'announcement' }, { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' }, { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' }],
-        novatrend: [{ key: 'eyebrow', label: 'Eyebrow Label' }, { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' }, { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' }],
+        aurora: [
+            { key: 'announcement', label: 'Announcement Bar Text', aiKind: 'announcement' },
+            { key: 'eyebrow', label: 'Hero Eyebrow Label' },
+            { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' },
+            { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' },
+            { key: 'popular_heading', label: '"Popular Products" Section Heading' },
+            { key: 'deal_heading', label: 'Deal of the Day Heading' },
+            { key: 'newsletter_heading', label: 'Newsletter Heading' },
+            { key: 'newsletter_subheading', label: 'Newsletter Subtext' },
+        ],
+        wink: [
+            { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' },
+            { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' },
+            { key: 'deal_heading', label: 'Deal of the Day Heading' },
+            { key: 'deal_product_name', label: 'Deal Product Name' },
+            { key: 'deal_category', label: 'Deal Product Category' },
+            { key: 'arrivals_heading', label: '"New Arrivals" Section Heading' },
+            { key: 'newsletter_heading', label: 'Newsletter Heading' },
+            { key: 'newsletter_subheading', label: 'Newsletter Subtext' },
+        ],
+        luxora: [
+            { key: 'eyebrow', label: 'Hero Eyebrow Label' },
+            { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' },
+            { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' },
+            { key: 'find_style_heading', label: 'Category Grid Heading' },
+            { key: 'promo1_heading', label: 'First Promo Banner Text' },
+            { key: 'promo2_heading', label: 'Second Promo Banner Text' },
+            { key: 'bestsellers_heading', label: 'Best Sellers Heading' },
+            { key: 'newsletter_heading', label: 'Newsletter Heading' },
+            { key: 'newsletter_subheading', label: 'Newsletter Subtext' },
+        ],
+        marketly: [
+            { key: 'eyebrow', label: 'Hero Eyebrow Label' },
+            { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' },
+            { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' },
+            { key: 'categories_heading', label: 'Category Grid Heading' },
+            { key: 'flash_heading', label: 'Flash Sale Heading' },
+            { key: 'newsletter_heading', label: 'Newsletter Heading' },
+            { key: 'newsletter_subheading', label: 'Newsletter Subtext' },
+        ],
+        novatrend: [
+            { key: 'announcement', label: 'Announcement Bar Text', aiKind: 'announcement' },
+            { key: 'eyebrow', label: 'Hero Eyebrow Label' },
+            { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' },
+            { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' },
+            { key: 'customer_count', label: '"Loved by ___ customers" Number' },
+            { key: 'arrivals_heading', label: '"New Arrivals" Section Heading' },
+            { key: 'promo1_tag', label: 'Promo Banner Tag' },
+            { key: 'promo1_heading', label: 'Promo Banner Heading' },
+            { key: 'promo_heading', label: 'Second Promo Banner Text' },
+        ],
+    };
+
+    // Which THEME_FIELDS keys are actually background-image uploads (kind matches
+    // the StoreSettingsController::uploadAsset $allowedKinds), shown as upload
+    // buttons on the Branding tab instead of text fields.
+    const THEME_IMAGE_FIELDS = {
+        aurora: [],
+        wink: [{ kind: 'deal', label: 'Deal of the Day Photo' }],
+        luxora: [
+            { kind: 'promo1', label: 'First Promo Banner Photo' },
+            { kind: 'promo2', label: 'Second Promo Banner Photo' },
+            { kind: 'newsletter', label: 'Newsletter Photo' },
+        ],
+        marketly: [],
+        novatrend: [{ kind: 'promo1', label: 'Promo Banner Photo' }],
     };
 
     let storeState = null; // { theme, store_type, content, themes, store_types }
@@ -1197,6 +1260,17 @@
             </form>
         </div>
 
+        ${(THEME_IMAGE_FIELDS[storeState.theme] || []).map((f) => `
+        <div class="section-title">${f.label}</div>
+        <p class="text-muted" style="margin-top:-6px;">Optional — overrides the default stock photo used in this section of the <strong>${storeState.theme}</strong> theme.</p>
+        <div class="flex" style="gap:16px; align-items:center; margin-bottom:20px;">
+            <div class="branding-preview wide">${c[f.kind + '_path'] ? `<img src="${assetUrl(c[f.kind + '_path'])}">` : '<span class="text-muted">Using default stock photo</span>'}</div>
+            <form id="upload-form-${f.kind}" data-kind="${f.kind}" class="flex theme-img-upload" style="gap:8px;">
+                <input type="file" name="image" accept="image/png,image/jpeg,image/webp" required>
+                <button class="btn btn-sm" type="submit">Upload Photo</button>
+            </form>
+        </div>`).join('')}
+
         <div class="section-title">WhatsApp Contact</div>
         <p class="text-muted" style="margin-top:-6px;">Shown as a floating chat button on your storefront (include country code, e.g. 2348012345678).</p>
         <div class="form-group" style="max-width:320px;"><input class="form-control" id="whatsapp-number" value="${esc(c.whatsapp_number || '')}" placeholder="e.g. 2348012345678"></div>
@@ -1219,6 +1293,9 @@
 
         document.getElementById('logo-upload-form').addEventListener('submit', (e) => uploadStoreAsset(e, 'logo', root));
         document.getElementById('banner-upload-form').addEventListener('submit', (e) => uploadStoreAsset(e, 'banner', root));
+        root.querySelectorAll('.theme-img-upload').forEach((form) => {
+            form.addEventListener('submit', (e) => uploadStoreAsset(e, form.dataset.kind, root));
+        });
     }
 
     async function uploadStoreAsset(e, kind, root) {
@@ -1227,7 +1304,7 @@
         try {
             const result = await Api.upload(`/store-settings/upload/${kind}`, fd);
             storeState.content[kind + '_path'] = result.path;
-            toast(`${kind === 'logo' ? 'Logo' : 'Banner'} uploaded`);
+            toast('Photo uploaded');
             drawBrandingTab(root);
         } catch (err) { toast(err.message, 'error'); }
     }

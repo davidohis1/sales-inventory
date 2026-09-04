@@ -92,7 +92,8 @@ class StoreSettingsController
     {
         if (!Auth::hasRole(['owner', 'manager'])) { Response::error('Forbidden', 403); return; }
         $kind = (string) $request->param('kind');
-        if (!in_array($kind, ['logo', 'banner'], true)) { Response::error('Invalid asset type', 422); return; }
+        $allowedKinds = ['logo', 'banner', 'promo1', 'promo2', 'deal', 'newsletter'];
+        if (!in_array($kind, $allowedKinds, true)) { Response::error('Invalid asset type', 422); return; }
 
         $file = $request->file('image');
         if (!$file || $file['error'] !== UPLOAD_ERR_OK) { Response::error('No valid image uploaded', 422); return; }

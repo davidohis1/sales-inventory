@@ -6,6 +6,9 @@ $h = fn ($k, $d) => htmlspecialchars($content[$k] ?? $d);
 $storeType = $settings['store_type'] ?? 'general';
 $heroImg = !empty($content['banner_path']) ? $base . $content['banner_path'] : StockImages::url($storeType, 0, 900, 1100);
 $catImgs = StockImages::bank($storeType, 4, 700, 850);
+$promo1Img = !empty($content['promo1_path']) ? $base . $content['promo1_path'] : StockImages::url($storeType, 5, 700, 500);
+$promo2Img = !empty($content['promo2_path']) ? $base . $content['promo2_path'] : StockImages::url($storeType, 6, 700, 500);
+$newsletterImg = !empty($content['newsletter_path']) ? $base . $content['newsletter_path'] : StockImages::url($storeType, 7, 700, 700);
 $categories = Category::allForTenant((int) $tenant['id']);
 ?>
 <!DOCTYPE html>
@@ -63,7 +66,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
 
 <section class="lx-find-style">
     <div class="lx-section-head">
-        <div><span class="lx-eyebrow">SHOP BY CATEGORY</span><h2>Find Your Perfect Style</h2></div>
+        <div><span class="lx-eyebrow">SHOP BY CATEGORY</span><h2><?= $h('find_style_heading', "Find Your Perfect Style") ?></h2></div>
         <a href="#shop" class="lx-view-all">View All Categories &rarr;</a>
     </div>
     <div class="lx-cat-grid">
@@ -76,17 +79,17 @@ $categories = Category::allForTenant((int) $tenant['id']);
 </section>
 
 <section class="lx-promo-row">
-    <div class="lx-promo-card" style="background-image:url('<?= htmlspecialchars(StockImages::url($storeType, 5, 700, 500)) ?>')">
+    <div class="lx-promo-card" style="background-image:url('<?= htmlspecialchars($promo1Img) ?>')">
         <div class="lx-promo-text"><span>LIMITED TIME OFFER</span><strong><?= $h('promo1_heading', 'Spring Sale Up to 50% Off') ?></strong><a href="#shop" class="lx-promo-btn">Shop The Sale &rarr;</a></div>
     </div>
-    <div class="lx-promo-card" style="background-image:url('<?= htmlspecialchars(StockImages::url($storeType, 6, 700, 500)) ?>')">
+    <div class="lx-promo-card" style="background-image:url('<?= htmlspecialchars($promo2Img) ?>')">
         <div class="lx-promo-text"><span>NEW ARRIVALS</span><strong><?= $h('promo2_heading', 'Fresh Styles Just Landed') ?></strong><a href="#shop" class="lx-promo-btn">Explore New In &rarr;</a></div>
     </div>
 </section>
 
 <section class="lx-shop" id="shop">
     <div class="lx-shop-head">
-        <div><span class="lx-eyebrow">BEST SELLERS</span><h2 id="bestsellers">Our Most Loved Picks</h2></div>
+        <div><span class="lx-eyebrow">BEST SELLERS</span><h2 id="bestsellers"><?= $h('bestsellers_heading', "Our Most Loved Picks") ?></h2></div>
         <div id="cat-filter-list" class="lx-cat-pills" data-mode="pills"></div>
     </div>
     <div class="product-grid" id="product-grid"></div>
@@ -100,11 +103,11 @@ $categories = Category::allForTenant((int) $tenant['id']);
 </section>
 
 <section class="lx-newsletter">
-    <div class="lx-newsletter-img" style="background-image:url('<?= htmlspecialchars(StockImages::url($storeType, 7, 700, 700)) ?>')"></div>
+    <div class="lx-newsletter-img" style="background-image:url('<?= htmlspecialchars($newsletterImg) ?>')"></div>
     <div class="lx-newsletter-form">
         <span class="lx-eyebrow">GET 10% OFF YOUR FIRST ORDER</span>
-        <h3>Join Our Style List</h3>
-        <p>Sign up for exclusive offers, new arrivals, and style inspiration.</p>
+        <h3><?= $h('newsletter_heading', "Join Our Style List") ?></h3>
+        <p><?= $h('newsletter_subheading', "Sign up for exclusive offers, new arrivals, and style inspiration.") ?></p>
         <form id="lx-newsletter-form"><input type="email" placeholder="Enter your email" required><button class="btn-store" type="submit">Subscribe</button></form>
     </div>
 </section>

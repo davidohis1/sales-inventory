@@ -48,7 +48,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
 </section>
 
 <section class="mk-cat-grid" id="categories">
-    <div class="mk-section-head"><h2>Featured Category Grid</h2><span class="mk-view-all">See all &rarr;</span></div>
+    <div class="mk-section-head"><h2><?= $h('categories_heading', 'Featured Category Grid') ?></h2><span class="mk-view-all">See all &rarr;</span></div>
     <div class="mk-cat-tiles">
         <?php $icons = ['&#128092;','&#128241;','&#128132;','&#127968;','&#9917;','&#127911;','&#128717;']; $i = 0; ?>
         <?php foreach (array_slice($categories, 0, 7) as $cat): ?>
@@ -60,7 +60,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
 
 <section class="mk-flash">
     <div class="mk-flash-head">
-        <div><span class="mk-eyebrow">FLASH SALES</span><h2>Deals Ending Soon</h2></div>
+        <div><span class="mk-eyebrow">FLASH SALES</span><h2><?= $h('flash_heading', 'Deals Ending Soon') ?></h2></div>
         <div class="mk-countdown" id="mk-countdown">
             <div><span id="mk-h">03</span><em>H</em></div><div><span id="mk-m">09</span><em>M</em></div><div><span id="mk-s">55</span><em>S</em></div>
         </div>
@@ -84,7 +84,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
 </section>
 
 <section class="mk-newsletter">
-    <div><h3>Stay in the loop</h3><p>Get AI-curated picks and offers straight to your inbox.</p></div>
+    <div><h3><?= $h('newsletter_heading', 'Stay in the loop') ?></h3><p><?= $h('newsletter_subheading', 'Get AI-curated picks and offers straight to your inbox.') ?></p></div>
     <form id="mk-newsletter-form"><input type="email" placeholder="Enter your email" required><button class="btn-store" type="submit">Subscribe</button></form>
 </section>
 

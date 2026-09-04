@@ -6,7 +6,7 @@ $h = fn ($k, $d) => htmlspecialchars($content[$k] ?? $d);
 $storeType = $settings['store_type'] ?? 'general';
 $heroImg = !empty($content['banner_path']) ? $base . $content['banner_path'] : StockImages::url($storeType, 0, 800, 700);
 $categories = Category::allForTenant((int) $tenant['id']);
-$dealImg = StockImages::url($storeType, 1, 500, 500);
+$dealImg = !empty($content['deal_path']) ? $base . $content['deal_path'] : StockImages::url($storeType, 1, 500, 500);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +72,7 @@ $dealImg = StockImages::url($storeType, 1, 500, 500);
 <section class="wk-deal" id="deal">
     <div class="wk-deal-text">
         <span class="wk-deal-tag">DEAL OF THE DAY</span>
-        <h2>Grab It Before It's Gone!</h2>
+        <h2><?= $h('deal_heading', "Grab It Before It's Gone!") ?></h2>
         <p>Hurry! Limited stock available.</p>
         <div class="wk-countdown" id="wk-countdown">
             <div><span id="wk-h">08</span><em>Hrs</em></div>:
@@ -93,15 +93,15 @@ $dealImg = StockImages::url($storeType, 1, 500, 500);
 </section>
 
 <section class="wk-arrivals" id="shop">
-    <div class="wk-section-head"><h2>New Arrivals</h2><span id="result-count" class="text-muted"></span></div>
+    <div class="wk-section-head"><h2><?= $h('arrivals_heading', 'New Arrivals') ?></h2><span id="result-count" class="text-muted"></span></div>
     <div id="cat-filter-list" class="wk-cat-pills" data-mode="pills"></div>
     <div class="product-grid" id="product-grid"></div>
 </section>
 
 <section class="wk-newsletter">
     <div>
-        <h3>&#9993; Get Exclusive Offers &amp; Updates</h3>
-        <p>Sign up now and get 10% off on your first order!</p>
+        <h3>&#9993; <?= $h('newsletter_heading', 'Get Exclusive Offers &amp; Updates') ?></h3>
+        <p><?= $h('newsletter_subheading', 'Sign up now and get 10% off on your first order!') ?></p>
     </div>
     <form id="wk-newsletter-form"><input type="email" placeholder="Enter your email address" required><button class="btn-store" type="submit">Subscribe</button></form>
 </section>
