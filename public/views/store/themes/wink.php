@@ -16,7 +16,7 @@ $dealImg = !empty($content['deal_path']) ? $base . $content['deal_path'] : Stock
 <link rel="stylesheet" href="<?= $base ?>/assets/css/store.css">
 <link rel="stylesheet" href="<?= $base ?>/assets/css/themes/wink.css">
 </head>
-<body class="theme-wink">
+<body class="theme-wink"<?= \App\Core\ThemePalettes::styleAttr('wink', $content['color_theme'] ?? 'signature') ?>>
 <div class="wk-topbar">
     <span>&#128666; Free Shipping — On orders over <?= htmlspecialchars($tenant['currency']) ?>75</span>
     <span>&#127991; Extra 10% Off — On prepaid orders</span>

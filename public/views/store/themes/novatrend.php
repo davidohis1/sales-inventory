@@ -16,7 +16,7 @@ $promo1Img = !empty($content['promo1_path']) ? $base . $content['promo1_path'] :
 <link rel="stylesheet" href="<?= $base ?>/assets/css/store.css">
 <link rel="stylesheet" href="<?= $base ?>/assets/css/themes/novatrend.css">
 </head>
-<body class="theme-novatrend">
+<body class="theme-novatrend"<?= \App\Core\ThemePalettes::styleAttr('novatrend', $content['color_theme'] ?? 'signature') ?>>
 <div class="nt-topbar">
     <span>&#128666; Free Worldwide Shipping Over <?= htmlspecialchars($tenant['currency']) ?>50</span>
     <span>&#127991; <?= $h('announcement', 'Summer Sale Up to 70% Off') ?></span>

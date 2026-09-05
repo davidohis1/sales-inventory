@@ -15,7 +15,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
 <link rel="stylesheet" href="<?= $base ?>/assets/css/store.css">
 <link rel="stylesheet" href="<?= $base ?>/assets/css/themes/marketly.css">
 </head>
-<body class="theme-marketly">
+<body class="theme-marketly"<?= \App\Core\ThemePalettes::styleAttr('marketly', $content['color_theme'] ?? 'signature') ?>>
 <div class="mk-topbar">Enterprise-level commerce platform &middot; <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>/cart">Track Order</a></div>
 <header class="mk-header">
     <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>" class="mk-logo">

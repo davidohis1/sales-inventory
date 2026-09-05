@@ -19,7 +19,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
 <link rel="stylesheet" href="<?= $base ?>/assets/css/store.css">
 <link rel="stylesheet" href="<?= $base ?>/assets/css/themes/luxora.css">
 </head>
-<body class="theme-luxora">
+<body class="theme-luxora"<?= \App\Core\ThemePalettes::styleAttr('luxora', $content['color_theme'] ?? 'signature') ?>>
 <nav class="lx-nav">
     <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>" class="lx-logo">
         <?php if (!empty($content['logo_path'])): ?><img src="<?= $base . htmlspecialchars($content['logo_path']) ?>" alt="" class="lx-logo-img"><?php endif; ?>

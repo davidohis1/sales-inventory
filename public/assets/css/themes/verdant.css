@@ -1,0 +1,95 @@
+/* Verdant theme — clean, trust-driven skincare/wellness storefront. */
+.theme-verdant { --vd-teal: #0d6d5c; --vd-teal-dark: #084c40; --vd-bg: #f4faf8; --vd-border: #e2ede9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #16211d; }
+.theme-verdant .vd-topbar { background: var(--vd-teal-dark); color: #fff; display: flex; justify-content: space-between; padding: 8px 40px; font-size: 11.5px; }
+.theme-verdant .vd-topbar-links { display: flex; gap: 18px; }
+.theme-verdant .vd-topbar-links a { color: #cdeee7; }
+.theme-verdant .vd-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; background: #fff; border-bottom: 1px solid var(--vd-border); flex-wrap: wrap; gap: 14px; }
+.theme-verdant .vd-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; color: var(--vd-teal-dark); }
+.theme-verdant .vd-logo-mark { background: var(--vd-teal); color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.theme-verdant .vd-logo-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+.theme-verdant .vd-links { display: flex; gap: 24px; font-size: 13px; font-weight: 700; letter-spacing: 0.02em; }
+.theme-verdant .vd-links a { color: #5c6f68; }
+.theme-verdant .vd-links a.active { color: var(--vd-teal-dark); }
+.theme-verdant .vd-icons { display: flex; align-items: center; gap: 16px; font-size: 16px; }
+.theme-verdant .vd-cart { position: relative; }
+.theme-verdant .cart-count { position: absolute; top: -8px; right: -10px; background: var(--vd-teal); color: #fff; border-radius: 999px; padding: 1px 6px; font-size: 10px; }
+.theme-verdant .vd-search-wrap { max-height: 0; overflow: hidden; transition: max-height 0.2s; background: var(--vd-bg); }
+.theme-verdant .vd-search-wrap.open { max-height: 60px; padding: 12px 40px; }
+.theme-verdant .vd-search-wrap input { width: 100%; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--vd-border); }
+
+.theme-verdant .vd-hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; background: linear-gradient(120deg, #0d6d5c, #148873); align-items: stretch; }
+.theme-verdant .vd-hero-text { padding: 60px; color: #fff; display: flex; flex-direction: column; justify-content: center; }
+.theme-verdant .vd-eyebrow { font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; opacity: 0.85; }
+.theme-verdant .vd-hero h1 { font-size: 38px; margin: 14px 0 16px; font-weight: 800; line-height: 1.15; }
+.theme-verdant .vd-hero-text p { opacity: 0.85; font-size: 14px; margin: 0 0 26px; max-width: 380px; }
+.theme-verdant .vd-hero .btn-store { background: #fff; color: var(--vd-teal-dark); }
+.theme-verdant .vd-hero-image { overflow: hidden; }
+.theme-verdant .vd-hero-image img { width: 100%; height: 100%; object-fit: cover; min-height: 320px; }
+
+.theme-verdant .vd-trust { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; max-width: 1100px; margin: -30px auto 40px; background: #fff; border-radius: 16px; box-shadow: 0 16px 40px rgba(13,109,92,0.12); padding: 22px; position: relative; z-index: 2; }
+.theme-verdant .vd-trust > div { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.theme-verdant .vd-trust span { font-size: 22px; }
+.theme-verdant .vd-trust strong { display: block; font-size: 13px; }
+.theme-verdant .vd-trust em { font-style: normal; color: #7c8f88; font-size: 11px; }
+
+.theme-verdant .vd-section-head { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 24px; }
+.theme-verdant .vd-line { height: 1px; width: 40px; background: var(--vd-border); }
+.theme-verdant .vd-section-head h2 { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 800; color: var(--vd-teal-dark); margin: 0; }
+.theme-verdant .vd-cats { max-width: 1100px; margin: 0 auto 50px; padding: 0 40px; }
+.theme-verdant .vd-cat-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.theme-verdant .vd-cat-item { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #16211d; width: 96px; text-align: center; }
+.theme-verdant .vd-cat-circle { width: 76px; height: 76px; border-radius: 50%; background: var(--vd-bg); display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.theme-verdant .vd-cat-item em { font-style: normal; font-weight: 500; text-transform: none; color: var(--vd-teal); font-size: 11px; }
+
+.theme-verdant .vd-products { max-width: 1200px; margin: 0 auto 50px; padding: 0 40px; }
+.theme-verdant .vd-products .vd-section-head { justify-content: space-between; }
+.theme-verdant .vd-products h2 { text-transform: none; letter-spacing: 0; font-size: 22px; }
+.theme-verdant .vd-view-all { font-size: 12.5px; font-weight: 700; color: var(--vd-teal-dark); }
+.theme-verdant .vd-cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.theme-verdant .cat-pill { border: 1px solid var(--vd-border); background: #fff; border-radius: 999px; padding: 7px 16px; font-size: 12.5px; }
+.theme-verdant .cat-pill.active { background: var(--vd-teal); color: #fff; border-color: var(--vd-teal); }
+
+.theme-verdant .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.theme-verdant .product-card { background: #fff; border: 1px solid var(--vd-border); border-radius: 12px; overflow: hidden; }
+.theme-verdant .thumb { position: relative; aspect-ratio: 1; background: var(--vd-bg); }
+.theme-verdant .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.theme-verdant .wish-btn { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: none; }
+.theme-verdant .info { padding: 12px 14px; }
+.theme-verdant .name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.theme-verdant .cat-tag { display: none; }
+.theme-verdant .price-row { display: flex; justify-content: space-between; align-items: center; }
+.theme-verdant .price { color: var(--vd-teal-dark); font-weight: 800; font-size: 14px; }
+.theme-verdant .quick-add { background: var(--vd-teal); color: #fff; border: none; width: 28px; height: 28px; border-radius: 8px; }
+.theme-verdant .grid-loading, .theme-verdant .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #7c8f88; }
+
+.theme-verdant .vd-promo { display: grid; grid-template-columns: 1fr 1fr; max-width: 1200px; margin: 0 auto 50px; border-radius: 20px; overflow: hidden; background: var(--vd-teal-dark); }
+.theme-verdant .vd-promo-image { background-size: cover; background-position: center; min-height: 260px; }
+.theme-verdant .vd-promo-text { padding: 44px; color: #fff; display: flex; flex-direction: column; justify-content: center; }
+.theme-verdant .vd-promo-text h2 { font-size: 26px; margin: 10px 0; }
+.theme-verdant .vd-promo-text p { opacity: 0.85; font-size: 13.5px; margin: 0 0 20px; }
+.theme-verdant .vd-newsletter-form { display: flex; gap: 8px; }
+.theme-verdant .vd-newsletter-form input { flex: 1; padding: 10px 14px; border-radius: 8px; border: none; }
+.theme-verdant .vd-newsletter-form .btn-store { background: #fff; color: var(--vd-teal-dark); }
+
+.theme-verdant .vd-features { display: flex; justify-content: space-around; gap: 16px; flex-wrap: wrap; background: var(--vd-bg); padding: 22px 40px; }
+.theme-verdant .vd-features div { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 12px; text-align: center; }
+.theme-verdant .vd-features span { color: #7c8f88; }
+
+.theme-verdant .btn-store { background: var(--vd-teal); border-radius: 999px; }
+.theme-verdant .btn-store:hover { background: var(--vd-teal-dark); }
+.theme-verdant .store-footer { background: #0a2b24; }
+
+@media (max-width: 980px) {
+    .theme-verdant .vd-hero { grid-template-columns: 1fr; }
+    .theme-verdant .vd-hero-text { padding: 40px 24px; }
+    .theme-verdant .vd-trust { grid-template-columns: repeat(2, 1fr); margin: -20px 20px 30px; }
+    .theme-verdant .vd-links { display: none; }
+    .theme-verdant .vd-promo { grid-template-columns: 1fr; }
+    .theme-verdant .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-verdant .vd-cats, .theme-verdant .vd-products { padding: 0 24px; }
+}
+@media (max-width: 560px) {
+    .theme-verdant .vd-nav { padding: 14px 18px; }
+    .theme-verdant .vd-hero h1 { font-size: 26px; }
+    .theme-verdant .vd-trust { grid-template-columns: 1fr; }
+}

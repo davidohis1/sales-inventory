@@ -1097,6 +1097,43 @@
             { key: 'promo1_heading', label: 'Promo Banner Heading' },
             { key: 'promo_heading', label: 'Second Promo Banner Text' },
         ],
+        verdant: [
+            { key: 'eyebrow', label: 'Hero Eyebrow Label' },
+            { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' },
+            { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' },
+            { key: 'products_heading', label: 'Products Section Heading' },
+            { key: 'promo_heading', label: 'Promo Banner Heading' },
+            { key: 'promo_subheading', label: 'Promo Banner Subtext' },
+        ],
+        blossom: [
+            { key: 'eyebrow', label: 'Hero Eyebrow Label' },
+            { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' },
+            { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' },
+            { key: 'badge_percent', label: 'Hero Badge Number (e.g. 100%)' },
+            { key: 'badge_text', label: 'Hero Badge Caption' },
+            { key: 'products_heading', label: 'Products Section Heading' },
+            { key: 'promo_tag', label: 'Promo Banner Tag' },
+            { key: 'promo_heading', label: 'Promo Banner Heading' },
+            { key: 'promo_subheading', label: 'Promo Banner Subtext' },
+        ],
+        amara: [
+            { key: 'announcement', label: 'Announcement Bar Text', aiKind: 'announcement' },
+            { key: 'eyebrow', label: 'Hero Eyebrow Label' },
+            { key: 'hero_heading', label: 'Hero Heading (part 1)', aiKind: 'hero_heading' },
+            { key: 'hero_heading_2', label: 'Hero Heading (italic part 2)' },
+            { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' },
+            { key: 'season_badge', label: 'Hero Season Badge Text' },
+            { key: 'products_heading', label: 'Products Section Heading' },
+            { key: 'promo1_heading', label: 'First Promo Heading' },
+            { key: 'promo1_subheading', label: 'First Promo Subtext' },
+            { key: 'promo2_heading', label: 'Second Promo Heading' },
+            { key: 'promo2_subheading', label: 'Second Promo Subtext' },
+            { key: 'quote1', label: 'Customer Quote 1' },
+            { key: 'quote2', label: 'Customer Quote 2' },
+            { key: 'quote3', label: 'Customer Quote 3' },
+            { key: 'newsletter_heading', label: 'Newsletter Heading' },
+            { key: 'newsletter_subheading', label: 'Newsletter Subtext' },
+        ],
     };
 
     // Which THEME_FIELDS keys are actually background-image uploads (kind matches
@@ -1112,6 +1149,24 @@
         ],
         marketly: [],
         novatrend: [{ kind: 'promo1', label: 'Promo Banner Photo' }],
+        verdant: [{ kind: 'promo1', label: 'Promo Banner Photo' }],
+        blossom: [{ kind: 'promo1', label: 'Promo Banner Photo' }],
+        amara: [
+            { kind: 'promo1', label: 'First Promo Banner Photo' },
+            { kind: 'promo2', label: 'Second Promo Banner Photo (leave blank for solid color)' },
+        ],
+    };
+
+    // Mirrors App\Core\ThemePalettes on the backend — same keys/hex values, used for swatch previews.
+    const THEME_PALETTES = {
+        luxora:    { signature: { name: 'Signature', swatch: '#8a6d3b' }, rose: { name: 'Rose', swatch: '#b3466c' }, sage: { name: 'Sage', swatch: '#5c8a6d' }, charcoal: { name: 'Charcoal', swatch: '#6b7280' } },
+        wink:      { signature: { name: 'Signature', swatch: '#f4622d' }, berry: { name: 'Berry', swatch: '#e0457a' }, ocean: { name: 'Ocean', swatch: '#2196c9' }, amber: { name: 'Amber', swatch: '#d9a441' } },
+        novatrend: { signature: { name: 'Signature', swatch: '#ff5722' }, cobalt: { name: 'Cobalt', swatch: '#2563eb' }, emerald: { name: 'Emerald', swatch: '#17a672' }, magenta: { name: 'Magenta', swatch: '#d6357a' } },
+        aurora:    { signature: { name: 'Signature', swatch: '#1a3fa0' }, teal: { name: 'Teal', swatch: '#0d6d5c' }, plum: { name: 'Plum', swatch: '#6b21a8' }, crimson: { name: 'Crimson', swatch: '#b91c1c' } },
+        marketly:  { signature: { name: 'Signature', swatch: '#5b21b6' }, ocean: { name: 'Ocean', swatch: '#1a3fa0' }, emerald: { name: 'Emerald', swatch: '#0d6d5c' }, sunset: { name: 'Sunset', swatch: '#ea580c' } },
+        verdant:   { signature: { name: 'Signature', swatch: '#0d6d5c' }, blush: { name: 'Blush', swatch: '#a91f5c' }, ocean: { name: 'Ocean', swatch: '#1a3fa0' }, plum: { name: 'Plum', swatch: '#5b21b6' } },
+        blossom:   { signature: { name: 'Signature', swatch: '#d6357a' }, lavender: { name: 'Lavender', swatch: '#6c5ce7' }, sunset: { name: 'Sunset', swatch: '#ea580c' }, teal: { name: 'Teal', swatch: '#0d6d5c' } },
+        amara:     { signature: { name: 'Signature', swatch: '#a0492c' }, forest: { name: 'Forest', swatch: '#2f5233' }, navy: { name: 'Navy', swatch: '#1e3a5f' }, plum: { name: 'Plum', swatch: '#5b2c6f' } },
     };
 
     let storeState = null; // { theme, store_type, content, themes, store_types }
@@ -1173,11 +1228,15 @@
             ${(storeState.store_types || ['fashion', 'tech', 'beauty', 'grocery', 'general']).map((t) => `<option value="${t}" ${storeState.store_type === t ? 'selected' : ''}>${t[0].toUpperCase() + t.slice(1)}</option>`).join('')}
         </select>
 
-        <div class="section-title">2. Theme</div>
-        <p class="text-muted" style="margin-top:-6px;">Choose the template your public storefront uses. You can switch anytime — nothing is lost.</p>
+        <div class="section-title">2. UI Template</div>
+        <p class="text-muted" style="margin-top:-6px;">Choose the page layout your public storefront uses — this is the structure, not the colors. You can switch anytime — nothing is lost.</p>
         <div class="grid grid-3" id="theme-cards"></div>
 
-        <div class="section-title">3. Header Image</div>
+        <div class="section-title">3. Color Palette</div>
+        <p class="text-muted" style="margin-top:-6px;">Same layout, different colors. Pick a palette for the <strong>${storeState.theme}</strong> template.</p>
+        <div class="flex" id="palette-swatches" style="gap:12px; flex-wrap:wrap; margin-bottom:10px;"></div>
+
+        <div class="section-title">4. Header Image</div>
         <p class="text-muted" style="margin-top:-6px;">Pick a header photo curated for your category, or <a href="#" id="go-custom-banner">upload your own</a> from the Branding tab.</p>
         <div class="grid grid-4" id="header-image-gallery"><div class="empty-state" style="grid-column:1/-1;"><div class="spinner"></div></div></div>`;
 
@@ -1191,8 +1250,13 @@
 
         document.querySelectorAll('.theme-card').forEach((card) => card.addEventListener('click', () => {
             storeState.theme = card.dataset.theme;
+            // A different template may not have this palette key — reset to signature to avoid a mismatched override.
+            if (!THEME_PALETTES[storeState.theme] || !THEME_PALETTES[storeState.theme][storeState.content.color_theme]) {
+                storeState.content.color_theme = 'signature';
+            }
             drawThemeTab(root);
         }));
+        renderPaletteSwatches();
         document.getElementById('store-type-select').addEventListener('change', (e) => {
             storeState.store_type = e.target.value;
             loadHeaderImageGallery();
@@ -1203,6 +1267,22 @@
         });
 
         loadHeaderImageGallery();
+    }
+
+    function renderPaletteSwatches() {
+        const wrap = document.getElementById('palette-swatches');
+        if (!wrap) return;
+        const palettes = THEME_PALETTES[storeState.theme] || {};
+        const current = storeState.content.color_theme || 'signature';
+        wrap.innerHTML = Object.entries(palettes).map(([key, p]) => `
+            <button type="button" class="palette-swatch-btn ${current === key ? 'selected' : ''}" data-palette="${key}" title="${esc(p.name)}">
+                <span class="palette-dot" style="background:${p.swatch};"></span>
+                <span>${esc(p.name)}</span>
+            </button>`).join('');
+        wrap.querySelectorAll('.palette-swatch-btn').forEach((btn) => btn.addEventListener('click', () => {
+            storeState.content.color_theme = btn.dataset.palette;
+            renderPaletteSwatches();
+        }));
     }
 
     async function loadHeaderImageGallery() {

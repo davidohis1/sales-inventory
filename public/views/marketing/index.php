@@ -23,6 +23,7 @@
     </nav>
 
     <header class="ld-hero">
+        <div class="ld-blob"></div>
         <span class="ld-badge ld-badge-1">&#9889;</span>
         <span class="ld-badge ld-badge-2">&#8594;</span>
         <h1>Run Your Business<br>Like A Pro.</h1>

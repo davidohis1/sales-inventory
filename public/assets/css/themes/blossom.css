@@ -1,0 +1,87 @@
+/* Blossom theme — warm gradient beauty/lifestyle storefront. */
+.theme-blossom { --bl-pink: #d6357a; --bl-pink-dark: #a91f5c; --bl-bg: #fff6f9; --bl-border: #fbe3ec; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #241118; }
+.theme-blossom .bl-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; background: #fff; border-bottom: 1px solid var(--bl-border); flex-wrap: wrap; gap: 14px; }
+.theme-blossom .bl-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 18px; color: var(--bl-pink-dark); }
+.theme-blossom .bl-logo-mark { color: var(--bl-pink); font-size: 22px; }
+.theme-blossom .bl-logo-img { width: 30px; height: 30px; border-radius: 8px; object-fit: cover; }
+.theme-blossom .bl-links { display: flex; gap: 24px; font-size: 13.5px; font-weight: 600; }
+.theme-blossom .bl-links a { color: #6b4a58; }
+.theme-blossom .bl-links a.active { color: var(--bl-pink-dark); font-weight: 700; }
+.theme-blossom .bl-nav-right { display: flex; align-items: center; gap: 14px; }
+.theme-blossom .bl-search { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--bl-border); background: var(--bl-bg); font-size: 13px; min-width: 160px; }
+.theme-blossom .bl-cart { position: relative; font-size: 17px; color: var(--bl-pink-dark); }
+.theme-blossom .cart-count { position: absolute; top: -8px; right: -10px; background: var(--bl-pink); color: #fff; border-radius: 999px; padding: 1px 6px; font-size: 10px; }
+
+.theme-blossom .bl-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; background: linear-gradient(120deg, #ffe3ee, #ffd0e6); padding: 50px 40px; position: relative; overflow: hidden; }
+.theme-blossom .bl-eyebrow { display: inline-block; background: rgba(255,255,255,0.6); color: var(--bl-pink-dark); font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: 999px; margin-bottom: 14px; }
+.theme-blossom .bl-hero h1 { font-size: 38px; line-height: 1.15; margin: 0 0 14px; font-weight: 800; }
+.theme-blossom .bl-hero-text > p { color: #6b4a58; font-size: 14px; margin: 0 0 24px; max-width: 380px; }
+.theme-blossom .bl-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.theme-blossom .bl-outline-btn { border: 2px solid #fff; background: rgba(255,255,255,0.4); padding: 11px 20px; border-radius: 999px; font-weight: 700; font-size: 13.5px; color: var(--bl-pink-dark); }
+.theme-blossom .bl-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5; }
+.theme-blossom .bl-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+.theme-blossom .bl-badge { position: absolute; bottom: 16px; right: 16px; background: #fff; border-radius: 50%; width: 84px; height: 84px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 10px 30px rgba(214,53,122,0.2); }
+.theme-blossom .bl-badge strong { font-size: 16px; color: var(--bl-pink-dark); }
+.theme-blossom .bl-badge span { font-size: 9px; color: #6b4a58; }
+
+.theme-blossom .bl-trust { display: flex; justify-content: space-around; gap: 16px; flex-wrap: wrap; background: #fff; border: 1px solid var(--bl-border); border-radius: 16px; padding: 20px; max-width: 1100px; margin: -26px auto 40px; position: relative; z-index: 2; box-shadow: 0 12px 30px rgba(214,53,122,0.08); }
+.theme-blossom .bl-trust > div { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.theme-blossom .bl-trust span { font-size: 20px; }
+.theme-blossom .bl-trust strong { display: block; font-size: 12.5px; }
+.theme-blossom .bl-trust em { font-style: normal; color: #a98a95; font-size: 11px; }
+
+.theme-blossom .bl-cats, .theme-blossom .bl-products { max-width: 1180px; margin: 0 auto 46px; padding: 0 40px; }
+.theme-blossom .bl-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.theme-blossom .bl-section-head h2 { font-size: 22px; margin: 0; }
+.theme-blossom .bl-view-all { font-size: 12.5px; font-weight: 700; color: var(--bl-pink-dark); }
+.theme-blossom .bl-cat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.theme-blossom .bl-cat-tile { text-align: center; }
+.theme-blossom .bl-cat-thumb { aspect-ratio: 1; border-radius: 16px; background-size: cover; background-position: center; background-color: var(--bl-bg); margin-bottom: 10px; }
+.theme-blossom .bl-cat-tile strong { font-size: 13px; font-weight: 700; }
+
+.theme-blossom .bl-promo { max-width: 1180px; margin: 0 auto 46px; padding: 0 40px; }
+.theme-blossom .bl-promo-inner { border-radius: 20px; background-size: cover; background-position: center; padding: 40px 44px; position: relative; min-height: 160px; display: flex; flex-direction: column; justify-content: center; }
+.theme-blossom .bl-promo-inner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(169,31,92,0.85), rgba(169,31,92,0.3)); border-radius: 20px; }
+.theme-blossom .bl-promo-inner > * { position: relative; z-index: 1; color: #fff; }
+.theme-blossom .bl-promo-inner h2 { font-size: 28px; margin: 8px 0; }
+.theme-blossom .bl-promo-inner p { margin: 0 0 18px; opacity: 0.9; font-size: 14px; }
+.theme-blossom .bl-promo-inner .btn-store { background: #fff; color: var(--bl-pink-dark); }
+
+.theme-blossom .bl-cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.theme-blossom .cat-pill { border: 1px solid var(--bl-border); background: #fff; border-radius: 999px; padding: 7px 16px; font-size: 12.5px; }
+.theme-blossom .cat-pill.active { background: var(--bl-pink); color: #fff; border-color: var(--bl-pink); }
+
+.theme-blossom .product-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.theme-blossom .product-card { background: #fff; border: 1px solid var(--bl-border); border-radius: 14px; overflow: hidden; }
+.theme-blossom .thumb { position: relative; aspect-ratio: 1; background: var(--bl-bg); }
+.theme-blossom .thumb img { width: 100%; height: 100%; object-fit: cover; }
+.theme-blossom .wish-btn { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: none; }
+.theme-blossom .info { padding: 12px 14px; }
+.theme-blossom .name { font-weight: 600; font-size: 12.5px; margin-bottom: 4px; }
+.theme-blossom .cat-tag { display: none; }
+.theme-blossom .price-row { display: flex; justify-content: space-between; align-items: center; }
+.theme-blossom .price { color: var(--bl-pink-dark); font-weight: 800; font-size: 13.5px; }
+.theme-blossom .quick-add { background: var(--bl-pink); color: #fff; border: none; width: 28px; height: 28px; border-radius: 999px; }
+.theme-blossom .grid-loading, .theme-blossom .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #a98a95; }
+
+.theme-blossom .bl-features { display: flex; justify-content: space-around; gap: 16px; flex-wrap: wrap; background: var(--bl-bg); padding: 22px 40px; }
+.theme-blossom .bl-features div { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 12px; text-align: center; }
+.theme-blossom .bl-features span { color: #a98a95; }
+
+.theme-blossom .btn-store { background: var(--bl-pink); border-radius: 999px; }
+.theme-blossom .btn-store:hover { background: var(--bl-pink-dark); }
+.theme-blossom .store-footer { background: #2b0f1c; }
+
+@media (max-width: 980px) {
+    .theme-blossom .bl-hero { grid-template-columns: 1fr; padding: 34px 24px; }
+    .theme-blossom .bl-links { display: none; }
+    .theme-blossom .bl-search { display: none; }
+    .theme-blossom .bl-cat-grid { grid-template-columns: repeat(3, 1fr); }
+    .theme-blossom .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .theme-blossom .bl-cats, .theme-blossom .bl-products, .theme-blossom .bl-promo { padding: 0 24px; }
+}
+@media (max-width: 560px) {
+    .theme-blossom .bl-nav { padding: 14px 18px; }
+    .theme-blossom .bl-hero h1 { font-size: 27px; }
+    .theme-blossom .bl-cat-grid { grid-template-columns: repeat(2, 1fr); }
+}

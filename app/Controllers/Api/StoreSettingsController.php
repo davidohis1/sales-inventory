@@ -20,6 +20,9 @@ class StoreSettingsController
             ['id' => 'luxora', 'name' => 'Luxora', 'description' => 'Elegant, editorial fashion storefront with a full hero and testimonials.', 'accent' => '#8a6d3b'],
             ['id' => 'marketly', 'name' => 'Marketly', 'description' => 'Bold marketplace layout with flash deals and category tiles.', 'accent' => '#2563eb'],
             ['id' => 'novatrend', 'name' => 'NovaTrend', 'description' => 'Trendy lifestyle storefront with a model hero and floating product cards.', 'accent' => '#ea580c'],
+            ['id' => 'verdant', 'name' => 'Verdant', 'description' => 'Clean, trust-driven layout with a full-bleed portrait hero — great for skincare & wellness.', 'accent' => '#0d6d5c'],
+            ['id' => 'blossom', 'name' => 'Blossom', 'description' => 'Warm gradient hero with a soft, radiant feel — great for beauty & lifestyle brands.', 'accent' => '#d6357a'],
+            ['id' => 'amara', 'name' => 'Amara', 'description' => 'Refined editorial layout with a terracotta palette and customer testimonials.', 'accent' => '#a0492c'],
         ];
     }
 

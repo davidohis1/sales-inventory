@@ -15,7 +15,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
 <link rel="stylesheet" href="<?= $base ?>/assets/css/store.css">
 <link rel="stylesheet" href="<?= $base ?>/assets/css/themes/aurora.css">
 </head>
-<body class="theme-aurora">
+<body class="theme-aurora"<?= \App\Core\ThemePalettes::styleAttr('aurora', $content['color_theme'] ?? 'signature') ?>>
 <div class="ar-topbar">
     <span>&#128666; Free Delivery on Orders Over <?= htmlspecialchars($tenant['currency']) ?>50</span>
     <span>&#128260; 30-Day Easy Returns</span>

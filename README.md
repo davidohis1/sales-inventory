@@ -207,9 +207,12 @@ public/
   views/platformadmin SPA shell (layout.php) for the platform admin — platformadmin.js renders the rest
   views/portal  SPA shell (layout.php) — admin.js renders everything else
   views/store   Server-rendered storefront pages (cart/checkout/receipt)
-                views/store/themes/ — the 5 storefront homepage templates
-                (aurora / wink / luxora / marketly / novatrend), chosen
-                per-tenant on the admin Store Page
+                views/store/themes/ — the 8 storefront homepage templates
+                (aurora / wink / luxora / marketly / novatrend / verdant /
+                blossom / amara), chosen per-tenant on the admin Store Page.
+                Each template also supports a few alternate color palettes
+                (App\Core\ThemePalettes) — same layout, different colors,
+                picked independently of the template itself.
   uploads/      Product images, organized by tenant_<id>/
 database/
   schema.sql    Full MySQL schema (all tables, tenant_id scoping, images table, plans/billing)
