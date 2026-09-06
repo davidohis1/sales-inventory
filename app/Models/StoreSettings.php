@@ -8,7 +8,7 @@ class StoreSettings extends BaseModel
     protected static function table(): string { return 'store_settings'; }
 
     public const THEMES = ['aurora', 'wink', 'luxora', 'marketly', 'novatrend', 'verdant', 'blossom', 'amara'];
-    public const STORE_TYPES = ['fashion', 'tech', 'beauty', 'grocery', 'general'];
+    public const STORE_TYPES = ['fashion', 'tech', 'beauty', 'grocery', 'accessories', 'automotive', 'general'];
 
     public static function get(int $tenantId): array
     {
@@ -49,32 +49,110 @@ class StoreSettings extends BaseModel
     /** Sensible default text content per theme, so a brand-new store never looks empty. */
     public static function defaultsFor(string $theme, string $storeType): array
     {
+        // These mirror each theme's own hardcoded fallback copy exactly, so a
+        // brand-new store's Text Content tab is pre-filled with the real text
+        // that's actually showing on the storefront (not a generic placeholder),
+        // and the storefront itself displays the same well-written, on-brand
+        // copy from day one. Fields that embed the tenant's currency symbol
+        // (announcement/topbar1/topbar_text below) are intentionally left out
+        // here — each template already builds a currency-correct fallback at
+        // render time, and seeding a fixed default would freeze it to "$" for
+        // every tenant regardless of their actual currency.
         $bases = [
             'aurora' => [
-                'announcement' => 'Free shipping on all orders this week',
-                'hero_heading' => 'Shop the Collection',
-                'hero_subheading' => 'Curated products, fair prices, fast delivery.',
+                'eyebrow' => 'New Arrival',
+                'hero_heading' => 'New Collection 2024',
+                'hero_subheading' => 'Discover the latest arrivals with innovative features and premium designs.',
+                'popular_heading' => 'Popular Products',
+                'deal_heading' => "Grab It Before It's Gone!",
+                'newsletter_heading' => 'Subscribe To Our Newsletter',
+                'newsletter_subheading' => 'Get the latest updates on new arrivals, offers & more.',
             ],
             'wink' => [
-                'collection_title' => 'Our Collection',
-                'hero_heading' => 'Explore The Various Collection',
-                'hero_subheading' => "Don't miss out on shopping with us — you won't be let down.",
+                'hero_heading' => 'Shop More, Save More!',
+                'hero_subheading' => 'Discover amazing deals on your favorite products.',
+                'deal_heading' => "Grab It Before It's Gone!",
+                'deal_product_name' => 'Featured Product',
+                'deal_category' => 'Trending pick',
+                'arrivals_heading' => 'New Arrivals',
+                'newsletter_heading' => 'Get Exclusive Offers & Updates',
+                'newsletter_subheading' => 'Sign up now and get 10% off on your first order!',
             ],
             'luxora' => [
-                'eyebrow' => 'NEW SEASON',
-                'hero_heading' => 'Quality that speaks for you.',
-                'hero_subheading' => 'Discover great products made for every moment, every mood, every you.',
-                'promo_badge' => 'Up to 40% Off',
+                'eyebrow' => 'NEW COLLECTION',
+                'hero_heading' => 'Elevate Your Everyday Style',
+                'hero_subheading' => 'Discover timeless pieces crafted for comfort, designed for elegance, made for you.',
+                'find_style_heading' => 'Find Your Perfect Style',
+                'promo1_heading' => 'Spring Sale Up to 50% Off',
+                'promo2_heading' => 'Fresh Styles Just Landed',
+                'bestsellers_heading' => 'Our Most Loved Picks',
+                'newsletter_heading' => 'Join Our Style List',
+                'newsletter_subheading' => 'Sign up for exclusive offers, new arrivals, and style inspiration.',
             ],
             'marketly' => [
-                'announcement' => 'Mega Sale is Live! Get up to 60% off',
-                'hero_heading' => 'Everything You Need, All in One Place',
-                'hero_subheading' => 'Discover great products from a store you can trust. Best prices, premium quality & unbeatable service.',
+                'eyebrow' => 'AUTUMN LUXURY COLLECTION',
+                'hero_heading' => 'Elevate Your Style',
+                'hero_subheading' => 'Explore our curated selection of seasonal and trending essentials.',
+                'categories_heading' => 'Featured Category Grid',
+                'flash_heading' => 'Deals Ending Soon',
+                'newsletter_heading' => 'Stay in the loop',
+                'newsletter_subheading' => 'Get AI-curated picks and offers straight to your inbox.',
             ],
             'novatrend' => [
+                'announcement' => 'Summer Sale Up to 70% Off',
                 'eyebrow' => 'TRENDING NOW',
                 'hero_heading' => "Discover Products You'll Love",
-                'hero_subheading' => 'Shop the latest trending products curated for your lifestyle.',
+                'hero_subheading' => 'Shop the latest trending products curated for modern lifestyles.',
+                'customer_count' => '50,000+',
+                'arrivals_heading' => 'New Arrivals',
+                'promo1_tag' => 'Flash Sale',
+                'promo1_heading' => 'Up to 70% Off',
+                'promo_heading' => 'Summer 2025',
+            ],
+            'verdant' => [
+                'eyebrow' => 'Naturally Radiant',
+                'hero_heading' => 'Quality that cares, service that shines.',
+                'hero_subheading' => 'Discover the perfect blend of care and quality for a better everyday experience.',
+                'trust1_heading' => 'Quality Guaranteed', 'trust1_text' => 'Checked before it ships',
+                'trust2_heading' => 'Trusted Service', 'trust2_text' => 'Here whenever you need us',
+                'trust3_heading' => 'Fast Delivery', 'trust3_text' => 'Straight to your door',
+                'trust4_heading' => 'Easy Returns', 'trust4_text' => 'Hassle-free, every time',
+                'products_heading' => 'Featured Products',
+                'promo_heading' => 'Get 20% Off Your First Order',
+                'promo_subheading' => 'Join our club and unlock exclusive offers and tips.',
+            ],
+            'blossom' => [
+                'eyebrow' => 'Radiate Confidence Every Day',
+                'hero_heading' => 'Beauty & Wellness for a Better You',
+                'hero_subheading' => 'Discover premium products for a healthier, more radiant everyday routine.',
+                'badge_percent' => '100%',
+                'badge_text' => 'Original Products',
+                'trust1_heading' => '100% Genuine', 'trust1_text' => 'Authentic & trusted',
+                'trust2_heading' => 'Carefully Vetted', 'trust2_text' => 'Quality checked',
+                'trust3_heading' => 'Fast Delivery', 'trust3_text' => 'Straight to your door',
+                'trust4_heading' => 'Easy Returns', 'trust4_text' => 'Hassle-free process',
+                'promo_tag' => 'Limited Time Offer',
+                'promo_heading' => 'Up to 30% Off',
+                'promo_subheading' => 'On top brands, for a limited time only.',
+                'products_heading' => 'Best Sellers',
+            ],
+            'amara' => [
+                'topbar3' => 'Worldwide Delivery',
+                'eyebrow' => 'New Collection',
+                'hero_heading' => 'Elegance',
+                'hero_heading_2' => 'Redefined',
+                'hero_subheading' => 'Modern silhouettes. Quality materials. Designed for every unforgettable moment.',
+                'season_badge' => 'New Season',
+                'products_heading' => 'Best Sellers',
+                'promo1_heading' => 'Timeless Pieces, Endless Possibilities',
+                'promo1_subheading' => 'Elevate your wardrobe with versatile staples.',
+                'promo2_heading' => 'Enjoy 15% Off Your First Order',
+                'promo2_subheading' => 'Sign up and be the first to know about new arrivals and offers.',
+                'quote1' => 'A go-to for elevated essentials. The quality and attention to detail are unmatched.',
+                'quote2' => 'Every piece feels so refined. I always get compliments when I wear it.',
+                'quote3' => 'Beautiful designs and amazing customer service, every time.',
+                'newsletter_heading' => 'Stay in the Know',
+                'newsletter_subheading' => 'Subscribe for 15% off your first order and new arrivals.',
             ],
         ];
 

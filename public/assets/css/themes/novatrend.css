@@ -22,8 +22,9 @@
 .theme-novatrend .nt-outline-btn { border: 2px solid var(--nv-black); color: var(--nv-black); padding: 11px 20px; border-radius: 999px; font-weight: 700; font-size: 13.5px; }
 .theme-novatrend .nt-outline-btn.light { border-color: #fff; color: #fff; }
 .theme-novatrend .nt-loved { font-size: 12.5px; color: #6b7280; font-weight: 600; }
-.theme-novatrend .nt-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5; background: #f4f4f4; }
-.theme-novatrend .nt-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+.theme-novatrend .nt-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5; background: #f4f4f4; max-height: 460px; margin: 0 auto; }
+.theme-novatrend .nt-hero-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.theme-novatrend .nt-hero-image:hover img { transform: scale(1.04); }
 .theme-novatrend .nt-float { position: absolute; background: #fff; border-radius: 12px; padding: 10px 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); font-size: 12px; }
 .theme-novatrend .nt-float strong { display: block; font-size: 12.5px; }
 .theme-novatrend .nt-float span { color: var(--nv-orange); font-weight: 700; }
@@ -90,4 +91,8 @@
     .theme-novatrend .nt-nav { padding: 14px 18px; }
     .theme-novatrend .nt-hero h1 { font-size: 30px; }
     .theme-novatrend .nt-cat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1200px) {
+    .theme-novatrend .nt-hero h1 { font-size: 50px; }
 }

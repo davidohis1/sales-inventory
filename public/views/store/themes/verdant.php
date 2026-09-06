@@ -18,7 +18,7 @@ $promoImg = !empty($content['promo1_path']) ? $base . $content['promo1_path'] : 
 </head>
 <body class="theme-verdant"<?= \App\Core\ThemePalettes::styleAttr('verdant', $content['color_theme'] ?? 'signature') ?>>
 <div class="vd-topbar">
-    <span>&#128666; Free Shipping on Orders Over <?= htmlspecialchars($tenant['currency']) ?>50</span>
+    <span>&#128666; <?= $h('topbar_text', 'Free Shipping on Orders Over ' . $tenant['currency'] . '50') ?></span>
     <div class="vd-topbar-links"><a href="#shop">Track Order</a><a href="#faq">FAQ</a></div>
 </div>
 <nav class="vd-nav">
@@ -45,10 +45,10 @@ $promoImg = !empty($content['promo1_path']) ? $base . $content['promo1_path'] : 
 </section>
 
 <section class="vd-trust">
-    <div><span>&#127807;</span><div><strong>Quality Ingredients</strong><em>Safe &amp; effective</em></div></div>
-    <div><span>&#128172;</span><div><strong>Expert Approved</strong><em>Trusted by professionals</em></div></div>
-    <div><span>&#9989;</span><div><strong>Satisfaction Guaranteed</strong><em>Clean &amp; simple</em></div></div>
-    <div><span>&#128007;</span><div><strong>Ethically Made</strong><em>Responsibly sourced</em></div></div>
+    <div><span>&#9989;</span><div><strong><?= $h('trust1_heading', 'Quality Guaranteed') ?></strong><em><?= $h('trust1_text', 'Checked before it ships') ?></em></div></div>
+    <div><span>&#128172;</span><div><strong><?= $h('trust2_heading', 'Trusted Service') ?></strong><em><?= $h('trust2_text', 'Here whenever you need us') ?></em></div></div>
+    <div><span>&#128666;</span><div><strong><?= $h('trust3_heading', 'Fast Delivery') ?></strong><em><?= $h('trust3_text', 'Straight to your door') ?></em></div></div>
+    <div><span>&#128260;</span><div><strong><?= $h('trust4_heading', 'Easy Returns') ?></strong><em><?= $h('trust4_text', 'Hassle-free, every time') ?></em></div></div>
 </section>
 
 <section class="vd-cats" id="categories">

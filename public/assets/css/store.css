@@ -111,3 +111,45 @@ a { text-decoration: none; color: inherit; }
 .toast { background: #1f2430; color: #fff; padding: 10px 16px; border-radius: 8px; margin-top: 8px; font-size: 13.5px; }
 .toast.success { background: #16a34a; }
 .toast.error { background: #dc2626; }
+/* ---------------------------------------------------------------------
+   Themed chrome for product / cart / checkout pages — these pages use a
+   lightweight shared header rather than each theme's full nav, but pick
+   up that theme's font, color, and button styling so they don't feel
+   like a different site.
+   --------------------------------------------------------------------- */
+.store-chrome-page.theme-luxora, .store-chrome-page.theme-amara { font-family: Georgia, 'Times New Roman', serif; }
+.store-chrome-page .store-header { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+.store-chrome-page.theme-luxora .store-header { background: #221d16; }
+.store-chrome-page.theme-wink .store-header { background: #17351f; }
+.store-chrome-page.theme-novatrend .store-header { background: #16181d; }
+.store-chrome-page.theme-aurora .store-header { background: #12296e; }
+.store-chrome-page.theme-marketly .store-header { background: #3b0f80; }
+.store-chrome-page.theme-verdant .store-header { background: #084c40; }
+.store-chrome-page.theme-blossom .store-header { background: #a91f5c; }
+.store-chrome-page.theme-amara .store-header { background: #7a3620; }
+.store-chrome-page .btn-store { border-radius: 999px; }
+.store-chrome-page.theme-novatrend .btn-store, .store-chrome-page.theme-aurora .btn-store,
+.store-chrome-page.theme-marketly .btn-store, .store-chrome-page.theme-wink .btn-store,
+.store-chrome-page.theme-verdant .btn-store { border-radius: 8px; }
+.store-chrome-page.theme-amara .btn-store { border-radius: 2px; }
+
+/* "Similar Products" section on the product detail page — reuses the homepage .product-card styling. */
+.similar-products-section { margin-top: 40px; }
+.similar-products-section .section-title-lg { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+
+/* ---------------------------------------------------------------------
+   Shared entrance animation + large-desktop heading scale-up, applied
+   across all storefront themes' hero sections.
+   --------------------------------------------------------------------- */
+@keyframes storeFadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.lx-hero-text, .wk-hero-card, .nt-hero-text, .ar-hero-text, .mk-hero-text,
+.vd-hero-text, .bl-hero-text, .am-hero-text {
+    animation: storeFadeInUp 0.7s ease both;
+}
+.lx-hero-image, .wk-hero-image, .nt-hero-image, .ar-hero-image, .mk-hero-image,
+.vd-hero-image, .bl-hero-image, .am-hero-image {
+    animation: storeFadeInUp 0.8s ease 0.1s both;
+}
+/* Buttons and nav links get a small interactive lift/underline across every theme. */
+.btn-store { transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease; }
+.btn-store:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }

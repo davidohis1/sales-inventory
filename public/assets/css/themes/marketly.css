@@ -16,13 +16,15 @@
 
 .theme-marketly .mk-subnav { display: flex; justify-content: center; gap: 30px; background: var(--mk-purple-dark); color: #e5defa; padding: 8px; font-size: 11.5px; flex-wrap: wrap; }
 
-.theme-marketly .mk-hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; align-items: stretch; background: linear-gradient(120deg, #f1edfb, #fbf8ff); }
-.theme-marketly .mk-hero-text { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
-.theme-marketly .mk-eyebrow { color: var(--mk-purple); font-weight: 800; font-size: 11.5px; letter-spacing: 0.08em; }
-.theme-marketly .mk-hero h1 { font-size: 40px; margin: 12px 0 14px; font-weight: 800; }
-.theme-marketly .mk-hero-text > p { color: #6b6480; margin-bottom: 24px; max-width: 380px; }
-.theme-marketly .mk-hero-image { overflow: hidden; }
-.theme-marketly .mk-hero-image img { width: 100%; height: 100%; object-fit: cover; min-height: 340px; }
+.theme-marketly .mk-hero { position: relative; min-height: 400px; display: flex; align-items: center; background-size: cover; background-position: center; overflow: hidden; }
+.theme-marketly .mk-hero-overlay { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(15,8,35,0.72) 0%, rgba(15,8,35,0.42) 45%, rgba(15,8,35,0.08) 75%); }
+.theme-marketly .mk-hero-text { position: relative; z-index: 1; padding: 60px; max-width: 480px; color: #fff; }
+.theme-marketly .mk-eyebrow { color: #d6b4ff; font-weight: 800; font-size: 11.5px; letter-spacing: 0.08em; }
+.theme-marketly .mk-hero h1 { font-size: 40px; margin: 12px 0 14px; font-weight: 800; color: #fff; }
+.theme-marketly .mk-hero-text > p { color: rgba(255,255,255,0.85); margin-bottom: 24px; max-width: 380px; }
+.theme-marketly .mk-hero-dots { position: absolute; z-index: 1; left: 60px; bottom: 26px; display: flex; gap: 6px; }
+.theme-marketly .mk-hero-dots span { width: 20px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.4); }
+.theme-marketly .mk-hero-dots span.active { background: #fff; }
 
 .theme-marketly .mk-cat-grid, .theme-marketly .mk-products, .theme-marketly .mk-deals { max-width: 1250px; margin: 0 auto; padding: 40px 40px 10px; }
 .theme-marketly .mk-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
@@ -81,7 +83,7 @@
 @media (max-width: 980px) {
     .theme-marketly .mk-hero { grid-template-columns: 1fr; }
     .theme-marketly .mk-hero-text { padding: 40px 24px; }
-    .theme-marketly .mk-hero-image img { min-height: 260px; }
+    .theme-marketly .mk-hero-image { max-height: 300px; }
     .theme-marketly .mk-cat-tiles { grid-template-columns: repeat(4, 1fr); }
     .theme-marketly .mk-cat-grid, .theme-marketly .mk-products, .theme-marketly .mk-deals { padding: 30px 24px 10px; }
     .theme-marketly .product-grid { grid-template-columns: repeat(3, 1fr); }
@@ -94,4 +96,8 @@
     .theme-marketly .mk-cat-tiles { grid-template-columns: repeat(2, 1fr); }
     .theme-marketly .product-grid { grid-template-columns: repeat(2, 1fr); }
     .theme-marketly .mk-deals-grid { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 1200px) {
+    .theme-marketly .mk-hero h1 { font-size: 46px; }
 }

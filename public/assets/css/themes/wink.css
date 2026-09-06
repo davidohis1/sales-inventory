@@ -18,8 +18,9 @@
 .theme-wink .wk-hero-trust em { font-style: normal; opacity: 0.7; font-size: 10.5px; }
 .theme-wink .wk-hero-card .btn-store { background: var(--wk-orange); }
 .theme-wink .wk-hero-card .btn-store:hover { background: #d94e1c; }
-.theme-wink .wk-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 1/1; }
-.theme-wink .wk-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+.theme-wink .wk-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 1/1; max-height: 420px; margin: 0 auto; }
+.theme-wink .wk-hero-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.theme-wink .wk-hero-image:hover img { transform: scale(1.04); }
 .theme-wink .wk-badge { position: absolute; top: 16px; right: 16px; background: var(--wk-orange); color: #fff; width: 76px; height: 76px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; text-align: center; line-height: 1.2; }
 .theme-wink .wk-badge strong { font-size: 17px; }
 
@@ -98,4 +99,8 @@
     .theme-wink .wk-cat-row { gap: 16px; }
     .theme-wink .wk-cat-item { width: 80px; }
     .theme-wink .wk-cat-thumb { width: 70px; height: 70px; }
+}
+
+@media (min-width: 1200px) {
+    .theme-wink .wk-hero-card h1 { font-size: 44px; }
 }

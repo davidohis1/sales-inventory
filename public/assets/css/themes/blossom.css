@@ -18,8 +18,9 @@
 .theme-blossom .bl-hero-text > p { color: #6b4a58; font-size: 14px; margin: 0 0 24px; max-width: 380px; }
 .theme-blossom .bl-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .theme-blossom .bl-outline-btn { border: 2px solid #fff; background: rgba(255,255,255,0.4); padding: 11px 20px; border-radius: 999px; font-weight: 700; font-size: 13.5px; color: var(--bl-pink-dark); }
-.theme-blossom .bl-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5; }
-.theme-blossom .bl-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+.theme-blossom .bl-hero-image { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5; max-height: 420px; margin: 0 auto; }
+.theme-blossom .bl-hero-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.theme-blossom .bl-hero-image:hover img { transform: scale(1.04); }
 .theme-blossom .bl-badge { position: absolute; bottom: 16px; right: 16px; background: #fff; border-radius: 50%; width: 84px; height: 84px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 10px 30px rgba(214,53,122,0.2); }
 .theme-blossom .bl-badge strong { font-size: 16px; color: var(--bl-pink-dark); }
 .theme-blossom .bl-badge span { font-size: 9px; color: #6b4a58; }
@@ -84,4 +85,8 @@
     .theme-blossom .bl-nav { padding: 14px 18px; }
     .theme-blossom .bl-hero h1 { font-size: 27px; }
     .theme-blossom .bl-cat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1200px) {
+    .theme-blossom .bl-hero h1 { font-size: 44px; }
 }

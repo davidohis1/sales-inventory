@@ -220,6 +220,11 @@ const StoreApp = (() => {
                     </form>
                     <p class="text-muted review-privacy-note">Your email is never shown publicly — only your name and review.</p>
                 </div>
+            </div>
+
+            <div class="similar-products-section" id="similar-products-section" style="display:none;">
+                <div class="section-title-lg">You may also like</div>
+                <div class="product-grid" id="similar-products-grid"></div>
             </div>`;
 
             root.querySelectorAll('.gallery-thumb').forEach((t) => t.addEventListener('click', () => {
@@ -240,6 +245,7 @@ const StoreApp = (() => {
             }));
 
             loadReviews(id);
+            loadSimilarProducts(p);
             document.getElementById('review-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const fd = Object.fromEntries(new FormData(e.target).entries());
@@ -259,6 +265,23 @@ const StoreApp = (() => {
         } catch (e) {
             root.innerHTML = `<p class="text-muted">${esc(e.message)}</p>`;
         }
+    }
+
+    async function loadSimilarProducts(product) {
+        const section = document.getElementById('similar-products-section');
+        const grid = document.getElementById('similar-products-grid');
+        if (!section || !grid || !product.category_id) return;
+        try {
+            const data = await apiGet(`/store/products?category_id=${product.category_id}`);
+            const similar = (data.products || []).filter((x) => x.id != product.id).slice(0, 4);
+            if (!similar.length) return;
+            section.style.display = 'block';
+            grid.innerHTML = similar.map(cardHtml).join('');
+            grid.querySelectorAll('[data-quickadd]').forEach((btn) => btn.addEventListener('click', () => {
+                const p = similar.find((x) => x.id == btn.dataset.quickadd);
+                if (p) { addToCart(p, 1); toast('Added to cart'); }
+            }));
+        } catch (e) { /* similar products are optional decoration — fail quietly */ }
     }
 
     async function loadReviews(productId) {

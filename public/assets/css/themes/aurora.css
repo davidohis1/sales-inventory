@@ -30,13 +30,14 @@
 .theme-aurora .ar-price-row { display: flex; gap: 8px; }
 .theme-aurora .ar-price-row input { width: 50%; padding: 8px; border: 1px solid var(--ar-border); border-radius: 6px; }
 
-.theme-aurora .ar-hero { background: linear-gradient(120deg, var(--ar-blue), #2f5fd4); border-radius: 16px; padding: 40px; display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 20px; color: #fff; margin-bottom: 24px; }
-.theme-aurora .ar-eyebrow { font-size: 12px; opacity: 0.8; }
-.theme-aurora .ar-hero h1 { font-size: 32px; margin: 8px 0 10px; }
-.theme-aurora .ar-hero-text p { opacity: 0.85; font-size: 13.5px; margin: 0 0 20px; max-width: 340px; }
-.theme-aurora .ar-hero .btn-store { background: #fff; color: var(--ar-blue-dark); }
+.theme-aurora .ar-hero { background: linear-gradient(120deg, #eef1fc, #e4eafc); border-radius: 16px; padding: 40px; display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 20px; color: #1c2233; margin-bottom: 24px; position: relative; }
+.theme-aurora .ar-eyebrow { font-size: 12px; color: var(--ar-blue); font-weight: 700; }
+.theme-aurora .ar-hero h1 { font-size: 32px; margin: 8px 0 10px; color: #10152b; }
+.theme-aurora .ar-hero h1 em { font-style: normal; color: var(--ar-blue); }
+.theme-aurora .ar-hero-text p { opacity: 0.65; font-size: 13.5px; margin: 0 0 20px; max-width: 340px; }
+.theme-aurora .ar-hero .btn-store { background: var(--ar-blue); color: #fff; }
 .theme-aurora .ar-hero-image { display: flex; justify-content: center; }
-.theme-aurora .ar-hero-image img { max-width: 100%; border-radius: 12px; aspect-ratio: 1; object-fit: cover; width: 220px; }
+.theme-aurora .ar-hero-image img { max-width: 100%; border-radius: 50%; aspect-ratio: 1; object-fit: cover; width: 220px; box-shadow: 0 20px 50px rgba(26,63,160,0.18); }
 
 .theme-aurora .ar-features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; background: #fff; border: 1px solid var(--ar-border); border-radius: 12px; padding: 18px; margin-bottom: 30px; }
 .theme-aurora .ar-features div { display: flex; align-items: center; gap: 10px; font-size: 12px; }
@@ -101,4 +102,8 @@
 @media (max-width: 560px) {
     .theme-aurora .ar-header { padding: 14px 18px; }
     .theme-aurora .ar-hero h1 { font-size: 24px; }
+}
+
+@media (min-width: 1200px) {
+    .theme-aurora .ar-hero h1 { font-size: 42px; }
 }

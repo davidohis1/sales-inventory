@@ -17,7 +17,7 @@ $categories = Category::allForTenant((int) $tenant['id']);
 </head>
 <body class="theme-aurora"<?= \App\Core\ThemePalettes::styleAttr('aurora', $content['color_theme'] ?? 'signature') ?>>
 <div class="ar-topbar">
-    <span>&#128666; Free Delivery on Orders Over <?= htmlspecialchars($tenant['currency']) ?>50</span>
+    <span>&#128666; <?= $h('announcement', 'Free Delivery on Orders Over ' . $tenant['currency'] . '50') ?></span>
     <span>&#128260; 30-Day Easy Returns</span>
     <span class="ar-topbar-hide">&#127911; 24/7 Customer Support</span>
 </div>

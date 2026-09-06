@@ -43,10 +43,10 @@ $promoImg = !empty($content['promo1_path']) ? $base . $content['promo1_path'] : 
 </section>
 
 <section class="bl-trust">
-    <div><span>&#128737;</span><div><strong><?= $h('badge_percent', '100%') ?> Original</strong><em>Authentic &amp; trusted</em></div></div>
-    <div><span>&#128100;</span><div><strong>Expert Approved</strong><em>Carefully tested</em></div></div>
-    <div><span>&#128666;</span><div><strong>Fast Delivery</strong><em>At your doorstep</em></div></div>
-    <div><span>&#128260;</span><div><strong>Easy Returns</strong><em>Hassle-free</em></div></div>
+    <div><span>&#128737;</span><div><strong><?= $h('trust1_heading', '100% Genuine') ?></strong><em><?= $h('trust1_text', 'Authentic &amp; trusted') ?></em></div></div>
+    <div><span>&#128100;</span><div><strong><?= $h('trust2_heading', 'Carefully Vetted') ?></strong><em><?= $h('trust2_text', 'Quality checked') ?></em></div></div>
+    <div><span>&#128666;</span><div><strong><?= $h('trust3_heading', 'Fast Delivery') ?></strong><em><?= $h('trust3_text', 'Straight to your door') ?></em></div></div>
+    <div><span>&#128260;</span><div><strong><?= $h('trust4_heading', 'Easy Returns') ?></strong><em><?= $h('trust4_text', 'Hassle-free process') ?></em></div></div>
 </section>
 
 <section class="bl-cats" id="categories">

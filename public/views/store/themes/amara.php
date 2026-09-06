@@ -19,9 +19,9 @@ $promo2Img = !empty($content['promo2_path']) ? $base . $content['promo2_path'] :
 </head>
 <body class="theme-amara"<?= \App\Core\ThemePalettes::styleAttr('amara', $content['color_theme'] ?? 'signature') ?>>
 <div class="am-topbar">
-    <span>&#128666; Free Shipping Over <?= htmlspecialchars($tenant['currency']) ?>150</span>
+    <span>&#128666; <?= $h('topbar1', 'Free Shipping Over ' . $tenant['currency'] . '150') ?></span>
     <span><?= $h('announcement', 'Easy Returns') ?></span>
-    <span>&#127760; Worldwide Delivery</span>
+    <span>&#127760; <?= $h('topbar3', 'Worldwide Delivery') ?></span>
 </div>
 <nav class="am-nav">
     <div class="am-links"><a href="#shop">New In</a><a href="#categories">Shop</a><a href="#" class="am-links-hide">Bags</a><a href="#" class="am-links-hide">Shoes</a></div>

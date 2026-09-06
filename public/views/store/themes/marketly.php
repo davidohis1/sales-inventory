@@ -37,14 +37,15 @@ $categories = Category::allForTenant((int) $tenant['id']);
     <span>&#127911; 24/7 Support</span>
 </nav>
 
-<section class="mk-hero">
+<section class="mk-hero" style="background-image:url('<?= htmlspecialchars($heroImg) ?>')">
+    <div class="mk-hero-overlay"></div>
     <div class="mk-hero-text">
         <span class="mk-eyebrow"><?= $h('eyebrow', 'AUTUMN LUXURY COLLECTION') ?></span>
         <h1><?= $h('hero_heading', 'Elevate Your Style') ?></h1>
         <p><?= $h('hero_subheading', 'Explore our curated selection of seasonal and trending essentials.') ?></p>
         <a href="#shop" class="btn-store">Shop Now &rarr;</a>
     </div>
-    <div class="mk-hero-image"><img src="<?= htmlspecialchars($heroImg) ?>" alt=""></div>
+    <div class="mk-hero-dots"><span class="active"></span><span></span><span></span></div>
 </section>
 
 <section class="mk-cat-grid" id="categories">

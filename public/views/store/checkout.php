@@ -1,6 +1,7 @@
 <?php
-$accents = ['aurora' => '#4f46e5', 'wink' => '#111827', 'luxora' => '#8a6d3b', 'marketly' => '#2563eb', 'novatrend' => '#ea580c'];
-$accent = $accents[$settings['theme'] ?? 'aurora'] ?? '#0f5c56';
+$accents = ['aurora' => '#1a3fa0', 'wink' => '#f4622d', 'luxora' => '#8a6d3b', 'marketly' => '#5b21b6', 'novatrend' => '#ff5722', 'verdant' => '#0d6d5c', 'blossom' => '#d6357a', 'amara' => '#a0492c'];
+$theme = in_array($settings['theme'] ?? '', \App\Models\StoreSettings::THEMES, true) ? $settings['theme'] : 'aurora';
+$accent = $accents[$theme] ?? '#0f5c56';
 $content = $settings['content'] ?? [];
 ?>
 <!DOCTYPE html>
@@ -9,9 +10,10 @@ $content = $settings['content'] ?? [];
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= htmlspecialchars($tenant['business_name']) ?> — Checkout</title>
 <link rel="stylesheet" href="<?= $base ?>/assets/css/store.css">
+<link rel="stylesheet" href="<?= $base ?>/assets/css/themes/<?= $theme ?>.css">
 <style>:root { --store-primary: <?= $accent ?>; }</style>
 </head>
-<body>
+<body class="theme-<?= $theme ?> store-chrome-page"<?= \App\Core\ThemePalettes::styleAttr($theme, ($settings['content']['color_theme'] ?? 'signature')) ?>>
 <header class="store-header">
     <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>" class="brand"><?= htmlspecialchars($tenant['business_name']) ?></a>
     <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>/cart" class="cart-link">&#128722; Cart <span class="cart-count" id="cart-count">0</span></a>
