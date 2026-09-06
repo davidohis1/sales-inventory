@@ -1146,6 +1146,9 @@
             { key: 'newsletter_subheading', label: 'Newsletter Subtext' },
         ],
     };
+    // One field shared by every theme's dedicated /shop (all-products) page —
+    // added here rather than duplicated into all 8 arrays above.
+    Object.keys(THEME_FIELDS).forEach((t) => THEME_FIELDS[t].push({ key: 'shop_heading', label: 'Shop Page Heading' }));
 
     // Which THEME_FIELDS keys are actually background-image uploads (kind matches
     // the StoreSettingsController::uploadAsset $allowedKinds), shown as upload

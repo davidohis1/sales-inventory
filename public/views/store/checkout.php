@@ -1,8 +1,10 @@
 <?php
-$accents = ['aurora' => '#1a3fa0', 'wink' => '#f4622d', 'luxora' => '#8a6d3b', 'marketly' => '#5b21b6', 'novatrend' => '#ff5722', 'verdant' => '#0d6d5c', 'blossom' => '#d6357a', 'amara' => '#a0492c'];
-$theme = in_array($settings['theme'] ?? '', \App\Models\StoreSettings::THEMES, true) ? $settings['theme'] : 'aurora';
-$accent = $accents[$theme] ?? '#0f5c56';
+use App\Models\StoreSettings;
+
+$theme = in_array($settings['theme'] ?? '', StoreSettings::THEMES, true) ? $settings['theme'] : 'aurora';
 $content = $settings['content'] ?? [];
+$h = fn ($k, $d) => htmlspecialchars($content[$k] ?? $d);
+$page = 'checkout';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,18 +13,15 @@ $content = $settings['content'] ?? [];
 <title><?= htmlspecialchars($tenant['business_name']) ?> — Checkout</title>
 <link rel="stylesheet" href="<?= $base ?>/assets/css/store.css">
 <link rel="stylesheet" href="<?= $base ?>/assets/css/themes/<?= $theme ?>.css">
-<style>:root { --store-primary: <?= $accent ?>; }</style>
 </head>
-<body class="theme-<?= $theme ?> store-chrome-page"<?= \App\Core\ThemePalettes::styleAttr($theme, ($settings['content']['color_theme'] ?? 'signature')) ?>>
-<header class="store-header">
-    <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>" class="brand"><?= htmlspecialchars($tenant['business_name']) ?></a>
-    <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>/cart" class="cart-link">&#128722; Cart <span class="cart-count" id="cart-count">0</span></a>
-</header>
-<div class="store-container">
+<body class="theme-<?= $theme ?> store-inner-page"<?= \App\Core\ThemePalettes::styleAttr($theme, $content['color_theme'] ?? 'signature') ?>>
+<?php require __DIR__ . '/partials/theme-header.php'; ?>
+<div class="store-container store-page">
     <a href="<?= $base ?>/<?= htmlspecialchars($slug) ?>/cart" class="back-link">&larr; Back to cart</a>
     <h2>Checkout</h2>
     <div id="checkout-root"></div>
 </div>
+<?php require __DIR__ . '/partials/footer.php'; ?>
 <div class="toast-container" id="toast-container"></div>
 <script>
   window.APP_BASE = <?= json_encode($base) ?>;

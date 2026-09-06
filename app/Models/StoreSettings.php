@@ -162,6 +162,7 @@ class StoreSettings extends BaseModel
         $shared = [
             'logo_path' => null,
             'banner_path' => null,
+            'shop_heading' => 'Shop All Products',
             'whatsapp_number' => null,
             'social_facebook' => null,
             'social_instagram' => null,

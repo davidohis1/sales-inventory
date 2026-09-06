@@ -289,6 +289,9 @@ $router->get('/{slug}', function (Request $r) {
     if ($product) { renderDigitalProductPage($product); return; }
     renderStore($slug);
 });
+$router->get('/{slug}/shop', function (Request $r) {
+    renderStore($r->param('slug'), 'shop');
+});
 $router->get('/{slug}/product/{id}', function (Request $r) {
     renderStore($r->param('slug'), 'product', ['id' => $r->param('id')]);
 });

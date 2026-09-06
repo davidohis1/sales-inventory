@@ -18,6 +18,18 @@ a { text-decoration: none; color: inherit; }
 .store-container { max-width: 1100px; margin: 0 auto; padding: 24px; }
 .store-search { width: 100%; max-width: 420px; padding: 10px 14px; border: 1px solid var(--store-border); border-radius: 999px; margin-bottom: 22px; }
 
+/* Shared "shop" (all-products) and "product" inner pages — reused by every
+   theme's own nav/footer via partials/theme-header.php, so only the neutral
+   bits (page heading row, price filter row) need generic styling here; the
+   category-pill/sidebar filter itself is styled by each theme's own CSS
+   (.lx-cat-pills, .ar-sidebar, etc.) so it still looks native to the theme. */
+.store-page { padding-top: 28px; }
+.shop-page-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+.shop-page-head h1 { font-size: 26px; margin: 0; }
+.price-filter-row { display: flex; gap: 10px; align-items: center; margin: 6px 0 22px; flex-wrap: wrap; }
+.price-filter-row input { width: 130px; padding: 9px 12px; border: 1px solid var(--store-border); border-radius: 8px; font-size: 13.5px; }
+.price-filter-row .btn-store.outline { padding: 9px 18px; }
+
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
 .product-card { background: #fff; border: 1px solid var(--store-border); border-radius: 12px; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s; cursor: pointer; }
 .product-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
@@ -117,21 +129,15 @@ a { text-decoration: none; color: inherit; }
    up that theme's font, color, and button styling so they don't feel
    like a different site.
    --------------------------------------------------------------------- */
-.store-chrome-page.theme-luxora, .store-chrome-page.theme-amara { font-family: Georgia, 'Times New Roman', serif; }
-.store-chrome-page .store-header { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-.store-chrome-page.theme-luxora .store-header { background: #221d16; }
-.store-chrome-page.theme-wink .store-header { background: #17351f; }
-.store-chrome-page.theme-novatrend .store-header { background: #16181d; }
-.store-chrome-page.theme-aurora .store-header { background: #12296e; }
-.store-chrome-page.theme-marketly .store-header { background: #3b0f80; }
-.store-chrome-page.theme-verdant .store-header { background: #084c40; }
-.store-chrome-page.theme-blossom .store-header { background: #a91f5c; }
-.store-chrome-page.theme-amara .store-header { background: #7a3620; }
-.store-chrome-page .btn-store { border-radius: 999px; }
-.store-chrome-page.theme-novatrend .btn-store, .store-chrome-page.theme-aurora .btn-store,
-.store-chrome-page.theme-marketly .btn-store, .store-chrome-page.theme-wink .btn-store,
-.store-chrome-page.theme-verdant .btn-store { border-radius: 8px; }
-.store-chrome-page.theme-amara .btn-store { border-radius: 2px; }
+/* Per-theme button personality (border radius) on the inner pages
+   (product/shop/cart/checkout) that reuse each theme's real nav via
+   partials/theme-header.php — matches the radius each theme already uses
+   on its homepage buttons, e.g. Amara's sharp corners vs Aurora's pill. */
+.store-inner-page .btn-store { border-radius: 999px; }
+.store-inner-page.theme-novatrend .btn-store, .store-inner-page.theme-aurora .btn-store,
+.store-inner-page.theme-marketly .btn-store, .store-inner-page.theme-wink .btn-store,
+.store-inner-page.theme-verdant .btn-store { border-radius: 8px; }
+.store-inner-page.theme-amara .btn-store { border-radius: 2px; }
 
 /* "Similar Products" section on the product detail page — reuses the homepage .product-card styling. */
 .similar-products-section { margin-top: 40px; }

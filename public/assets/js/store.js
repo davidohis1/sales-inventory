@@ -142,7 +142,20 @@ const StoreApp = (() => {
         setCart(cart);
     }
 
+    function wireNavChrome() {
+        // Some themes (novatrend/verdant/amara) collapse the search bar behind
+        // a toggle icon in the nav; wiring it here (rather than each theme's
+        // homepage-only inline <script>) means it also works on the
+        // product/shop/cart/checkout pages that share the same nav markup.
+        const searchToggle = document.getElementById('store-search-toggle');
+        if (searchToggle) {
+            const wrap = document.querySelector('.nt-search-wrap, .vd-search-wrap, .am-search-wrap');
+            if (wrap) searchToggle.addEventListener('click', () => wrap.classList.toggle('open'));
+        }
+    }
+
     function wireSearchAndFilters() {
+        wireNavChrome();
         const searchInput = document.getElementById('store-search');
         if (searchInput) {
             let debounce;
@@ -179,6 +192,7 @@ const StoreApp = (() => {
 
     async function renderProductDetail(id) {
         updateCartCount();
+        wireNavChrome();
         const root = document.getElementById('product-detail-root');
         try {
             const p = await apiGet(`/store/products/${id}`);
@@ -304,6 +318,7 @@ const StoreApp = (() => {
 
     function renderCartPage() {
         updateCartCount();
+        wireNavChrome();
         const root = document.getElementById('cart-root');
         function draw() {
             const cart = getCart();
@@ -331,6 +346,7 @@ const StoreApp = (() => {
 
     function renderCheckoutPage() {
         updateCartCount();
+        wireNavChrome();
         const root = document.getElementById('checkout-root');
         const cart = getCart();
         if (cart.length === 0) { root.innerHTML = '<div class="empty-store">Your cart is empty.</div>'; return; }
