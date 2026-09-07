@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS plan_features (
 ) ENGINE=InnoDB;
 
 INSERT IGNORE INTO plans (id, `key`, name, price_monthly, description, sort_order) VALUES
-    (1, 'basic',    'Basic',    3500.00, 'Everyday selling essentials for a single-location shop.', 1),
-    (2, 'advanced', 'Advanced', 5500.00, 'Adds online selling and business reporting.', 2),
-    (3, 'premium',  'Premium',  7500.00, 'Everything, including team, multi-branch and AI insights.', 3);
+    (1, 'basic',    'Basic',    1500.00, 'Everyday selling essentials for a single-location shop.', 1),
+    (2, 'advanced', 'Advanced', 2500.00, 'Adds online selling and business reporting.', 2),
+    (3, 'premium',  'Premium',  3500.00, 'Everything, including team, multi-branch and AI insights.', 3);
 
 INSERT IGNORE INTO plan_features (plan_id, feature_key, feature_label, enabled) VALUES
     (1, 'pos',        'Sales / POS',             1),

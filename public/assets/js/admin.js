@@ -1188,8 +1188,8 @@
     async function renderStorePage(content) {
         storeState = await Api.get('/store-settings');
         content.innerHTML = `
-        <div class="flex-between" style="margin-bottom:16px;">
-            <div class="flex" style="gap:10px;">
+        <div class="flex-between store-tabs-bar" style="margin-bottom:16px;">
+            <div class="flex store-tabs-scroll" style="gap:10px;">
                 <button class="btn btn-secondary tab-btn active" data-tab="theme">Theme</button>
                 <button class="btn btn-secondary tab-btn" data-tab="branding">Branding</button>
                 <button class="btn btn-secondary tab-btn" data-tab="content">Text Content</button>
@@ -1197,7 +1197,7 @@
                 <button class="btn btn-secondary tab-btn" data-tab="products">Products on Store</button>
                 <button class="btn btn-secondary tab-btn" data-tab="checkout">Checkout &amp; Notifications</button>
             </div>
-            <div class="flex" style="gap:8px;">
+            <div class="flex store-tabs-actions" style="gap:8px;">
                 <a class="btn btn-secondary" href="${window.APP_BASE || ''}/${slug}" target="_blank">Preview Store &#8599;</a>
                 <button class="btn" id="store-save-btn">Save Changes</button>
             </div>

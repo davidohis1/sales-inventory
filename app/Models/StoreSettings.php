@@ -8,7 +8,7 @@ class StoreSettings extends BaseModel
     protected static function table(): string { return 'store_settings'; }
 
     public const THEMES = ['aurora', 'wink', 'luxora', 'marketly', 'novatrend', 'verdant', 'blossom', 'amara'];
-    public const STORE_TYPES = ['fashion', 'tech', 'beauty', 'grocery', 'accessories', 'automotive', 'general'];
+    public const STORE_TYPES = ['fashion', 'tech', 'beauty', 'grocery', 'accessories', 'automotive', 'furniture', 'sports', 'kids', 'general'];
 
     public static function get(int $tenantId): array
     {

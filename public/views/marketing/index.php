@@ -10,234 +10,256 @@
 </head>
 <body class="ld-body">
 
-<div class="ld-hero-wrap">
+<div class="ld-nav-wrap">
     <nav class="ld-nav">
-        <a href="<?= $base ?>/" class="ld-logo">Oripio</a>
+        <a href="<?= $base ?>/" class="ld-logo"><span class="ld-logo-mark"></span> Oripio</a>
         <div class="ld-nav-links">
-            <a href="#features">Features</a>
+            <a href="#features" class="active">Features</a>
             <a href="#how-it-works">How it works</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
         </div>
-        <a href="<?= $base ?>/register" class="ld-pill-btn">Start Free</a>
+        <div class="ld-nav-right">
+            <a href="<?= $base ?>/login" class="ld-nav-login">Log in</a>
+            <a href="<?= $base ?>/register" class="ld-pill-btn">Start Free &rarr;</a>
+        </div>
     </nav>
-
-    <header class="ld-hero">
-        <div class="ld-blob"></div>
-        <span class="ld-badge ld-badge-1">&#9889;</span>
-        <span class="ld-badge ld-badge-2">&#8594;</span>
-        <h1>Run Your Business<br>Like A Pro.</h1>
-        <p>Sales, inventory, customers, an online store, and digital products —<br>all in one dashboard. Start free, no card required.</p>
-        <a href="<?= $base ?>/register" class="ld-pill-btn ld-pill-btn-lg">Start Free Trial &nbsp;&rarr;</a>
-    </header>
-
-    <div class="ld-illustration">
-        <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two people working on the Oripio dashboard">
-            <rect x="230" y="60" width="440" height="290" rx="22" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
-            <rect x="230" y="60" width="440" height="42" rx="22" fill="#efeafd"/>
-            <circle cx="256" cy="81" r="6" fill="#f97066"/>
-            <circle cx="276" cy="81" r="6" fill="#fdb022"/>
-            <circle cx="296" cy="81" r="6" fill="#17a672"/>
-            <rect x="254" y="122" width="150" height="14" rx="4" fill="#6c5ce7"/>
-            <rect x="254" y="146" width="180" height="10" rx="3" fill="#e4e0fb"/>
-            <rect x="254" y="166" width="130" height="10" rx="3" fill="#e4e0fb"/>
-            <rect x="254" y="196" width="150" height="90" rx="10" fill="#f4f2fe"/>
-            <rect x="270" y="212" width="60" height="34" rx="6" fill="#6c5ce7"/>
-            <rect x="340" y="212" width="48" height="34" rx="6" fill="#17a672"/>
-            <rect x="270" y="256" width="118" height="16" rx="4" fill="#d9d3fb"/>
-            <rect x="424" y="196" width="220" height="90" rx="10" fill="#f4f2fe"/>
-            <rect x="440" y="212" width="188" height="10" rx="3" fill="#d9d3fb"/>
-            <rect x="440" y="230" width="150" height="10" rx="3" fill="#d9d3fb"/>
-            <rect x="440" y="248" width="170" height="10" rx="3" fill="#d9d3fb"/>
-
-            <g>
-                <ellipse cx="120" cy="382" rx="86" ry="12" fill="#efeafd"/>
-                <rect x="60" y="330" width="120" height="14" rx="6" fill="#16181d"/>
-                <rect x="90" y="300" width="60" height="42" rx="4" fill="#6c5ce7"/>
-                <circle cx="120" cy="255" r="30" fill="#f4c6a5"/>
-                <path d="M92 250 q28 -36 56 0 v-14 q-28 -22 -56 0 z" fill="#16181d"/>
-                <rect x="88" y="278" width="64" height="54" rx="14" fill="#6c5ce7"/>
-                <rect x="70" y="292" width="26" height="46" rx="10" fill="#6c5ce7"/>
-                <rect x="144" y="292" width="26" height="46" rx="10" fill="#6c5ce7"/>
-            </g>
-
-            <g>
-                <ellipse cx="790" cy="382" rx="86" ry="12" fill="#efeafd"/>
-                <rect x="730" y="330" width="120" height="14" rx="6" fill="#16181d"/>
-                <rect x="760" y="300" width="60" height="42" rx="4" fill="#17a672"/>
-                <circle cx="790" cy="255" r="30" fill="#f4c6a5"/>
-                <path d="M762 248 q28 -30 56 0 q0 -20 -28 -22 q-28 2 -28 22 z" fill="#2b2320"/>
-                <rect x="758" y="278" width="64" height="54" rx="14" fill="#17a672"/>
-                <rect x="740" y="292" width="26" height="46" rx="10" fill="#17a672"/>
-                <rect x="814" y="292" width="26" height="46" rx="10" fill="#17a672"/>
-            </g>
-
-            <circle cx="60" cy="150" r="4" fill="#c9c2f7"/>
-            <circle cx="80" cy="130" r="3" fill="#c9c2f7"/>
-            <path d="M40 190 q10 -20 30 -10" stroke="#c9c2f7" stroke-width="2" fill="none"/>
-            <rect x="815" y="150" width="40" height="34" rx="8" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
-            <path d="M815 178 l10 10 l-10 6 z" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
-        </svg>
-    </div>
-
-    <div class="ld-dots"><span class="active"></span><span></span><span></span></div>
 </div>
+
+<section class="ld-hero-section">
+    <div class="ld-hero-grid">
+        <div class="ld-hero-text">
+            <span class="ld-hero-eyebrow"><span class="dot"></span> Simple &bull; Fast &bull; Reliable</span>
+            <h1>Run Your<br>Business,<br><span class="accent">Simplified.</span></h1>
+            <p>Sales, inventory, customers, an online store, and digital products — all in one dashboard. Start free, no card required.</p>
+            <div class="ld-hero-actions">
+                <a href="<?= $base ?>/register" class="ld-pill-btn ld-pill-btn-lg">Start Free Trial &rarr;</a>
+                <a href="#how-it-works" class="ld-watch-btn"><span class="ld-watch-circle">&#9654;</span> See how it works</a>
+            </div>
+            <div class="ld-hero-proof">
+                <div class="ld-avatar-stack">
+                    <span style="background:#6c5ce7;">A</span>
+                    <span style="background:#17a672;">B</span>
+                    <span style="background:#fdb022;">C</span>
+                </div>
+                <div class="ld-hero-proof-text">
+                    <strong>2,000+ businesses onboard</strong>
+                    <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.8</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ld-hero-visual">
+            <div class="ld-hero-visual-blob"></div>
+            <span class="ld-hero-heart">&#10084;&#65039;</span>
+            <svg viewBox="0 0 520 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Business owner using the Oripio dashboard on a tablet">
+                <rect x="70" y="60" width="380" height="440" rx="26" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
+                <rect x="70" y="60" width="380" height="54" rx="26" fill="#efeafd"/>
+                <circle cx="100" cy="87" r="7" fill="#f97066"/>
+                <circle cx="124" cy="87" r="7" fill="#fdb022"/>
+                <circle cx="148" cy="87" r="7" fill="#17a672"/>
+                <rect x="96" y="140" width="180" height="18" rx="5" fill="#6c5ce7"/>
+                <rect x="96" y="170" width="220" height="12" rx="4" fill="#e4e0fb"/>
+                <rect x="96" y="192" width="150" height="12" rx="4" fill="#e4e0fb"/>
+                <rect x="96" y="226" width="164" height="104" rx="14" fill="#f4f2fe"/>
+                <rect x="114" y="246" width="70" height="40" rx="8" fill="#6c5ce7"/>
+                <rect x="192" y="246" width="52" height="40" rx="8" fill="#17a672"/>
+                <rect x="114" y="298" width="128" height="16" rx="4" fill="#d9d3fb"/>
+                <rect x="276" y="226" width="154" height="104" rx="14" fill="#f4f2fe"/>
+                <rect x="292" y="246" width="122" height="12" rx="4" fill="#d9d3fb"/>
+                <rect x="292" y="266" width="96" height="12" rx="4" fill="#d9d3fb"/>
+                <rect x="292" y="286" width="110" height="12" rx="4" fill="#d9d3fb"/>
+                <rect x="96" y="352" width="334" height="60" rx="14" fill="#14141a"/>
+                <rect x="112" y="368" width="90" height="12" rx="4" fill="#fff"/>
+                <rect x="112" y="386" width="130" height="10" rx="3" fill="#8a86a8"/>
+                <rect x="360" y="366" width="52" height="30" rx="15" fill="#6c5ce7"/>
+
+                <g>
+                    <ellipse cx="240" cy="534" rx="120" ry="14" fill="#efeafd"/>
+                    <rect x="180" y="470" width="120" height="20" rx="8" fill="#16181d"/>
+                    <circle cx="240" cy="420" r="38" fill="#f4c6a5"/>
+                    <path d="M204 414 q36 -46 72 0 v-18 q-36 -28 -72 0 z" fill="#16181d"/>
+                    <rect x="200" y="452" width="80" height="66" rx="16" fill="#6c5ce7"/>
+                    <rect x="176" y="468" width="30" height="58" rx="12" fill="#6c5ce7"/>
+                    <rect x="274" y="468" width="30" height="58" rx="12" fill="#17a672"/>
+                </g>
+            </svg>
+            <div class="ld-hero-float-card ld-hero-float-1">
+                <span class="icn">&#9889;</span>
+                <div><div class="lbl">Get set up in</div><div class="val">5 minutes</div></div>
+            </div>
+            <div class="ld-hero-float-card ld-hero-float-2">
+                <span class="tag">Limited offer</span>
+                <span class="big">7-Day Free Trial</span>
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="ld-section" id="how-it-works">
     <div class="ld-section-head">
-        <h2>Everything you need to run and<br>grow your business</h2>
+        <span class="ld-eyebrow-tag">WHY CHOOSE US</span>
+        <h2>Your Favourite Business<br>Management Partner</h2>
         <p>From your first sale to your hundredth branch — one dashboard, no spreadsheets.</p>
     </div>
-    <div class="ld-testimonial-row">
-        <div class="ld-t-card ld-t-light">
-            <p>"Set up your shop, add products, and start selling — in-store or online — the same day you sign up."</p>
-            <strong>Get started in minutes</strong>
-            <a href="<?= $base ?>/register">Start Free Trial &rarr;</a>
+    <div class="ld-why-row">
+        <div class="ld-why-item">
+            <span class="icn">&#9889;</span>
+            <strong>Lightning Fast Setup</strong>
+            <p>Add products, staff, and branches in minutes — start selling the same day you sign up.</p>
         </div>
-        <div class="ld-t-card ld-t-dark">
-            <div class="ld-t-icon">&#128176;</div>
-            <p>"Track revenue, profit, and stock in real time, with AI insights that explain what's actually happening."</p>
-            <strong>Know your numbers</strong>
-            <span>Real-time reporting</span>
+        <div class="ld-why-item">
+            <span class="icn">&#128202;</span>
+            <strong>Real-Time Insights</strong>
+            <p>Track revenue, profit, and stock as it happens, with AI insights that explain the numbers.</p>
         </div>
-    </div>
-</section>
-
-<section class="ld-section" id="online-store">
-    <div class="ld-split">
-        <div class="ld-split-text">
-            <span class="ld-eyebrow-tag">ONLINE STORE</span>
-            <h2>Sell online without touching a line of code</h2>
-            <p>Turn on a branded storefront in minutes. Pick a theme, choose a header photo for your category, and edit every heading — no developer needed.</p>
-            <ul class="ld-check-list">
-                <li>5 ready-made themes, each fully customizable</li>
-                <li>Organize products into categories customers can filter</li>
-                <li>Flutterwave checkout built in, with order tracking from "Ordered" to "Delivered"</li>
-                <li>See exactly how much you've earned and withdraw any time</li>
-            </ul>
-            <a href="<?= $base ?>/register" class="ld-pill-btn">Start Selling Online &rarr;</a>
-        </div>
-        <div class="ld-split-visual">
-            <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Online store preview">
-                <rect x="10" y="10" width="400" height="320" rx="20" fill="#f6f5fc"/>
-                <rect x="30" y="30" width="360" height="46" rx="12" fill="#fff"/>
-                <circle cx="52" cy="53" r="10" fill="#6c5ce7"/>
-                <rect x="72" y="45" width="90" height="16" rx="4" fill="#d9d3fb"/>
-                <rect x="300" y="42" width="70" height="22" rx="11" fill="#14141a"/>
-                <rect x="30" y="90" width="170" height="110" rx="12" fill="#fff"/>
-                <rect x="46" y="104" width="138" height="60" rx="8" fill="#e4e0fb"/>
-                <rect x="46" y="174" width="100" height="10" rx="3" fill="#d9d3fb"/>
-                <rect x="46" y="190" width="60" height="12" rx="4" fill="#6c5ce7"/>
-                <rect x="216" y="90" width="174" height="110" rx="12" fill="#fff"/>
-                <rect x="232" y="104" width="142" height="60" rx="8" fill="#d7f5df"/>
-                <rect x="232" y="174" width="100" height="10" rx="3" fill="#d9d3fb"/>
-                <rect x="232" y="190" width="60" height="12" rx="4" fill="#17a672"/>
-                <rect x="30" y="216" width="360" height="94" rx="12" fill="#14141a"/>
-                <rect x="50" y="236" width="120" height="14" rx="4" fill="#fff"/>
-                <rect x="50" y="260" width="180" height="10" rx="3" fill="#5a5a66"/>
-                <rect x="50" y="278" width="90" height="20" rx="10" fill="#6c5ce7"/>
-            </svg>
-        </div>
-    </div>
-</section>
-
-<section class="ld-section" id="sales-inventory">
-    <div class="ld-split ld-split-reverse">
-        <div class="ld-split-visual">
-            <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sales and inventory dashboard preview">
-                <rect x="10" y="10" width="400" height="320" rx="20" fill="#f6f5fc"/>
-                <rect x="30" y="30" width="170" height="90" rx="12" fill="#fff"/>
-                <rect x="46" y="46" width="90" height="10" rx="3" fill="#d9d3fb"/>
-                <rect x="46" y="68" width="60" height="20" rx="4" fill="#14141a"/>
-                <rect x="46" y="96" width="70" height="8" rx="3" fill="#17a672"/>
-                <rect x="220" y="30" width="170" height="90" rx="12" fill="#fff"/>
-                <rect x="236" y="46" width="90" height="10" rx="3" fill="#d9d3fb"/>
-                <rect x="236" y="68" width="60" height="20" rx="4" fill="#14141a"/>
-                <rect x="236" y="96" width="70" height="8" rx="3" fill="#f97066"/>
-                <rect x="30" y="134" width="360" height="176" rx="12" fill="#fff"/>
-                <rect x="48" y="152" width="140" height="12" rx="4" fill="#14141a"/>
-                <g>
-                    <rect x="48" y="184" width="60" height="70" rx="6" fill="#e4e0fb"/>
-                    <rect x="118" y="204" width="60" height="50" rx="6" fill="#e4e0fb"/>
-                    <rect x="188" y="164" width="60" height="90" rx="6" fill="#6c5ce7"/>
-                    <rect x="258" y="194" width="60" height="60" rx="6" fill="#e4e0fb"/>
-                    <rect x="328" y="174" width="40" height="80" rx="6" fill="#e4e0fb"/>
-                </g>
-            </svg>
-        </div>
-        <div class="ld-split-text">
-            <span class="ld-eyebrow-tag">SALES &amp; INVENTORY</span>
-            <h2>Never lose track of stock again</h2>
-            <p>Ring up sales in seconds with POS, and watch stock levels update automatically across every branch — no more guessing what's left on the shelf.</p>
-            <ul class="ld-check-list">
-                <li>Real-time stock levels with low-stock alerts</li>
-                <li>Point-of-sale built for fast, in-person checkout</li>
-                <li>Profit tracking — revenue minus cost minus expenses, automatically</li>
-                <li>AI insights that explain your trends in plain language</li>
-            </ul>
-            <a href="<?= $base ?>/register" class="ld-pill-btn">Start Free Trial &rarr;</a>
-        </div>
-    </div>
-</section>
-
-<section class="ld-section" id="why-oripio">
-    <div class="ld-section-head">
-        <h2>Why your business needs this</h2>
-        <p>Running a business on notebooks and spreadsheets works — until it doesn't.</p>
-    </div>
-    <div class="ld-why-grid">
-        <div class="ld-why-card">
-            <span class="ld-why-icon">&#9203;</span>
-            <strong>Save hours every week</strong>
-            <p>Stop re-typing the same sale into three different books. One entry updates stock, revenue, and customer history at once.</p>
-        </div>
-        <div class="ld-why-card">
-            <span class="ld-why-icon">&#128200;</span>
-            <strong>Stop guessing, start knowing</strong>
-            <p>See exactly what's selling, what's not, and where your money is going — instead of finding out at the end of the month.</p>
-        </div>
-        <div class="ld-why-card">
-            <span class="ld-why-icon">&#127760;</span>
-            <strong>Sell beyond your shop</strong>
-            <p>Your customers aren't only the ones who walk in. An online store and digital products let you sell to anyone, anywhere.</p>
-        </div>
-        <div class="ld-why-card">
-            <span class="ld-why-icon">&#128101;</span>
-            <strong>Grow your team with confidence</strong>
-            <p>Add staff with role-based access, so everyone can help run the business without you losing visibility or control.</p>
+        <div class="ld-why-item">
+            <span class="icn">&#127775;</span>
+            <strong>Built To Grow With You</strong>
+            <p>From a single shop to multiple branches and staff, Oripio scales right alongside your business.</p>
         </div>
     </div>
 </section>
 
 <section class="ld-section" id="features">
-    <div class="ld-bento">
-        <div class="ld-bento-card ld-bento-green">
-            <span class="ld-bento-icon">&#128190;</span>
-            <strong>Digital Products</strong>
-            <p>Sell ebooks, courses or files with their own checkout page — free on every plan, forever.</p>
+    <div class="ld-explore-head">
+        <div>
+            <span class="ld-explore-eyebrow">Explore Oripio</span>
+            <h2>Everything You'll Love</h2>
         </div>
-        <div class="ld-bento-card ld-bento-purple">
-            <span class="ld-bento-icon">&#127968;</span>
-            <strong>Your Own Online Store</strong>
-            <p>Pick a theme, choose a header photo, and start taking orders online in minutes.</p>
+        <div class="ld-explore-arrows">
+            <button type="button" id="feat-prev" aria-label="Previous">&#8592;</button>
+            <button type="button" id="feat-next" aria-label="Next">&#8594;</button>
         </div>
-        <div class="ld-bento-card ld-bento-dark" id="pricing-teaser">
-            <strong>Starting at</strong>
-            <div class="ld-price">&#8358;3,500<span>/mo</span></div>
-            <p>3-day free trial on every plan</p>
-            <a href="#pricing">See plans &rarr;</a>
+    </div>
+    <div class="ld-cat-pills">
+        <button class="active" data-cat="all">All</button>
+        <button data-cat="sales">Sales &amp; POS</button>
+        <button data-cat="inventory">Inventory</button>
+        <button data-cat="store">Online Store</button>
+        <button data-cat="digital">Digital Products</button>
+        <button data-cat="reports">Reports</button>
+    </div>
+    <div class="ld-feature-row" id="feature-cards">
+        <div class="ld-feature-card" data-cat="sales">
+            <div class="fc-top"><span class="fc-badge">Core</span>&#128179;</div>
+            <div class="fc-body">
+                <strong>Sales &amp; POS</strong>
+                <p>Ring up sales in-store, track every transaction, and keep receipts organized automatically.</p>
+                <span class="fc-cta">Learn more &rarr;</span>
+            </div>
         </div>
-        <div class="ld-bento-card ld-bento-light">
-            <strong>Secure Payments</strong>
-            <p>Every online payment — store or digital product — is processed securely through Flutterwave.</p>
+        <div class="ld-feature-card" data-cat="inventory">
+            <div class="fc-top"><span class="fc-badge">Core</span>&#128230;</div>
+            <div class="fc-body">
+                <strong>Inventory Tracking</strong>
+                <p>Always know what's in stock, get low-stock alerts, and never oversell again.</p>
+                <span class="fc-cta">Learn more &rarr;</span>
+            </div>
+        </div>
+        <div class="ld-feature-card" data-cat="store">
+            <div class="fc-top"><span class="fc-badge">Popular</span>&#127968;</div>
+            <div class="fc-body">
+                <strong>Online Store</strong>
+                <p>Launch a branded storefront with a theme, header photo, and checkout — no code needed.</p>
+                <span class="fc-cta">Learn more &rarr;</span>
+            </div>
+        </div>
+        <div class="ld-feature-card" data-cat="digital">
+            <div class="fc-top"><span class="fc-badge">Free forever</span>&#128190;</div>
+            <div class="fc-body">
+                <strong>Digital Products</strong>
+                <p>Sell ebooks, courses, or files with their own checkout page — free on every plan.</p>
+                <span class="fc-cta">Learn more &rarr;</span>
+            </div>
+        </div>
+        <div class="ld-feature-card" data-cat="reports">
+            <div class="fc-top"><span class="fc-badge">Insights</span>&#128200;</div>
+            <div class="fc-body">
+                <strong>Reports &amp; AI Insights</strong>
+                <p>See exactly what's selling, what's not, and where your money is going — with AI explaining why.</p>
+                <span class="fc-cta">Learn more &rarr;</span>
+            </div>
+        </div>
+        <div class="ld-feature-card" data-cat="sales">
+            <div class="fc-top"><span class="fc-badge">Core</span>&#128101;</div>
+            <div class="fc-body">
+                <strong>Staff &amp; Branches</strong>
+                <p>Add staff with role-based access and manage multiple branches from one place.</p>
+                <span class="fc-cta">Learn more &rarr;</span>
+            </div>
         </div>
     </div>
 </section>
 
+<section class="ld-section" id="testimonials">
+    <div class="ld-testi-split">
+        <div class="ld-testi-visual">
+            <div class="avatar-big">&#128075;</div>
+            <p style="font-weight:700; margin:0;">Trusted by 2,000+ business owners</p>
+            <div class="thumb-badge">&#128077; Loved by our customers</div>
+        </div>
+        <div class="ld-testi-text">
+            <span class="ld-testi-eyebrow">What our customers say</span>
+            <h2>Loved By Business Owners Everywhere</h2>
+            <p>We're proud to help businesses run smoother and grow faster, every single day.</p>
+            <div class="ld-testi-card">
+                <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9</div>
+                <p>"Oripio replaced three different notebooks and a spreadsheet. Now I see my whole business — sales, stock, and store orders — in one place."</p>
+                <div class="ld-testi-who">
+                    <span class="av">A</span>
+                    <div><strong>Ada Johnson</strong><span>Owner, AJ Tech Gadgets</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="ld-promo-band">
+    <div>
+        <span class="ld-promo-eyebrow">Start Selling Today</span>
+        <h2>See Your Whole Business On One Screen</h2>
+        <p>Sales, stock, customers, and your online store — updated in real time, from any device.</p>
+        <div class="ld-promo-actions">
+            <a href="<?= $base ?>/register" class="ld-pill-btn">Start Free Trial &rarr;</a>
+            <a href="<?= $base ?>/plans" class="ld-pill-btn ld-pill-btn-outline">See Plans</a>
+        </div>
+    </div>
+    <div class="ld-promo-visual">
+        <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dashboard preview on a phone and desktop">
+            <rect x="10" y="10" width="260" height="300" rx="20" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
+            <rect x="10" y="10" width="260" height="36" rx="20" fill="#efeafd"/>
+            <rect x="28" y="64" width="224" height="70" rx="10" fill="#f4f2fe"/>
+            <rect x="42" y="80" width="90" height="10" rx="3" fill="#d9d3fb"/>
+            <rect x="42" y="98" width="60" height="18" rx="6" fill="#6c5ce7"/>
+            <rect x="28" y="146" width="224" height="70" rx="10" fill="#f4f2fe"/>
+            <rect x="42" y="162" width="110" height="10" rx="3" fill="#d9d3fb"/>
+            <rect x="42" y="180" width="60" height="18" rx="6" fill="#17a672"/>
+            <rect x="28" y="228" width="224" height="60" rx="10" fill="#14141a"/>
+            <rect x="42" y="244" width="90" height="10" rx="3" fill="#fff"/>
+            <rect x="42" y="260" width="130" height="8" rx="3" fill="#8a86a8"/>
+            <rect x="300" y="60" width="110" height="220" rx="18" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
+            <rect x="316" y="80" width="78" height="60" rx="8" fill="#e4e0fb"/>
+            <rect x="316" y="150" width="78" height="10" rx="3" fill="#d9d3fb"/>
+            <rect x="316" y="166" width="50" height="14" rx="5" fill="#17a672"/>
+            <rect x="316" y="196" width="78" height="10" rx="3" fill="#d9d3fb"/>
+            <rect x="316" y="212" width="50" height="14" rx="5" fill="#6c5ce7"/>
+        </svg>
+    </div>
+</div>
+
+<section class="ld-trust-strip">
+    <div class="ld-trust-item"><span class="icn">&#127974;</span><div><strong>Free Setup</strong><span>No hidden costs</span></div></div>
+    <div class="ld-trust-item"><span class="icn">&#128260;</span><div><strong>Cancel Anytime</strong><span>No lock-in contracts</span></div></div>
+    <div class="ld-trust-item"><span class="icn">&#128274;</span><div><strong>Secure Payments</strong><span>Powered by Flutterwave</span></div></div>
+    <div class="ld-trust-item"><span class="icn">&#127911;</span><div><strong>24/7 Support</strong><span>We're here to help</span></div></div>
+</section>
+
 <section class="ld-section" id="pricing">
     <div class="ld-section-head">
-        <h2>Simple, transparent pricing</h2>
-        <p>Every plan starts with a 3-day free trial. Cancel or switch any time.</p>
+        <span class="ld-eyebrow-tag">PRICING</span>
+        <h2>Simple, Transparent Pricing</h2>
+        <p>Every plan starts with a 7-day free trial. Cancel or switch any time.</p>
     </div>
     <div class="pricing-grid" id="pricing-cards">
         <div class="empty-state" style="grid-column: 1 / -1;"><div class="spinner"></div></div>
@@ -246,13 +268,14 @@
 
 <section class="ld-section" id="faq">
     <div class="ld-section-head">
-        <h2>Frequently asked questions</h2>
+        <span class="ld-eyebrow-tag">FAQ</span>
+        <h2>Frequently Asked Questions</h2>
         <p>Can't find your answer? Reach out any time — we're happy to help.</p>
     </div>
     <div class="pub-faq" id="faq-list">
         <div class="pub-faq-item">
             <button class="pub-faq-q">Do I need a card to start the free trial? <span>+</span></button>
-            <div class="pub-faq-a"><p>No. You get full access to every feature on your chosen plan for 3 days, with no payment details required up front.</p></div>
+            <div class="pub-faq-a"><p>No. You get full access to every feature on your chosen plan for 7 days, with no payment details required up front.</p></div>
         </div>
         <div class="pub-faq-item">
             <button class="pub-faq-q">What happens when my trial ends? <span>+</span></button>
@@ -268,18 +291,63 @@
         </div>
         <div class="pub-faq-item">
             <button class="pub-faq-q">Can I customize my online store's design? <span>+</span></button>
-            <div class="pub-faq-a"><p>Yes. Pick your store's category and a matching theme, choose a header image, and edit the text and background images throughout — no code required.</p></div>
+            <div class="pub-faq-a"><p>Yes. Pick your store's category and a matching theme, choose a header image from a curated gallery, and edit the text throughout — no code required.</p></div>
         </div>
     </div>
 </section>
 
 <div class="ld-cta-band">
     <h2>Ready to run your business the easy way?</h2>
-    <p>Start your 3-day free trial — no card required.</p>
+    <p>Start your 7-day free trial — no card required.</p>
     <a href="<?= $base ?>/register" class="ld-pill-btn ld-pill-btn-lg">Start Free Trial</a>
 </div>
 
-<footer class="pub-footer">&copy; <?= date('Y') ?> Oripio. All rights reserved.</footer>
+<footer class="ld-footer">
+    <div class="ld-footer-grid">
+        <div class="ld-footer-brand">
+            <a href="<?= $base ?>/" class="ld-logo"><span class="ld-logo-mark"></span> Oripio</a>
+            <p>Sales, inventory, an online store, and digital products — everything your business needs, in one dashboard.</p>
+            <div class="ld-footer-social">
+                <a href="#" aria-label="Facebook">f</a>
+                <a href="#" aria-label="Instagram">ig</a>
+                <a href="#" aria-label="X">x</a>
+            </div>
+        </div>
+        <div class="ld-footer-col">
+            <strong>Company</strong>
+            <ul>
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="ld-footer-col">
+            <strong>Support</strong>
+            <ul>
+                <li><a href="#faq">Help Center</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="<?= $base ?>/login">Log in</a></li>
+            </ul>
+        </div>
+        <div class="ld-footer-col">
+            <strong>For Businesses</strong>
+            <ul>
+                <li><a href="<?= $base ?>/register">Start Free Trial</a></li>
+                <li><a href="#features">Online Store</a></li>
+                <li><a href="#features">Digital Products</a></li>
+            </ul>
+        </div>
+        <div class="ld-footer-col ld-footer-newsletter">
+            <strong>Newsletter</strong>
+            <p>Subscribe for product updates and tips.</p>
+            <form class="ld-newsletter-form" onsubmit="return false;">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit" aria-label="Subscribe">&rarr;</button>
+            </form>
+        </div>
+    </div>
+    <div class="ld-footer-bottom">&copy; <?= date('Y') ?> Oripio. All rights reserved.</div>
+</footer>
 
 <script>
 document.querySelectorAll('.pub-faq-q').forEach((btn) => {
@@ -290,6 +358,23 @@ document.querySelectorAll('.pub-faq-q').forEach((btn) => {
         if (!wasOpen) item.classList.add('open');
     });
 });
+
+document.querySelectorAll('.ld-cat-pills button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.ld-cat-pills button').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat;
+        document.querySelectorAll('#feature-cards .ld-feature-card').forEach((card) => {
+            card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+        });
+    });
+});
+
+(function () {
+    const row = document.getElementById('feature-cards');
+    document.getElementById('feat-prev').addEventListener('click', () => row.scrollBy({ left: -280, behavior: 'smooth' }));
+    document.getElementById('feat-next').addEventListener('click', () => row.scrollBy({ left: 280, behavior: 'smooth' }));
+})();
 
 (async function () {
     try {
@@ -310,14 +395,6 @@ document.querySelectorAll('.pub-faq-q').forEach((btn) => {
     } catch (e) {
         document.getElementById('pricing-cards').innerHTML = '<p class="text-muted" style="grid-column:1/-1; text-align:center;">Could not load pricing right now.</p>';
     }
-
-    const dots = document.querySelectorAll('.ld-dots span');
-    let idx = 0;
-    setInterval(() => {
-        dots.forEach((d) => d.classList.remove('active'));
-        idx = (idx + 1) % dots.length;
-        dots[idx].classList.add('active');
-    }, 2600);
 })();
 </script>
 </body>

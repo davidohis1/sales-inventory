@@ -22,12 +22,12 @@ from a single entrypoint.
 - **Public marketing site**: `/` (landing), `/register` (business signup),
   `/login` (platform-wide login — looks up your business by email, no slug
   needed), `/plans` or `/pricing` (public pricing page).
-- **3-day free trial** starts automatically on registration. Every feature
+- **7-day free trial** starts automatically on registration. Every feature
   is unlocked during the trial. Once it (or a paid subscription) expires,
   feature API routes return `402` and the portal sends the user to
   **Plans & Billing** to pay.
-- **Three plans** — Basic (₦3,500/mo: POS, Products, Customers, Expenses),
-  Advanced (₦5,500/mo: + Online Orders, Store, Reports), Premium (₦7,500/mo:
+- **Three plans** — Basic (₦1,500/mo: POS, Products, Customers, Expenses),
+  Advanced (₦2,500/mo: + Online Orders, Store, Reports), Premium (₦3,500/mo:
   + Staff, Branches, AI Insights). Prices, names, descriptions and the
   feature toggles are all editable from the platform admin.
 - **Flutterwave** powers both subscription payments and store-order
@@ -92,6 +92,12 @@ mysql -u root -p sales_inventory < database/schema.sql
 > mysql -u root -p sales_inventory < database/migration_v5.sql
 > mysql -u root -p sales_inventory < database/migration_v6.sql
 > mysql -u root -p sales_inventory < database/migration_v7.sql
+> mysql -u root -p sales_inventory < database/migration_v8.sql
+> ```
+> Already up to v8? Run v9 for the new pricing (₦1,500 / ₦2,500 / ₦3,500),
+> the 7-day trial, and the furniture/sports/kids store categories:
+> ```bash
+> mysql -u root -p sales_inventory < database/migration_v9.sql
 > ```
 
 ### 2. Configure environment
@@ -133,7 +139,7 @@ php -S localhost:8009 -t public
 | URL pattern              | Purpose                                   |
 |---------------------------|-------------------------------------------|
 | `/`                        | Marketing landing page                    |
-| `/register`                | Business self-signup (starts 3-day trial) |
+| `/register`                | Business self-signup (starts 7-day trial) |
 | `/login`                   | Platform-wide login (email-only, no slug) |
 | `/plans` or `/pricing`     | Public pricing page                       |
 | `/payments/callback`       | Flutterwave return URL                    |

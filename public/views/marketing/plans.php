@@ -20,7 +20,7 @@
 <section class="pub-section" style="padding-top:50px;">
     <div class="pub-section-head">
         <h2>Simple, transparent pricing</h2>
-        <p>Every plan starts with a 3-day free trial. Already have an account and your trial just ended? Log in and upgrade from your dashboard.</p>
+        <p>Every plan starts with a 7-day free trial. Already have an account and your trial just ended? Log in and upgrade from your dashboard.</p>
     </div>
     <div class="pricing-grid" id="pricing-cards">
         <div class="empty-state" style="grid-column: 1 / -1;"><div class="spinner"></div></div>

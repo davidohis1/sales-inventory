@@ -8,55 +8,73 @@
 <link rel="stylesheet" href="<?= $base ?>/assets/css/style.css">
 </head>
 <body class="pub-body">
-<nav class="pub-nav">
-    <a href="<?= $base ?>/" class="pub-logo"><span class="logo-dot"></span> Oripio</a>
-    <div></div>
-    <div class="pub-nav-cta"><span class="text-muted" style="font-size:13px;">Already have an account?</span><a href="<?= $base ?>/login" class="btn btn-secondary">Log in</a></div>
-</nav>
 
-<div class="login-page" style="min-height: calc(100vh - 68px);">
-    <div class="login-card wide">
-        <span class="trial-badge">&#9889; 3-day free trial — no card required</span>
-        <h2>Register your business</h2>
-        <p class="text-muted" style="margin-top:-8px;">Set up your account in under a minute.</p>
-        <form id="register-form">
-            <div class="form-group">
-                <label>Business name</label>
-                <input class="form-control" name="business_name" placeholder="e.g. AJ Electronics" required>
+<div class="auth-split">
+    <div class="auth-visual-panel">
+        <div class="auth-blob-1"></div>
+        <div class="auth-blob-2"></div>
+        <a href="<?= $base ?>/" class="auth-visual-logo"><span class="dot"></span> Oripio</a>
+        <div class="auth-visual-body">
+            <h3>Set up your business dashboard in under a minute.</h3>
+            <p>Sales, inventory, customers, an online store, and digital products — all in one place. Start your 7-day free trial, no card required.</p>
+            <div class="auth-visual-card">
+                <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9</div>
+                <p>"Set up your shop, add products, and start selling — in-store or online — the same day you sign up."</p>
+                <div class="who">Musa Bello &middot; Store Manager</div>
             </div>
-            <div class="form-row">
+        </div>
+        <div class="auth-visual-stats">
+            <div><strong>2,000+</strong><span>Businesses</span></div>
+            <div><strong>7 days</strong><span>Free trial</span></div>
+            <div><strong>24/7</strong><span>Support</span></div>
+        </div>
+    </div>
+
+    <div class="auth-form-panel">
+        <div class="login-card wide">
+            <div class="auth-form-mobile-logo"><span class="dot"></span> Oripio</div>
+            <span class="trial-badge">&#9889; 7-day free trial — no card required</span>
+            <h2>Register your business</h2>
+            <p class="text-muted" style="margin-top:-8px;">Set up your account in under a minute.</p>
+            <form id="register-form">
                 <div class="form-group">
-                    <label>Your full name</label>
-                    <input class="form-control" name="full_name" placeholder="Jane Doe" required>
+                    <label>Business name</label>
+                    <input class="form-control" name="business_name" placeholder="e.g. AJ Electronics" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Your full name</label>
+                        <input class="form-control" name="full_name" placeholder="Jane Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input class="form-control" name="phone" placeholder="080...">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>Phone</label>
-                    <input class="form-control" name="phone" placeholder="080...">
+                    <label>Email</label>
+                    <input class="form-control" type="email" name="email" placeholder="you@business.com" required>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input class="form-control" type="email" name="email" placeholder="you@business.com" required>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Password</label>
-                    <input class="form-control" type="password" name="password" placeholder="At least 6 characters" required minlength="6">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input class="form-control" type="password" name="password" placeholder="At least 6 characters" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Currency</label>
+                        <select class="form-control" name="currency">
+                            <option value="NGN" selected>NGN — Naira</option>
+                            <option value="GHS">GHS — Cedi</option>
+                            <option value="KES">KES — Shilling</option>
+                            <option value="USD">USD — Dollar</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Currency</label>
-                    <select class="form-control" name="currency">
-                        <option value="NGN" selected>NGN — Naira</option>
-                        <option value="GHS">GHS — Cedi</option>
-                        <option value="KES">KES — Shilling</option>
-                        <option value="USD">USD — Dollar</option>
-                    </select>
-                </div>
-            </div>
-            <div id="register-error" class="form-error" style="display:none; margin-bottom:10px;"></div>
-            <button class="btn" type="submit" style="width:100%; justify-content:center;" id="register-submit">Start Free Trial</button>
-        </form>
-        <p class="auth-switch">By continuing you agree to the fair-use of your 3-day free trial. Already registered? <a href="<?= $base ?>/login">Log in</a></p>
+                <div id="register-error" class="form-error" style="display:none; margin-bottom:10px;"></div>
+                <button class="btn" type="submit" style="width:100%; justify-content:center;" id="register-submit">Start Free Trial</button>
+            </form>
+            <p class="auth-switch">By continuing you agree to the fair-use of your 7-day free trial. Already registered? <a href="<?= $base ?>/login">Log in</a></p>
+        </div>
     </div>
 </div>
 

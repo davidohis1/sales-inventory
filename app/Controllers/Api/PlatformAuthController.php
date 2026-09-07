@@ -65,8 +65,8 @@ class PlatformAuthController
             'refresh_token' => $refreshToken,
             'user' => ['id' => $userId, 'full_name' => $fullName, 'email' => $email, 'role' => 'owner'],
             'tenant' => ['slug' => $slug, 'business_name' => $businessName],
-            'trial_days' => 3,
-        ], 'Business registered — your 3-day free trial has started', 201);
+            'trial_days' => 7,
+        ], 'Business registered — your 7-day free trial has started', 201);
     }
 
     public function login(Request $request): void

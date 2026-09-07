@@ -147,7 +147,34 @@ INSERT INTO header_images (store_type, image_path, label, sort_order) VALUES
 ('general', 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1400&h=1000&fit=crop&auto=format&q=80', 'Product shelf', 2),
 ('general', 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1400&h=1000&fit=crop&auto=format&q=80', 'Shopping bags', 3),
 ('general', 'https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=1400&h=1000&fit=crop&auto=format&q=80', 'Delivery boxes', 4),
-('general', 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1400&h=1000&fit=crop&auto=format&q=80', 'Marketplace', 5);
+('general', 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1400&h=1000&fit=crop&auto=format&q=80', 'Marketplace', 5),
+
+('furniture', 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1400&h=1000&fit=crop&auto=format&q=80', 'Modern living room sofa', 0),
+('furniture', 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1400&h=1000&fit=crop&auto=format&q=80', 'Bedroom furniture set', 1),
+('furniture', 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=1400&h=1000&fit=crop&auto=format&q=80', 'Styled interior corner', 2),
+('furniture', 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=1400&h=1000&fit=crop&auto=format&q=80', 'Dining table setup', 3),
+('furniture', 'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=1400&h=1000&fit=crop&auto=format&q=80', 'Accent armchair', 4),
+('furniture', 'https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=1400&h=1000&fit=crop&auto=format&q=80', 'Wooden shelving', 5),
+('furniture', 'https://images.unsplash.com/photo-1550254478-ead40cc54513?w=1400&h=1000&fit=crop&auto=format&q=80', 'Minimalist sofa', 6),
+('furniture', 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1400&h=1000&fit=crop&auto=format&q=80', 'Home library shelf', 7),
+
+('sports', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&h=1000&fit=crop&auto=format&q=80', 'Running shoes', 0),
+('sports', 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1400&h=1000&fit=crop&auto=format&q=80', 'Basketball on court', 1),
+('sports', 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1400&h=1000&fit=crop&auto=format&q=80', 'Gym dumbbells', 2),
+('sports', 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1400&h=1000&fit=crop&auto=format&q=80', 'Runner on track', 3),
+('sports', 'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=1400&h=1000&fit=crop&auto=format&q=80', 'Weightlifting plates', 4),
+('sports', 'https://images.unsplash.com/photo-1517341860889-5a5aa1cef1fc?w=1400&h=1000&fit=crop&auto=format&q=80', 'Soccer ball on grass', 5),
+('sports', 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1400&h=1000&fit=crop&auto=format&q=80', 'Cyclist on road', 6),
+('sports', 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1400&h=1000&fit=crop&auto=format&q=80', 'Tennis racket & ball', 7),
+
+('kids', 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=1400&h=1000&fit=crop&auto=format&q=80', 'Colorful kids toys', 0),
+('kids', 'https://images.unsplash.com/photo-1558877385-81a1c7e67d72?w=1400&h=1000&fit=crop&auto=format&q=80', 'Baby toys flatlay', 1),
+('kids', 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=1400&h=1000&fit=crop&auto=format&q=80', 'Toddler playing', 2),
+('kids', 'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=1400&h=1000&fit=crop&auto=format&q=80', 'Stacked toy blocks', 3),
+('kids', 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=1400&h=1000&fit=crop&auto=format&q=80', 'Kids room decor', 4),
+('kids', 'https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?w=1400&h=1000&fit=crop&auto=format&q=80', 'Kids clothing rack', 5),
+('kids', 'https://images.unsplash.com/photo-1602934585418-f588bea4215d?w=1400&h=1000&fit=crop&auto=format&q=80', 'Child playing outdoors', 6),
+('kids', 'https://images.unsplash.com/photo-1618842676088-c4d48a6a7c9d?w=1400&h=1000&fit=crop&auto=format&q=80', 'Baby essentials flatlay', 7);
 
 CREATE TABLE IF NOT EXISTS digital_products (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -527,9 +554,9 @@ CREATE TABLE IF NOT EXISTS store_settings (
 -- feature gates. feature_key matches the SPA route paths in admin.js.
 -- =====================================================================
 INSERT IGNORE INTO plans (id, `key`, name, price_monthly, description, sort_order) VALUES
-    (1, 'basic',    'Basic',    3500.00, 'Everyday selling essentials for a single-location shop.', 1),
-    (2, 'advanced', 'Advanced', 5500.00, 'Adds online selling and business reporting.', 2),
-    (3, 'premium',  'Premium',  7500.00, 'Everything, including team, multi-branch and AI insights.', 3);
+    (1, 'basic',    'Basic',    1500.00, 'Everyday selling essentials for a single-location shop.', 1),
+    (2, 'advanced', 'Advanced', 2500.00, 'Adds online selling and business reporting.', 2),
+    (3, 'premium',  'Premium',  3500.00, 'Everything, including team, multi-branch and AI insights.', 3);
 
 INSERT IGNORE INTO plan_features (plan_id, feature_key, feature_label, enabled) VALUES
     (1, 'pos',        'Sales / POS',             1),

@@ -109,6 +109,9 @@ class AiController
                     'tech' => 'Smarter Tech, Better Prices',
                     'beauty' => 'Beauty, Simplified',
                     'grocery' => 'Fresh Picks, Delivered',
+                    'furniture' => 'Furnish Your Space With Style',
+                    'sports' => 'Gear Up, Level Up',
+                    'kids' => 'Everything For Your Little Ones',
                     default => "Everything You Need at $biz",
                 };
             case 'hero_subheading':

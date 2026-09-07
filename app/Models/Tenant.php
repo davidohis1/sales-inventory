@@ -52,11 +52,11 @@ class Tenant extends BaseModel
     }
 
     /**
-     * Creates a new business (tenant) on a 3-day free trial. Returns the new tenant id.
+     * Creates a new business (tenant) on a 7-day free trial. Returns the new tenant id.
      */
     public static function create(array $data): int
     {
-        $trialDays = 3;
+        $trialDays = 7;
         $stmt = self::db()->prepare(
             "INSERT INTO tenants (slug, business_name, owner_email, owner_phone, currency, subscription_status, trial_ends_at)
              VALUES (?, ?, ?, ?, ?, 'trial', DATE_ADD(NOW(), INTERVAL ? DAY))"

@@ -7,7 +7,9 @@
     --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 * { box-sizing: border-box; }
+html, body { max-width: 100%; overflow-x: hidden; }
 body { margin: 0; font-family: var(--font); background: var(--store-bg); color: #1f2430; }
+img { max-width: 100%; }
 a { text-decoration: none; color: inherit; }
 
 .store-header { background: var(--store-primary); color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
@@ -56,11 +58,25 @@ a { text-decoration: none; color: inherit; }
 .btn-store:hover { background: #0a3f3b; }
 .btn-store.outline { background: none; border: 1px solid var(--store-primary); color: var(--store-primary); }
 
-.cart-row { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--store-border); }
+.cart-row { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--store-border); flex-wrap: wrap; }
 .cart-row .thumb { width: 60px; height: 60px; border-radius: 8px; background: #f0efe9; overflow: hidden; flex-shrink: 0; }
 .cart-row .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.cart-row .grow { flex: 1; }
+.cart-row .grow { flex: 1 1 140px; min-width: 0; }
+.cart-row .grow strong { display: block; overflow-wrap: anywhere; }
+.cart-row .qty-stepper { flex-shrink: 0; }
+.cart-row > div:nth-child(4) { flex-shrink: 0; font-weight: 600; white-space: nowrap; }
 .cart-summary { max-width: 360px; margin-left: auto; margin-top: 20px; background: #fff; border: 1px solid var(--store-border); border-radius: 12px; padding: 18px; }
+
+@media (max-width: 560px) {
+    .store-container { padding: 16px; }
+    .cart-row { gap: 10px; padding: 14px 0; position: relative; }
+    .cart-row .thumb { width: 48px; height: 48px; }
+    .cart-row .grow { flex: 1 1 100%; order: 1; }
+    .cart-row .qty-stepper { order: 2; }
+    .cart-row > div:nth-child(4) { order: 3; margin-left: auto; }
+    .cart-row [data-remove] { order: 4; padding: 6px 10px !important; }
+    .cart-summary { max-width: 100%; }
+}
 
 .checkout-form { max-width: 480px; margin: 0 auto; background: #fff; border: 1px solid var(--store-border); border-radius: 12px; padding: 24px; }
 .checkout-form .form-group { margin-bottom: 14px; }

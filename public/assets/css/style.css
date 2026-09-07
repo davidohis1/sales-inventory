@@ -300,15 +300,68 @@ tr:hover td { background: #fafbfc; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ---------- Auth pages (login / register) shared with public site ---------- */
-.login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--color-bg); padding: 20px; }
+.login-page { min-height: 100vh; display: flex; align-items: stretch; justify-content: center; background: var(--color-bg); padding: 0; }
 .login-card { background: #fff; border-radius: 20px; padding: 36px; width: 100%; max-width: 400px; box-shadow: var(--shadow); border: 1px solid var(--color-border); }
 .login-card h2 { margin-top: 0; color: var(--color-text); }
 .login-card .demo-hint { font-size: 12px; color: var(--color-text-muted); margin-top: 16px; background: var(--color-bg); padding: 10px; border-radius: 10px; }
+
+/* Split-screen auth layout: decorative brand panel on the left, form on the right. */
+.auth-split { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+.auth-visual-panel { background: linear-gradient(160deg, #14141a 0%, #23213a 55%, #4b3fcf 100%); position: relative; overflow: hidden; padding: 48px; display: flex; flex-direction: column; justify-content: space-between; color: #fff; }
+.auth-visual-panel .auth-blob-1 { position: absolute; top: -80px; right: -100px; width: 320px; height: 320px; border-radius: 46% 54% 60% 40% / 50% 45% 55% 50%; background: rgba(108,92,231,0.35); }
+.auth-visual-panel .auth-blob-2 { position: absolute; bottom: -100px; left: -80px; width: 260px; height: 260px; border-radius: 50%; background: rgba(23,166,114,0.25); }
+.auth-visual-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; position: relative; z-index: 1; }
+.auth-visual-logo .dot { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, #6c5ce7, #17a672); }
+.auth-visual-body { position: relative; z-index: 1; max-width: 380px; }
+.auth-visual-body h3 { font-size: 28px; font-weight: 800; line-height: 1.25; margin: 0 0 14px; }
+.auth-visual-body p { opacity: 0.75; font-size: 14.5px; line-height: 1.6; margin: 0; }
+.auth-visual-stats { position: relative; z-index: 1; display: flex; gap: 28px; }
+.auth-visual-stats div strong { display: block; font-size: 22px; font-weight: 800; }
+.auth-visual-stats div span { font-size: 12px; opacity: 0.65; }
+.auth-visual-card { position: relative; z-index: 1; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 16px 18px; backdrop-filter: blur(6px); margin-top: 22px; }
+.auth-visual-card .stars { color: #fdb022; font-size: 12px; margin-bottom: 6px; }
+.auth-visual-card p { font-size: 13px; line-height: 1.5; margin: 0 0 10px; opacity: 0.9; }
+.auth-visual-card .who { font-size: 12.5px; font-weight: 700; opacity: 0.85; }
+
+.auth-form-panel { display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: #fff; }
+.auth-form-panel .login-card { box-shadow: none; border: none; padding: 0; max-width: 380px; }
+.auth-form-panel .login-card.wide { max-width: 440px; }
+.auth-form-mobile-logo { display: none; }
+
+@media (max-width: 900px) {
+    .auth-split { grid-template-columns: 1fr; }
+    .auth-visual-panel { display: none; }
+    .auth-form-mobile-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; margin-bottom: 28px; color: var(--color-text); }
+    .auth-form-mobile-logo .dot { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, #6c5ce7, #17a672); }
+}
 
 .text-muted { color: var(--color-text-muted); }
 .mt-0 { margin-top: 0; }
 .flex { display: flex; align-items: center; gap: 8px; }
 .flex-between { display: flex; align-items: center; justify-content: space-between; }
+
+/* Store settings tab bar — scrolls horizontally on narrow screens instead of
+   wrapping/squeezing the six tab buttons against the action buttons. */
+.store-tabs-bar { flex-wrap: wrap; gap: 10px; }
+.store-tabs-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    max-width: 100%;
+}
+.store-tabs-scroll::-webkit-scrollbar { display: none; }
+.store-tabs-scroll .tab-btn { flex-shrink: 0; white-space: nowrap; }
+@media (max-width: 900px) {
+    .store-tabs-bar { flex-direction: column; align-items: stretch; }
+    .store-tabs-scroll { width: 100%; padding-bottom: 4px; }
+    .store-tabs-actions { justify-content: flex-end; }
+}
+@media (max-width: 480px) {
+    .store-tabs-scroll .tab-btn { font-size: 12.5px; padding: 8px 12px; }
+    .store-tabs-actions { flex-wrap: wrap; }
+    .store-tabs-actions .btn { flex: 1 1 auto; justify-content: center; }
+}
 
 /* ---------- Store page ---------- */
 .tab-btn.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
