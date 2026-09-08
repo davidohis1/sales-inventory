@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Start your free trial — Oripio</title>
+<title>Start your free trial — Bizflow</title>
 <link rel="stylesheet" href="<?= $base ?>/assets/css/style.css">
 </head>
 <body class="pub-body">
@@ -13,7 +13,7 @@
     <div class="auth-visual-panel">
         <div class="auth-blob-1"></div>
         <div class="auth-blob-2"></div>
-        <a href="<?= $base ?>/" class="auth-visual-logo"><span class="dot"></span> Oripio</a>
+        <a href="<?= $base ?>/" class="auth-visual-logo"><img src="<?= $base ?>/assets/images/logo.png" class="dot" alt="Bizflow logo"> Bizflow</a>
         <div class="auth-visual-body">
             <h3>Set up your business dashboard in under a minute.</h3>
             <p>Sales, inventory, customers, an online store, and digital products — all in one place. Start your 7-day free trial, no card required.</p>
@@ -32,7 +32,7 @@
 
     <div class="auth-form-panel">
         <div class="login-card wide">
-            <div class="auth-form-mobile-logo"><span class="dot"></span> Oripio</div>
+            <div class="auth-form-mobile-logo"><img src="<?= $base ?>/assets/images/logo.png" class="dot" alt="Bizflow logo"> Bizflow</div>
             <span class="trial-badge">&#9889; 7-day free trial — no card required</span>
             <h2>Register your business</h2>
             <p class="text-muted" style="margin-top:-8px;">Set up your account in under a minute.</p>

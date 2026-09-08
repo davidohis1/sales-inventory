@@ -99,6 +99,12 @@ mysql -u root -p sales_inventory < database/schema.sql
 > ```bash
 > mysql -u root -p sales_inventory < database/migration_v9.sql
 > ```
+> Already up to v9? Run v10 to add Email Campaigns (new `campaigns` /
+> `campaign_recipients` tables, a customer `unsubscribed` flag, and the
+> feature gate for Advanced/Premium plans):
+> ```bash
+> mysql -u root -p sales_inventory < database/migration_v10.sql
+> ```
 
 ### 2. Configure environment
 
@@ -171,6 +177,7 @@ tenants are fully isolated at the query level.
 7. Staff Management — Owner/Manager/Staff roles, permission scoping, **paginated** activity log (who did what)
 8. Reports — sales, inventory, profit, staff performance, customers — date-filterable, CSV export
 9. Low-Stock Alerts — automatic, surfaced on the dashboard and a dedicated endpoint
+10. Email Campaigns (Advanced/Premium) — compose + send bulk marketing emails to a targeted slice of your customer list, sent via Brevo, with signed unsubscribe links and background batch sending
 
 **Quick Sale (Dashboard):** a lightweight sale dialog separate from the full POS screen. The customer is always **typed by name** — never chosen from a dropdown. Typing searches existing customers live; picking a suggestion reuses that customer, and checking out with an unmatched name creates a brand-new customer record together with the sale (`Customer::findOrCreateByName`).
 
@@ -232,22 +239,61 @@ vendor/
 
 ## Email notifications
 
-Uses PHP's built-in `mail()` — no external library needed. Since most local
-setups (plain `php -S`, XAMPP) don't have a real mail server configured,
-set `MAIL_LOG_ONLY=true` in `.env` (the default) and every email is written
-to `storage/mail_log.txt` instead of being silently lost, so you can see
-exactly what would have been sent. Flip it to `false` once you have real
-SMTP/mail working on your server.
+Sends via one of three backends, controlled by `MAIL_PROVIDER` in `.env`:
+
+- **`brevo`** (recommended) — sends through [Brevo](https://www.brevo.com)'s
+  transactional email API using `BREVO_API_KEY`. Real deliverability, no
+  SMTP setup, and Brevo's free tier covers 300 emails/day. Sign up, grab an
+  API key from **Settings → SMTP & API → API Keys**, and set:
+  ```
+  MAIL_PROVIDER=brevo
+  BREVO_API_KEY=xkeysib-xxxxxxxxxxxxxxxxx
+  MAIL_LOG_ONLY=false
+  ```
+- **`php`** — PHP's built-in `mail()`, for servers with a real local mail
+  server configured (rarely the case on shared/local dev setups).
+- **`log`** (default) — nothing is actually sent; every email is written to
+  `storage/mail_log.txt` instead, so local development works with zero
+  email setup and you can still see exactly what would have gone out.
+
+Whatever the provider, if `MAIL_LOG_ONLY=true` (or a send attempt fails —
+bad API key, network issue, etc) the email falls back to the log file
+instead of being lost.
 
 Emails are sent for:
 - **Every completed sale** (POS or Quick Sale) — admin gets a notification.
 - **Every online order placed** — admin gets notified; the customer gets a confirmation (email is now required at checkout).
 - **An online order marked "delivered"** — the customer gets a payment/delivery-confirmed email (also fires at "accepted" and "on_delivery").
 - **A customer clicking "I Have Paid"** on a bank-transfer checkout — the admin gets a "please verify" email.
+- **Email Campaigns** (see below) — bulk marketing emails a business owner sends to their own customer list.
 
 The admin notification address is whatever's set on the Store Page's
 **Checkout & Notifications** tab, falling back to the tenant owner's login
 email if left blank.
+
+### Email Campaigns
+
+Available on Advanced and Premium plans (Portal → **Email Campaigns**).
+A tenant composes a subject + message, picks an audience (all customers,
+customers with outstanding debt, customers added in the last 30 days, or a
+manual pick — always excluding anyone with no saved email or who's
+unsubscribed), and sends immediately or schedules for later.
+
+Sending happens in batches of 30 so a large customer list never times out a
+web request:
+- Hitting "Send Now" in the dashboard sends the first batch immediately.
+- Anything left over, or anything scheduled for later, is picked up by a
+  small CLI script that should run on a schedule:
+  ```bash
+  php scripts/process_campaigns.php
+  ```
+  Example crontab entry (every 2 minutes):
+  ```
+  * * * * * cd /path/to/oripio && php scripts/process_campaigns.php >> storage/campaign_cron.log 2>&1
+  ```
+
+Every campaign email includes a signed unsubscribe link (`/unsubscribe`) —
+no extra setup needed, it's a tamper-proof token built from `JWT_SECRET`.
 
 ## Base path (fixes broken images/links under a subfolder deployment)
 

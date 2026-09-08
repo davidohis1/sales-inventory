@@ -73,7 +73,7 @@ if (!empty($product['video_url'])) {
     </div>
 </div>
 
-<footer class="dp-footer">Sold by <?= htmlspecialchars($tenant['business_name']) ?> &middot; Powered by Oripio</footer>
+<footer class="dp-footer">Sold by <?= htmlspecialchars($tenant['business_name']) ?> &middot; Powered by Bizflow</footer>
 
 <div class="toast-container" id="toast-container"></div>
 <div id="dp-modal-root"></div>

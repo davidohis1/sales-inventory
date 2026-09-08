@@ -16,7 +16,7 @@
 .ld-nav-wrap { max-width: 1200px; margin: 0 auto; padding: 22px 24px 0; }
 .ld-nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .ld-logo { display: flex; align-items: center; gap: 9px; font-weight: 800; font-size: 19px; color: #14141a; text-decoration: none; }
-.ld-logo-mark { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, var(--ld-primary), var(--ld-green)); flex-shrink: 0; }
+.ld-logo-mark { width: 34px; height: 34px; object-fit: contain; flex-shrink: 0; }
 .ld-nav-links { display: flex; gap: 30px; font-size: 14px; font-weight: 600; }
 .ld-nav-links a { color: #14141a; }
 .ld-nav-links a.active { color: var(--ld-primary); }

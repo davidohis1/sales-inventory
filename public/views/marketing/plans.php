@@ -4,12 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plans &amp; Pricing — Oripio</title>
+<title>Plans &amp; Pricing — Bizflow</title>
 <link rel="stylesheet" href="<?= $base ?>/assets/css/style.css">
 </head>
 <body class="pub-body">
 <nav class="pub-nav">
-    <a href="<?= $base ?>/" class="pub-logo"><span class="logo-dot"></span> Oripio</a>
+    <a href="<?= $base ?>/" class="pub-logo"><span class="logo-dot"></span> Bizflow</a>
     <div class="pub-nav-links"><a href="<?= $base ?>/#features">Features</a></div>
     <div class="pub-nav-cta">
         <a href="<?= $base ?>/login" class="btn btn-secondary">Log in</a>
@@ -27,7 +27,7 @@
     </div>
 </section>
 
-<footer class="pub-footer">&copy; <?= date('Y') ?> Oripio. All rights reserved.</footer>
+<footer class="pub-footer">&copy; <?= date('Y') ?> Bizflow. All rights reserved.</footer>
 
 <script>
 (async function () {

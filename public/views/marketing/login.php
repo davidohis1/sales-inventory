@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Log in — Oripio</title>
+<title>Log in — Bizflow</title>
 <link rel="stylesheet" href="<?= $base ?>/assets/css/style.css">
 </head>
 <body class="pub-body">
@@ -13,13 +13,13 @@
     <div class="auth-visual-panel">
         <div class="auth-blob-1"></div>
         <div class="auth-blob-2"></div>
-        <a href="<?= $base ?>/" class="auth-visual-logo"><span class="dot"></span> Oripio</a>
+        <a href="<?= $base ?>/" class="auth-visual-logo"><img src="<?= $base ?>/assets/images/logo.png" class="dot" alt="Bizflow logo"> Bizflow</a>
         <div class="auth-visual-body">
             <h3>Welcome back — your business is right where you left it.</h3>
             <p>Sales, inventory, your online store, and your team, all in one dashboard. Log in to pick up exactly where you stopped.</p>
             <div class="auth-visual-card">
                 <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9</div>
-                <p>"Oripio replaced three notebooks and a spreadsheet. Now I see my whole business in one place."</p>
+                <p>"Bizflow replaced three notebooks and a spreadsheet. Now I see my whole business in one place."</p>
                 <div class="who">Ada Johnson &middot; AJ Tech Gadgets</div>
             </div>
         </div>
@@ -32,7 +32,7 @@
 
     <div class="auth-form-panel">
         <div class="login-card">
-            <div class="auth-form-mobile-logo"><span class="dot"></span> Oripio</div>
+            <div class="auth-form-mobile-logo"><img src="<?= $base ?>/assets/images/logo.png" class="dot" alt="Bizflow logo"> Bizflow</div>
             <h2>Welcome back</h2>
             <p class="text-muted" style="margin-top:-8px;">Log in to your business dashboard.</p>
             <form id="login-form">

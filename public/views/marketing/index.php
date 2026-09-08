@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oripio — Run Your Whole Business From One Dashboard</title>
+<title>Bizflow — Run Your Whole Business From One Dashboard</title>
 <link rel="stylesheet" href="<?= $base ?>/assets/css/style.css">
 <link rel="stylesheet" href="<?= $base ?>/assets/css/landing.css">
 </head>
@@ -12,7 +12,7 @@
 
 <div class="ld-nav-wrap">
     <nav class="ld-nav">
-        <a href="<?= $base ?>/" class="ld-logo"><span class="ld-logo-mark"></span> Oripio</a>
+        <a href="<?= $base ?>/" class="ld-logo"><img src="<?= $base ?>/assets/images/logo.png" class="ld-logo-mark" alt="Bizflow logo"> Bizflow</a>
         <div class="ld-nav-links">
             <a href="#features" class="active">Features</a>
             <a href="#how-it-works">How it works</a>
@@ -52,7 +52,7 @@
         <div class="ld-hero-visual">
             <div class="ld-hero-visual-blob"></div>
             <span class="ld-hero-heart">&#10084;&#65039;</span>
-            <svg viewBox="0 0 520 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Business owner using the Oripio dashboard on a tablet">
+            <svg viewBox="0 0 520 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Business owner using the Bizflow dashboard on a tablet">
                 <rect x="70" y="60" width="380" height="440" rx="26" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
                 <rect x="70" y="60" width="380" height="54" rx="26" fill="#efeafd"/>
                 <circle cx="100" cy="87" r="7" fill="#f97066"/>
@@ -116,7 +116,7 @@
         <div class="ld-why-item">
             <span class="icn">&#127775;</span>
             <strong>Built To Grow With You</strong>
-            <p>From a single shop to multiple branches and staff, Oripio scales right alongside your business.</p>
+            <p>From a single shop to multiple branches and staff, Bizflow scales right alongside your business.</p>
         </div>
     </div>
 </section>
@@ -124,7 +124,7 @@
 <section class="ld-section" id="features">
     <div class="ld-explore-head">
         <div>
-            <span class="ld-explore-eyebrow">Explore Oripio</span>
+            <span class="ld-explore-eyebrow">Explore Bizflow</span>
             <h2>Everything You'll Love</h2>
         </div>
         <div class="ld-explore-arrows">
@@ -205,7 +205,7 @@
             <p>We're proud to help businesses run smoother and grow faster, every single day.</p>
             <div class="ld-testi-card">
                 <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9</div>
-                <p>"Oripio replaced three different notebooks and a spreadsheet. Now I see my whole business — sales, stock, and store orders — in one place."</p>
+                <p>"Bizflow replaced three different notebooks and a spreadsheet. Now I see my whole business — sales, stock, and store orders — in one place."</p>
                 <div class="ld-testi-who">
                     <span class="av">A</span>
                     <div><strong>Ada Johnson</strong><span>Owner, AJ Tech Gadgets</span></div>
@@ -305,7 +305,7 @@
 <footer class="ld-footer">
     <div class="ld-footer-grid">
         <div class="ld-footer-brand">
-            <a href="<?= $base ?>/" class="ld-logo"><span class="ld-logo-mark"></span> Oripio</a>
+            <a href="<?= $base ?>/" class="ld-logo"><img src="<?= $base ?>/assets/images/logo.png" class="ld-logo-mark" alt="Bizflow logo"> Bizflow</a>
             <p>Sales, inventory, an online store, and digital products — everything your business needs, in one dashboard.</p>
             <div class="ld-footer-social">
                 <a href="#" aria-label="Facebook">f</a>
@@ -346,7 +346,7 @@
             </form>
         </div>
     </div>
-    <div class="ld-footer-bottom">&copy; <?= date('Y') ?> Oripio. All rights reserved.</div>
+    <div class="ld-footer-bottom">&copy; <?= date('Y') ?> Bizflow. All rights reserved.</div>
 </footer>
 
 <script>

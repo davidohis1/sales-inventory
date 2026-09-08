@@ -2,44 +2,95 @@
 namespace App\Core;
 
 /**
- * Minimal email sender using PHP's built-in mail(). No external dependency,
- * so it works out of the box — but most local dev environments (XAMPP,
- * plain `php -S`) have no real mail server configured, so:
- *   - if MAIL_LOG_ONLY=true in .env, or
- *   - if mail() fails / is unavailable,
- * the message is written to storage/mail_log.txt instead of being silently
- * lost, so you can always see exactly what would have been sent.
+ * Email sender with three backends, tried in this order based on config:
+ *   1. Brevo (formerly Sendinblue) transactional email API — used when
+ *      MAIL_PROVIDER=brevo and BREVO_API_KEY is set. This is what powers
+ *      real deliverability for campaigns and any bulk sending; Brevo's
+ *      free tier is generous enough for most tenants to start on.
+ *   2. PHP's built-in mail() — used when MAIL_PROVIDER=php (or Brevo isn't
+ *      configured), for environments with a real local mail server.
+ *   3. storage/mail_log.txt — the always-on fallback so a message is never
+ *      silently lost on a dev machine with no mail server and no Brevo key.
  *
  * Email sending is always best-effort: a failure here must never break the
- * sale/order it's attached to, so callers should wrap send() in try/catch
- * (or rely on it never throwing — it doesn't; it just returns bool).
+ * sale/order/campaign it's attached to, so callers should wrap send() in
+ * try/catch (or rely on it never throwing — it doesn't; it just returns bool).
  */
 class Mailer
 {
-    public static function send(string $to, string $subject, string $htmlBody): bool
+    /**
+     * Send a single email. Returns true once the message has either been
+     * accepted by the configured provider or safely logged as a fallback —
+     * callers don't need to distinguish between the two.
+     */
+    public static function send(string $to, string $subject, string $htmlBody, ?string $fromName = null): bool
     {
         if ($to === '' || !str_contains($to, '@')) {
             return false;
         }
 
+        $provider = Env::get('MAIL_PROVIDER', 'log');
         $fromAddress = Env::get('MAIL_FROM_ADDRESS', 'no-reply@example.com');
-        $fromName = Env::get('MAIL_FROM_NAME', 'Sales & Inventory System');
+        $fromName = $fromName ?? Env::get('MAIL_FROM_NAME', 'Bizflow');
         $logOnly = Env::get('MAIL_LOG_ONLY', 'true') === 'true';
 
-        $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-        $headers .= "From: {$fromName} <{$fromAddress}>\r\n";
-
-        $sent = false;
-        if (!$logOnly && function_exists('mail')) {
-            $sent = @mail($to, $subject, $htmlBody, $headers);
+        if (!$logOnly && $provider === 'brevo') {
+            $result = self::sendViaBrevo($to, $subject, $htmlBody, $fromAddress, $fromName);
+            if ($result === true) { return true; }
+            // Brevo call failed (bad key, network, rate limit, etc) — fall through to log so nothing is lost.
+        } elseif (!$logOnly && $provider === 'php' && function_exists('mail')) {
+            $headers = "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+            $headers .= "From: {$fromName} <{$fromAddress}>\r\n";
+            if (@mail($to, $subject, $htmlBody, $headers)) { return true; }
         }
 
-        if (!$sent) {
-            self::logToFile($to, $subject, $htmlBody);
+        self::logToFile($to, $subject, $htmlBody);
+        return true;
+    }
+
+    /**
+     * Sends via Brevo's REST API (https://api.brevo.com/v3/smtp/email) — no
+     * SDK/dependency needed, just a signed HTTP POST. Returns true on a 2xx
+     * response, false on anything else (network failure, invalid key, etc),
+     * so the caller can fall back to logging.
+     */
+    private static function sendViaBrevo(string $to, string $subject, string $htmlBody, string $fromAddress, string $fromName): bool
+    {
+        $apiKey = Env::get('BREVO_API_KEY', '');
+        if ($apiKey === '' || !function_exists('curl_init')) {
+            return false;
         }
 
-        return true; // caller doesn't need to care whether it was a real send or a logged fallback
+        $payload = json_encode([
+            'sender' => ['name' => $fromName, 'email' => $fromAddress],
+            'to' => [['email' => $to]],
+            'subject' => $subject,
+            'htmlContent' => $htmlBody,
+        ]);
+
+        $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_TIMEOUT => 15,
+            CURLOPT_HTTPHEADER => [
+                'accept: application/json',
+                'content-type: application/json',
+                'api-key: ' . $apiKey,
+            ],
+        ]);
+        curl_exec($ch);
+        $status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_errno($ch) ? curl_error($ch) : null;
+        curl_close($ch);
+
+        if ($error) {
+            self::logToFile($to, '[Brevo send failed: ' . $error . '] ' . $subject, $htmlBody);
+            return false;
+        }
+        return $status >= 200 && $status < 300;
     }
 
     private static function logToFile(string $to, string $subject, string $htmlBody): void

@@ -173,6 +173,12 @@ $router->get('/api/{slug}/reports/staff-performance', fn ($r) => (new App\Contro
 $router->get('/api/{slug}/reports/customers', fn ($r) => (new App\Controllers\Api\ReportController())->customers($r), [$auth, $tenantStatus]);
 $router->get('/api/{slug}/reports/export', fn ($r) => (new App\Controllers\Api\ReportController())->export($r), [$auth, $tenantStatus]);
 
+$router->get('/api/{slug}/campaigns', fn ($r) => (new App\Controllers\Api\CampaignController())->index($r), [$auth, $tenantStatus]);
+$router->get('/api/{slug}/campaigns/{id}', fn ($r) => (new App\Controllers\Api\CampaignController())->show($r), [$auth, $tenantStatus]);
+$router->post('/api/{slug}/campaigns/audience-preview', fn ($r) => (new App\Controllers\Api\CampaignController())->audiencePreview($r), [$auth, $tenantStatus]);
+$router->post('/api/{slug}/campaigns', fn ($r) => (new App\Controllers\Api\CampaignController())->store($r), [$auth, $tenantStatus]);
+$router->post('/api/{slug}/campaigns/{id}/send', fn ($r) => (new App\Controllers\Api\CampaignController())->send($r), [$auth, $tenantStatus]);
+
 $router->get('/api/{slug}/branches', fn ($r) => (new App\Controllers\Api\BranchController())->index($r), [$auth, $tenantStatus]);
 $router->post('/api/{slug}/branches', fn ($r) => (new App\Controllers\Api\BranchController())->store($r), [$auth, $tenantStatus]);
 $router->post('/api/{slug}/branches/transfer-stock', fn ($r) => (new App\Controllers\Api\BranchController())->transferStock($r), [$auth, $tenantStatus]);
@@ -251,6 +257,20 @@ $router->get('/pricing', function () {
 $router->get('/payments/callback', function (Request $r) {
     header('Content-Type: text/html');
     require __DIR__ . '/views/marketing/payment-callback.php';
+});
+$router->get('/unsubscribe', function (Request $r) {
+    header('Content-Type: text/html');
+    $tenantId = (int) ($r->input('t') ?? 0);
+    $customerId = (int) ($r->input('c') ?? 0);
+    $token = (string) ($r->input('token') ?? '');
+
+    $ok = false;
+    if ($tenantId > 0 && $customerId > 0 && $token !== '' && App\Core\CampaignSender::verifyUnsubscribeToken($customerId, $tenantId, $token)) {
+        $stmt = App\Core\Database::connect()->prepare('UPDATE customers SET unsubscribed = 1 WHERE id = ? AND tenant_id = ?');
+        $stmt->execute([$customerId, $tenantId]);
+        $ok = true;
+    }
+    require __DIR__ . '/views/marketing/unsubscribe.php';
 });
 
 // -----------------------------------------------------------------

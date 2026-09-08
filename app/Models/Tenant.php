@@ -125,7 +125,7 @@ class Tenant extends BaseModel
         $trialEnds = $tenant['trial_ends_at'] ? new \DateTimeImmutable($tenant['trial_ends_at']) : $now;
         $daysRemaining = (int) ceil(($trialEnds->getTimestamp() - $now->getTimestamp()) / 86400);
         if ($daysRemaining < 0) {
-            return ['status' => 'expired', 'days_remaining' => $daysRemaining, 'expires_at' => $tenant['trial_ends_at'], 'plan' => null, 'locked_features' => ['pos','products','customers','expenses','orders','store','staff','branches','reports','ai_insights']];
+            return ['status' => 'expired', 'days_remaining' => $daysRemaining, 'expires_at' => $tenant['trial_ends_at'], 'plan' => null, 'locked_features' => ['pos','products','customers','expenses','orders','store','staff','branches','reports','ai_insights','campaigns']];
         }
         // On an active trial, every feature is unlocked so businesses can evaluate the full product.
         return ['status' => 'trial', 'days_remaining' => $daysRemaining, 'expires_at' => $tenant['trial_ends_at'], 'plan' => null, 'locked_features' => []];

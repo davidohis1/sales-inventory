@@ -42,6 +42,7 @@
         { path: 'staff', label: 'Staff', icon: '&#128101;', roles: ['owner', 'manager'], render: renderStaff },
         { path: 'branches', label: 'Branches', icon: '&#127970;', roles: ['owner', 'manager'], render: renderBranches },
         { path: 'reports', label: 'Reports', icon: '&#128202;', roles: ['owner', 'manager'], render: renderReports },
+        { path: 'campaigns', label: 'Email Campaigns', icon: '&#128231;', roles: ['owner', 'manager'], render: renderCampaigns },
         { path: 'plans', label: 'Plans & Billing', icon: '&#128179;', roles: null, render: renderPlans },
     ];
 
@@ -86,7 +87,7 @@
        --------------------------------------------------------------- */
     const MAIN_PATHS = ['', 'pos'];
     const FEATURE_PATHS = ['products', 'customers', 'expenses', 'orders', 'store', 'earnings', 'digital-products', 'branches'];
-    const GENERAL_PATHS = ['staff', 'reports'];
+    const GENERAL_PATHS = ['staff', 'reports', 'campaigns'];
 
     function planInfo() {
         try { return JSON.parse(localStorage.getItem('plan') || 'null'); } catch (e) { return null; }
@@ -974,6 +975,146 @@
                 try { await Api.post('/expenses', fd); toast('Expense recorded'); document.getElementById('exp-modal-root').innerHTML = ''; renderExpenses(content); }
                 catch (err) { toast(err.message, 'error'); }
             });
+        });
+    }
+
+    /* ---------------------------------------------------------------
+       EMAIL CAMPAIGNS
+       --------------------------------------------------------------- */
+    const AUDIENCE_LABELS = { all: 'All customers', debtors: 'Customers with outstanding debt', recent: 'New in the last 30 days', manual: 'Manually selected' };
+    const CAMPAIGN_STATUS_BADGE = {
+        draft: 'badge-muted', scheduled: 'badge-warn', sending: 'badge-warn', sent: 'badge-success', failed: 'badge-danger',
+    };
+
+    async function renderCampaigns(content) {
+        const campaigns = await Api.get('/campaigns');
+        const rows = campaigns.map((c) => `
+            <tr>
+                <td>${esc(c.subject)}</td>
+                <td>${AUDIENCE_LABELS[c.audience] || c.audience}</td>
+                <td><span class="badge ${CAMPAIGN_STATUS_BADGE[c.status] || 'badge-muted'}">${esc(c.status)}</span></td>
+                <td>${c.sent_count} / ${c.total_recipients}${c.failed_count > 0 ? ` <span class="text-muted">(${c.failed_count} failed)</span>` : ''}</td>
+                <td>${dt(c.created_at)}</td>
+                <td>${(c.status === 'draft' || c.status === 'scheduled' || c.status === 'sending')
+                    ? `<button class="btn btn-sm" data-send="${c.id}">${c.status === 'sending' ? 'Continue Sending' : 'Send Now'}</button>`
+                    : '—'}</td>
+            </tr>`).join('') || '<tr><td colspan="6" class="text-muted">No campaigns yet.</td></tr>';
+
+        content.innerHTML = `
+        <div class="flex-between" style="margin-bottom:14px;">
+            <p class="text-muted" style="margin:0;">Send email announcements, offers, or updates to your customers.</p>
+            <button class="btn" id="new-campaign-btn">+ New Campaign</button>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Subject</th><th>Audience</th><th>Status</th><th>Sent</th><th>Created</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div id="campaign-modal-root"></div>`;
+
+        document.getElementById('new-campaign-btn').addEventListener('click', () => openCampaignComposer(content));
+
+        content.querySelectorAll('[data-send]').forEach((btn) => {
+            btn.addEventListener('click', async () => {
+                btn.disabled = true; btn.textContent = 'Sending…';
+                try {
+                    const res = await Api.post(`/campaigns/${btn.dataset.send}/send`, {});
+                    toast(res.message || `Sent to ${res.sent_count} recipients`);
+                    renderCampaigns(content);
+                } catch (err) { toast(err.message, 'error'); btn.disabled = false; }
+            });
+        });
+    }
+
+    async function openCampaignComposer(content) {
+        const customers = await Api.get('/customers');
+        const withEmail = customers.filter((c) => c.email);
+        const root = document.getElementById('campaign-modal-root');
+
+        root.innerHTML = `
+        <div class="modal-backdrop" id="campaign-modal-backdrop">
+            <div class="modal" style="max-width:560px;">
+                <button class="modal-close" id="campaign-modal-close">&times;</button>
+                <h3>New Campaign</h3>
+                <form id="campaign-form">
+                    <div class="form-group"><label>Subject</label><input class="form-control" name="subject" placeholder="e.g. 20% off this weekend only" required></div>
+                    <div class="form-group"><label>Message</label><textarea class="form-control" name="body_html" rows="6" placeholder="Write your message…" required></textarea></div>
+                    <div class="form-group">
+                        <label>Send to</label>
+                        <select class="form-control" name="audience" id="campaign-audience">
+                            <option value="all">All customers</option>
+                            <option value="debtors">Customers with outstanding debt</option>
+                            <option value="recent">New in the last 30 days</option>
+                            <option value="manual">Choose customers manually (${withEmail.length} have an email)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="campaign-manual-picker" style="display:none; max-height:160px; overflow-y:auto; border:1px solid var(--color-border); border-radius:8px; padding:10px;">
+                        ${withEmail.map((c) => `<label style="display:flex; align-items:center; gap:8px; padding:4px 0; font-size:13px;"><input type="checkbox" name="manual_customer" value="${c.id}"> ${esc(c.name)} <span class="text-muted">(${esc(c.email)})</span></label>`).join('') || '<span class="text-muted">No customers have a saved email.</span>'}
+                    </div>
+                    <p class="text-muted" id="campaign-audience-count" style="font-size:12.5px; margin-top:-6px;"></p>
+                    <div class="form-group">
+                        <label>When</label>
+                        <select class="form-control" name="timing" id="campaign-timing">
+                            <option value="now">Send now</option>
+                            <option value="later">Schedule for later</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="campaign-schedule-field" style="display:none;">
+                        <label>Scheduled date & time</label>
+                        <input class="form-control" type="datetime-local" name="scheduled_at">
+                    </div>
+                    <button class="btn" type="submit" style="width:100%; justify-content:center;" id="campaign-submit-btn">Create Campaign</button>
+                </form>
+            </div>
+        </div>`;
+
+        const close = () => root.innerHTML = '';
+        document.getElementById('campaign-modal-close').addEventListener('click', close);
+
+        const audienceSelect = document.getElementById('campaign-audience');
+        const manualPicker = document.getElementById('campaign-manual-picker');
+        const countLabel = document.getElementById('campaign-audience-count');
+
+        async function refreshAudienceCount() {
+            const audience = audienceSelect.value;
+            manualPicker.style.display = audience === 'manual' ? 'block' : 'none';
+            const customerIds = audience === 'manual'
+                ? Array.from(document.querySelectorAll('input[name="manual_customer"]:checked')).map((el) => parseInt(el.value, 10))
+                : [];
+            try {
+                const res = await Api.post('/campaigns/audience-preview', { audience, customer_ids: customerIds });
+                countLabel.textContent = `This will reach ${res.count} customer${res.count === 1 ? '' : 's'} with a saved email.`;
+            } catch (e) { countLabel.textContent = ''; }
+        }
+        audienceSelect.addEventListener('change', refreshAudienceCount);
+        manualPicker.addEventListener('change', refreshAudienceCount);
+        refreshAudienceCount();
+
+        document.getElementById('campaign-timing').addEventListener('change', (e) => {
+            document.getElementById('campaign-schedule-field').style.display = e.target.value === 'later' ? 'block' : 'none';
+        });
+
+        document.getElementById('campaign-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            const audience = fd.get('audience');
+            const timing = fd.get('timing');
+            const customerIds = audience === 'manual'
+                ? Array.from(document.querySelectorAll('input[name="manual_customer"]:checked')).map((el) => parseInt(el.value, 10))
+                : [];
+
+            const payload = {
+                subject: fd.get('subject'),
+                body_html: String(fd.get('body_html') || '').split('\n').map((line) => `<p>${esc(line)}</p>`).join(''),
+                audience, customer_ids: customerIds,
+                send_now: timing === 'now',
+                scheduled_at: timing === 'later' ? fd.get('scheduled_at').replace('T', ' ') : null,
+            };
+
+            const btn = document.getElementById('campaign-submit-btn');
+            btn.disabled = true; btn.textContent = 'Creating…';
+            try {
+                await Api.post('/campaigns', payload);
+                toast(timing === 'now' ? 'Campaign is sending' : 'Campaign scheduled');
+                close();
+                renderCampaigns(content);
+            } catch (err) { toast(err.message, 'error'); btn.disabled = false; btn.textContent = 'Create Campaign'; }
         });
     }
 

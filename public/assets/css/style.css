@@ -311,7 +311,7 @@ tr:hover td { background: #fafbfc; }
 .auth-visual-panel .auth-blob-1 { position: absolute; top: -80px; right: -100px; width: 320px; height: 320px; border-radius: 46% 54% 60% 40% / 50% 45% 55% 50%; background: rgba(108,92,231,0.35); }
 .auth-visual-panel .auth-blob-2 { position: absolute; bottom: -100px; left: -80px; width: 260px; height: 260px; border-radius: 50%; background: rgba(23,166,114,0.25); }
 .auth-visual-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; position: relative; z-index: 1; }
-.auth-visual-logo .dot { width: 32px; height: 32px; border-radius: 9px; background: linear-gradient(135deg, #6c5ce7, #17a672); }
+.auth-visual-logo .dot { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; background: #fff; border-radius: 10px; padding: 4px; }
 .auth-visual-body { position: relative; z-index: 1; max-width: 380px; }
 .auth-visual-body h3 { font-size: 28px; font-weight: 800; line-height: 1.25; margin: 0 0 14px; }
 .auth-visual-body p { opacity: 0.75; font-size: 14.5px; line-height: 1.6; margin: 0; }
@@ -332,7 +332,7 @@ tr:hover td { background: #fafbfc; }
     .auth-split { grid-template-columns: 1fr; }
     .auth-visual-panel { display: none; }
     .auth-form-mobile-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; margin-bottom: 28px; color: var(--color-text); }
-    .auth-form-mobile-logo .dot { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, #6c5ce7, #17a672); }
+    .auth-form-mobile-logo .dot { width: 32px; height: 32px; object-fit: contain; }
 }
 
 .text-muted { color: var(--color-text-muted); }
