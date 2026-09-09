@@ -53,16 +53,6 @@
 .theme-verdant .cat-pill.active { background: var(--vd-teal); color: #fff; border-color: var(--vd-teal); }
 
 .theme-verdant .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.theme-verdant .product-card { background: #fff; border: 1px solid var(--vd-border); border-radius: 12px; overflow: hidden; }
-.theme-verdant .thumb { position: relative; aspect-ratio: 1; background: var(--vd-bg); }
-.theme-verdant .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.theme-verdant .wish-btn { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: none; }
-.theme-verdant .info { padding: 12px 14px; }
-.theme-verdant .name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
-.theme-verdant .cat-tag { display: none; }
-.theme-verdant .price-row { display: flex; justify-content: space-between; align-items: center; }
-.theme-verdant .price { color: var(--vd-teal-dark); font-weight: 800; font-size: 14px; }
-.theme-verdant .quick-add { background: var(--vd-teal); color: #fff; border: none; width: 28px; height: 28px; border-radius: 8px; }
 .theme-verdant .grid-loading, .theme-verdant .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #7c8f88; }
 
 .theme-verdant .vd-promo { display: grid; grid-template-columns: 1fr 1fr; max-width: 1200px; margin: 0 auto 50px; border-radius: 20px; overflow: hidden; background: var(--vd-teal-dark); }
@@ -102,31 +92,9 @@
 }
 
 /* ---------------------------------------------------------------------
-   Verdant — distinct product card (soft circular quick-add, trust feel)
-   --------------------------------------------------------------------- */
-.theme-verdant .product-card:hover { border-color: var(--vd-teal); box-shadow: 0 10px 24px rgba(13,109,92,0.1); }
-.theme-verdant .quick-add { border-radius: 999px; }
-
-/* ---------------------------------------------------------------------
    Verdant — product detail page: attribute-table skincare (Beauty Shop style)
    --------------------------------------------------------------------- */
 .theme-verdant.store-inner-page .store-container { max-width: 1180px; padding-top: 30px; }
-.theme-verdant .product-detail { gap: 50px; }
-.theme-verdant .gallery-main { border-radius: 16px; background: var(--vd-bg); }
-.theme-verdant .gallery-thumbs { margin-top: 12px; }
-.theme-verdant .gallery-thumb { border-radius: 8px; }
-.theme-verdant .gallery-thumb.active { border-color: var(--vd-teal); }
-.theme-verdant .product-detail h1 { font-size: 27px; font-weight: 800; }
-.theme-verdant .product-detail .price { color: var(--vd-teal-dark); font-size: 27px; }
-.theme-verdant .variant-select { border-radius: 8px; }
-.theme-verdant .qty-stepper { border-radius: 999px; }
-.theme-verdant #add-cart-btn { padding: 13px 32px; border-radius: 999px; }
-.theme-verdant .product-tabs { border-bottom: 2px solid var(--vd-border); }
-.theme-verdant .product-tab-btn.active { color: var(--vd-teal-dark); border-bottom-color: var(--vd-teal); }
-.theme-verdant .spec-table tr:nth-child(odd) { background: var(--vd-bg); }
-.theme-verdant .spec-table td { padding: 12px 14px; }
-.theme-verdant .review-form-box { border-radius: 16px; background: var(--vd-bg); }
-.theme-verdant .similar-products-section .section-title-lg { text-align: center; font-size: 21px; }
 
 /* ---------------------------------------------------------------------
    Verdant — closer hero match to Glowerive reference: deeper teal
@@ -142,3 +110,52 @@
 .theme-verdant .vd-cat-item:hover .vd-cat-circle { box-shadow: 0 0 0 3px rgba(13,109,92,0.15); transform: translateY(-2px); }
 .theme-verdant .vd-promo { box-shadow: 0 20px 50px rgba(13,109,92,0.14); }
 .theme-verdant .vd-topbar { letter-spacing: 0.01em; }
+
+/* ---------------------------------------------------------------------
+   Verdant — fully independent product card (not shared with other themes:
+   own classnames, own markup, rendered by window.themeCardRenderer)
+   --------------------------------------------------------------------- */
+.theme-verdant .vd-card { display: block; background: #fff; border: 1px solid var(--vd-border); border-radius: 12px; overflow: hidden; transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s; }
+.theme-verdant .vd-card:hover { border-color: var(--vd-teal); box-shadow: 0 12px 26px rgba(13,109,92,0.12); transform: translateY(-2px); }
+.theme-verdant .vd-card-thumb { position: relative; aspect-ratio: 1; background: var(--vd-bg); }
+.theme-verdant .vd-card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.theme-verdant .vd-card-badge { position: absolute; top: 10px; left: 10px; background: var(--vd-teal-dark); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 9px; border-radius: 4px; }
+.theme-verdant .vd-card-wish { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: none; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); cursor: pointer; line-height: 1; }
+.theme-verdant .vd-card-body { padding: 13px 14px 14px; }
+.theme-verdant .vd-card-name { font-weight: 600; font-size: 13.5px; margin-bottom: 6px; line-height: 1.3; min-height: 34px; }
+.theme-verdant .vd-card-price { color: var(--vd-teal-dark); font-weight: 800; font-size: 14.5px; margin-bottom: 10px; }
+.theme-verdant .vd-card-add { width: 100%; background: var(--vd-teal); color: #fff; border: none; padding: 9px; border-radius: 8px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.15s; }
+.theme-verdant .vd-card-add:hover { background: var(--vd-teal-dark); }
+
+/* ---------------------------------------------------------------------
+   Verdant — independent product detail page (window.themeDetailRenderer),
+   styled after a skincare PDP: category eyebrow, in-stock pill, SKU/tag
+   line, pill-shaped actions. Not shared with Blossom's detail layout.
+   --------------------------------------------------------------------- */
+.theme-verdant .vd-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 46px; }
+@media (max-width: 720px) { .theme-verdant .vd-detail { grid-template-columns: 1fr; } }
+.theme-verdant .vd-detail .gallery-main { aspect-ratio: 1; border-radius: 16px; background: var(--vd-bg); position: relative; overflow: hidden; }
+.theme-verdant .vd-detail .gallery-main img { width: 100%; height: 100%; object-fit: cover; }
+.theme-verdant .vd-detail .gallery-thumbs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.theme-verdant .vd-detail .gallery-thumb { width: 68px; height: 68px; border-radius: 8px; overflow: hidden; border: 2px solid var(--vd-border); cursor: pointer; background: var(--vd-bg); }
+.theme-verdant .vd-detail .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.theme-verdant .vd-detail .gallery-thumb.active { border-color: var(--vd-teal); }
+.theme-verdant .vd-detail-cat { display: inline-block; color: var(--vd-teal); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.theme-verdant .vd-detail-title-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.theme-verdant .vd-detail h1 { font-size: 27px; font-weight: 800; margin: 0; font-family: var(--vd-serif) !important; }
+.theme-verdant .vd-detail-stock { display: inline-block; background: #e6f6ef; color: #0d8a4f; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+.theme-verdant .vd-detail-desc { color: #5c6f68; font-size: 14px; line-height: 1.6; margin: 14px 0; }
+.theme-verdant .vd-detail .price { color: var(--vd-teal-dark); font-size: 28px; font-weight: 800; margin: 6px 0 16px; }
+.theme-verdant .vd-detail .variant-select { border-radius: 8px; border: 1px solid var(--vd-border); padding: 8px 12px; }
+.theme-verdant .vd-detail .qty-stepper { border-radius: 999px; border-color: var(--vd-border); margin-right: 10px; }
+.theme-verdant .vd-detail-actions { display: flex; gap: 10px; align-items: center; margin-top: 18px; }
+.theme-verdant .vd-detail-actions #add-cart-btn { border-radius: 999px; padding: 13px 30px; flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.theme-verdant .vd-detail-wish { width: 46px; height: 46px; border-radius: 999px; border: 1px solid var(--vd-border); background: #fff; font-size: 16px; cursor: pointer; flex-shrink: 0; }
+.theme-verdant .vd-detail-meta { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--vd-border); font-size: 12.5px; color: #7c8f88; }
+.theme-verdant .vd-detail-meta strong { color: #16211d; }
+.theme-verdant .product-tabs { border-bottom: 2px solid var(--vd-border); }
+.theme-verdant .product-tab-btn.active { color: var(--vd-teal-dark); border-bottom-color: var(--vd-teal); }
+.theme-verdant .spec-table tr:nth-child(odd) { background: var(--vd-bg); }
+.theme-verdant .spec-table td { padding: 12px 14px; }
+.theme-verdant .review-form-box { border-radius: 16px; background: var(--vd-bg); padding: 20px; }
+.theme-verdant .similar-products-section .section-title-lg { text-align: center; font-size: 21px; font-family: var(--vd-serif); margin-bottom: 22px; }

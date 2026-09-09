@@ -55,16 +55,6 @@
 .theme-blossom .cat-pill.active { background: var(--bl-pink); color: #fff; border-color: var(--bl-pink); }
 
 .theme-blossom .product-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
-.theme-blossom .product-card { background: #fff; border: 1px solid var(--bl-border); border-radius: 14px; overflow: hidden; }
-.theme-blossom .thumb { position: relative; aspect-ratio: 1; background: var(--bl-bg); }
-.theme-blossom .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.theme-blossom .wish-btn { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: #fff; border: none; }
-.theme-blossom .info { padding: 12px 14px; }
-.theme-blossom .name { font-weight: 600; font-size: 12.5px; margin-bottom: 4px; }
-.theme-blossom .cat-tag { display: none; }
-.theme-blossom .price-row { display: flex; justify-content: space-between; align-items: center; }
-.theme-blossom .price { color: var(--bl-pink-dark); font-weight: 800; font-size: 13.5px; }
-.theme-blossom .quick-add { background: var(--bl-pink); color: #fff; border: none; width: 28px; height: 28px; border-radius: 999px; }
 .theme-blossom .grid-loading, .theme-blossom .empty-store { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: #a98a95; }
 
 .theme-blossom .bl-features { display: flex; justify-content: space-around; gap: 16px; flex-wrap: wrap; background: var(--bl-bg); padding: 22px 40px; }
@@ -94,30 +84,54 @@
 }
 
 /* ---------------------------------------------------------------------
-   Blossom — distinct product card (rounded pink beauty feel)
+   Blossom — fully independent product card (own classnames, own markup,
+   rendered by window.themeCardRenderer — nothing shared with other themes)
    --------------------------------------------------------------------- */
-.theme-blossom .product-card:hover { border-color: var(--bl-pink); }
-.theme-blossom .thumb { border-radius: 14px 14px 0 0; }
+.theme-blossom .bl-card { display: block; background: #fff; border: 1px solid var(--bl-border); border-radius: 14px; overflow: hidden; transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s; }
+.theme-blossom .bl-card:hover { border-color: var(--bl-pink); box-shadow: 0 12px 26px rgba(214,53,122,0.12); transform: translateY(-2px); }
+.theme-blossom .bl-card-thumb { position: relative; aspect-ratio: 1; background: var(--bl-bg); border-radius: 14px 14px 0 0; overflow: hidden; }
+.theme-blossom .bl-card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.theme-blossom .bl-card-badge { position: absolute; top: 10px; left: 10px; background: var(--bl-pink-dark); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; }
+.theme-blossom .bl-card-wish { position: absolute; top: 8px; right: 8px; width: 27px; height: 27px; border-radius: 50%; background: #fff; border: none; font-size: 12.5px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); cursor: pointer; line-height: 1; }
+.theme-blossom .bl-card-body { padding: 12px 14px 14px; }
+.theme-blossom .bl-card-cat { color: var(--bl-pink); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+.theme-blossom .bl-card-name { font-weight: 600; font-size: 12.5px; margin-bottom: 6px; line-height: 1.3; min-height: 32px; }
+.theme-blossom .bl-card-price { color: var(--bl-pink-dark); font-weight: 800; font-size: 13.5px; margin-bottom: 10px; }
+.theme-blossom .bl-card-add { width: 100%; background: var(--bl-pink); color: #fff; border: none; padding: 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; transition: background 0.15s; }
+.theme-blossom .bl-card-add:hover { background: var(--bl-pink-dark); }
 
 /* ---------------------------------------------------------------------
-   Blossom — product detail page: attribute-table beauty (Beauty Shop style)
+   Blossom — fully independent product detail page (window.themeDetailRenderer),
+   styled after a fashion/beauty PDP with badge + swatch-style variant picker.
+   Not shared with Verdant's detail layout.
    --------------------------------------------------------------------- */
 .theme-blossom.store-inner-page .store-container { max-width: 1180px; padding-top: 30px; }
-.theme-blossom .product-detail { gap: 46px; }
-.theme-blossom .gallery-main { border-radius: 18px; background: var(--bl-bg); }
-.theme-blossom .gallery-thumbs { margin-top: 12px; }
-.theme-blossom .gallery-thumb { border-radius: 10px; }
-.theme-blossom .gallery-thumb.active { border-color: var(--bl-pink); }
-.theme-blossom .product-detail h1 { font-size: 27px; font-weight: 800; }
-.theme-blossom .product-detail .price { color: var(--bl-pink-dark); font-size: 27px; }
-.theme-blossom .variant-select { border-radius: 999px; }
-.theme-blossom .qty-stepper { border-radius: 999px; }
-.theme-blossom #add-cart-btn { padding: 13px 32px; }
+.theme-blossom .bl-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 46px; }
+@media (max-width: 720px) { .theme-blossom .bl-detail { grid-template-columns: 1fr; } }
+.theme-blossom .bl-detail .gallery-main { position: relative; aspect-ratio: 1; border-radius: 18px; background: var(--bl-bg); overflow: hidden; }
+.theme-blossom .bl-detail .gallery-main img { width: 100%; height: 100%; object-fit: cover; }
+.theme-blossom .bl-detail-badge { position: absolute; top: 14px; left: 14px; z-index: 1; background: var(--bl-pink-dark); color: #fff; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; padding: 5px 12px; border-radius: 999px; }
+.theme-blossom .bl-detail .gallery-thumbs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.theme-blossom .bl-detail .gallery-thumb { width: 68px; height: 68px; border-radius: 10px; overflow: hidden; border: 2px solid var(--bl-border); cursor: pointer; background: var(--bl-bg); }
+.theme-blossom .bl-detail .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.theme-blossom .bl-detail .gallery-thumb.active { border-color: var(--bl-pink); }
+.theme-blossom .bl-detail-cat { display: inline-block; color: var(--bl-pink-dark); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.theme-blossom .bl-detail-info h1 { font-size: 27px; font-weight: 800; margin: 0 0 8px; }
+.theme-blossom .bl-detail .price { color: var(--bl-pink-dark); font-size: 27px; font-weight: 800; margin: 4px 0 12px; }
+.theme-blossom .bl-detail-desc { color: #6b4a58; font-size: 14px; line-height: 1.6; margin: 0 0 6px; }
+.theme-blossom .bl-detail-stock { font-size: 12.5px; margin-bottom: 8px; }
+.theme-blossom .bl-detail-info .variant-select { border-radius: 999px; border: 1px solid var(--bl-border); padding: 8px 14px; }
+.theme-blossom .bl-detail-info .qty-stepper { border-radius: 999px; border-color: var(--bl-border); }
+.theme-blossom .bl-detail-actions { display: flex; align-items: center; gap: 10px; margin-top: 16px; }
+.theme-blossom .bl-detail-actions #add-cart-btn { padding: 13px 30px; flex: 1; }
+.theme-blossom .bl-detail-wish { width: 46px; height: 46px; border-radius: 999px; border: 1px solid var(--bl-border); background: #fff; font-size: 16px; cursor: pointer; flex-shrink: 0; }
+.theme-blossom .bl-detail-meta { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--bl-border); font-size: 12.5px; color: #a98a95; }
+.theme-blossom .bl-detail-tabs { border-bottom: 2px solid var(--bl-border); }
 .theme-blossom .product-tab-btn.active { color: var(--bl-pink-dark); border-bottom-color: var(--bl-pink); }
 .theme-blossom .spec-table tr:nth-child(odd) { background: var(--bl-bg); }
 .theme-blossom .spec-table td { padding: 12px 14px; }
-.theme-blossom .review-form-box { border-radius: 18px; }
-.theme-blossom .similar-products-section .section-title-lg { text-align: center; font-size: 21px; color: var(--bl-pink-dark); }
+.theme-blossom .review-form-box { border-radius: 18px; background: var(--bl-bg); padding: 20px; }
+.theme-blossom .similar-products-section .section-title-lg { text-align: center; font-size: 21px; color: var(--bl-pink-dark); margin-bottom: 22px; }
 
 /* ---------------------------------------------------------------------
    Blossom — closer hero/decoration match to GlowCare reference: richer

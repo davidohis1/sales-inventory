@@ -89,6 +89,7 @@ $promoImg = !empty($content['promo1_path']) ? $base . $content['promo1_path'] : 
 <div class="toast-container" id="toast-container"></div>
 <script>window.APP_BASE = <?= json_encode($base) ?>; window.TENANT_SLUG = <?= json_encode($slug) ?>; window.TENANT_CURRENCY = <?= json_encode($tenant['currency']) ?>;</script>
 <script src="<?= $base ?>/assets/js/store.js"></script>
+<script src="<?= $base ?>/assets/js/themes/blossom-renderer.js"></script>
 <script>StoreApp.renderProductList();</script>
 </body>
 </html>

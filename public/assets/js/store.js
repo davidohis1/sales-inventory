@@ -52,7 +52,10 @@ const StoreApp = (() => {
         return img ? `<img src="${esc(assetUrl(img))}" alt="${esc(product.name)}" loading="lazy">` : `<span class="no-image">No image</span>`;
     }
 
-    function cardHtml(p) {
+    /* Default product-card markup, used by every theme EXCEPT ones that
+       define their own `window.themeCardRenderer` (Verdant, Blossom — each
+       has its own fully independent card markup/CSS, no shared classes). */
+    function defaultCardHtml(p) {
         return `
         <a class="product-card" href="${window.APP_BASE || ''}/${slug}/product/${p.id}" data-id="${p.id}">
             <div class="thumb">${imageTag(p)}
@@ -66,6 +69,21 @@ const StoreApp = (() => {
                 </div>
             </div>
         </a>`;
+    }
+
+    /* Contract for a theme's own renderer: a function(product, utils) that
+       returns the full card HTML. It MUST include, somewhere in the markup:
+         - href to `${appBase}/${slug}/product/${p.id}` for navigation
+         - a control with `data-quickadd="${p.id}"` so "add to cart" wiring
+           (see loadProducts/loadSimilarProducts below) keeps working
+       utils = { fmt, esc, assetUrl, imageTag, slug, appBase } */
+    function cardHtml(p) {
+        if (typeof window.themeCardRenderer === 'function') {
+            try {
+                return window.themeCardRenderer(p, { fmt, esc, assetUrl, imageTag, slug, appBase: window.APP_BASE || '' });
+            } catch (e) { /* fall through to default if a theme renderer throws */ }
+        }
+        return defaultCardHtml(p);
     }
 
     let allProducts = [];
@@ -190,26 +208,24 @@ const StoreApp = (() => {
         loadProducts();
     }
 
-    async function renderProductDetail(id) {
-        updateCartCount();
-        wireNavChrome();
-        const root = document.getElementById('product-detail-root');
-        try {
-            const p = await apiGet(`/store/products/${id}`);
-            const images = (p.images && p.images.length ? p.images : [{ image_path: null }]);
-            const variants = Array.isArray(p.variants) ? p.variants : [];
-            const specs = Array.isArray(p.specifications) ? p.specifications : [];
-            const variantPickerHtml = variants.length ? `
-                <div class="variant-picker" style="margin:14px 0;">
-                    ${variants.map((v, gi) => `
-                        <div class="form-group" style="margin-bottom:10px;">
-                            <label>${esc(v.name)}</label>
-                            <select class="form-control variant-select" data-group="${esc(v.name)}">
-                                ${(v.values || []).map((val, vi) => `<option value="${esc(val)}" ${vi === 0 ? 'selected' : ''}>${esc(val)}</option>`).join('')}
-                            </select>
-                        </div>`).join('')}
-                </div>` : '';
-            root.innerHTML = `
+    /* Default product-detail markup, used by any theme that doesn't define
+       its own `window.themeDetailRenderer`. A theme-specific renderer is a
+       function(product, ctx) returning the full innerHTML for #product-detail-root.
+       ctx = { images, variantPickerHtml, specs, fmt, esc, assetUrl }.
+       Contract — the returned markup MUST keep these hooks so the wiring
+       below (gallery, qty stepper, add-to-cart, tabs, reviews, similar
+       products) keeps working:
+         .gallery-main                       — swapped on thumb click
+         .gallery-thumb[data-src]  (repeatable)
+         #q-dec / #q-val / #q-inc            — qty stepper
+         #add-cart-btn                       — add to cart button
+         .variant-select (repeatable, data-group)
+         .product-tab-btn[data-tab] + #tab-{tab} panels (repeatable)
+         #review-count-badge, #reviews-list, #review-form
+         #similar-products-section, #similar-products-grid */
+    function defaultDetailTemplate(p, ctx) {
+        const { images, variantPickerHtml, specs, fmt, esc, assetUrl } = ctx;
+        return `
             <div class="product-detail">
                 <div>
                     <div class="gallery-main">${images[0].image_path ? `<img src="${esc(assetUrl(images[0].image_path))}">` : '<span class="no-image">No image available</span>'}</div>
@@ -258,6 +274,29 @@ const StoreApp = (() => {
                 <div class="section-title-lg">You may also like</div>
                 <div class="product-grid" id="similar-products-grid"></div>
             </div>`;
+    }
+
+    async function renderProductDetail(id) {
+        updateCartCount();
+        wireNavChrome();
+        const root = document.getElementById('product-detail-root');
+        try {
+            const p = await apiGet(`/store/products/${id}`);
+            const images = (p.images && p.images.length ? p.images : [{ image_path: null }]);
+            const variants = Array.isArray(p.variants) ? p.variants : [];
+            const specs = Array.isArray(p.specifications) ? p.specifications : [];
+            const variantPickerHtml = variants.length ? `
+                <div class="variant-picker" style="margin:14px 0;">
+                    ${variants.map((v, gi) => `
+                        <div class="form-group" style="margin-bottom:10px;">
+                            <label>${esc(v.name)}</label>
+                            <select class="form-control variant-select" data-group="${esc(v.name)}">
+                                ${(v.values || []).map((val, vi) => `<option value="${esc(val)}" ${vi === 0 ? 'selected' : ''}>${esc(val)}</option>`).join('')}
+                            </select>
+                        </div>`).join('')}
+                </div>` : '';
+            const templateFn = (typeof window.themeDetailRenderer === 'function') ? window.themeDetailRenderer : defaultDetailTemplate;
+            root.innerHTML = templateFn(p, { images, variantPickerHtml, specs, fmt, esc, assetUrl });
 
             root.querySelectorAll('.gallery-thumb').forEach((t) => t.addEventListener('click', () => {
                 root.querySelectorAll('.gallery-thumb').forEach((x) => x.classList.remove('active'));
