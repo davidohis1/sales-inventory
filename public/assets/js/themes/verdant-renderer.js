@@ -20,12 +20,14 @@
             <div class="vd-card-thumb">
                 ${u.imageTag(p)}
                 ${badge}
-                <button class="vd-card-wish" data-wish="${p.id}" title="Wishlist" onclick="event.preventDefault()">&#9825;</button>
             </div>
             <div class="vd-card-body">
                 <div class="vd-card-name">${u.esc(p.name)}</div>
                 <div class="vd-card-price">${u.fmt(p.selling_price)}</div>
-                <button class="vd-card-add" data-quickadd="${p.id}" onclick="event.preventDefault()">&#128722; Add to Cart</button>
+                <div class="vd-card-actions">
+                    <button class="vd-card-add" data-quickadd="${p.id}" onclick="event.preventDefault()">Add to Cart &rarr;</button>
+                    <button class="vd-card-wish" data-wish="${p.id}" title="Wishlist" onclick="event.preventDefault()">&#9825;</button>
+                </div>
             </div>
         </a>`;
     };
@@ -50,7 +52,7 @@
                     ${variantPickerHtml}
                     <div class="vd-detail-actions">
                         <div class="qty-stepper"><button id="q-dec">−</button><input id="q-val" value="1" readonly><button id="q-inc">+</button></div>
-                        <button class="btn-store" id="add-cart-btn">&#128722; Add to Cart</button>
+                        <button class="btn-store" id="add-cart-btn">Add to Cart &rarr;</button>
                         <button class="vd-detail-wish" title="Wishlist">&#9825;</button>
                     </div>
                     <div class="vd-detail-meta"><strong>SKU:</strong> ${esc(p.sku || '—')}${p.category_name ? ` &nbsp;·&nbsp; <strong>Category:</strong> ${esc(p.category_name)}` : ''}</div>

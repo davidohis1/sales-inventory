@@ -21,6 +21,10 @@ $storeUrl = $base . '/' . htmlspecialchars($slug);
 $logoImg = !empty($content['logo_path']) ? $base . htmlspecialchars($content['logo_path']) : null;
 $bizName = htmlspecialchars($tenant['business_name']);
 $themeHeaderOpensShell = ($theme === 'aurora');
+if ($theme === 'verdant') {
+    require_once __DIR__ . '/verdant-icons.php';
+    $vdTagline = vd_store_tagline($settings['store_type'] ?? 'general');
+}
 ?>
 <?php switch ($theme):
     case 'aurora': ?>
@@ -114,16 +118,17 @@ $themeHeaderOpensShell = ($theme === 'aurora');
     case 'verdant': ?>
 <div class="vd-topbar">
     <span>&#128666; <?= $h('topbar_text', 'Free Shipping on Orders Over ' . $tenant['currency'] . '50') ?></span>
-    <div class="vd-topbar-links"><a href="<?= $storeUrl ?>/cart">Track Order</a><a href="<?= $storeUrl ?>/shop">FAQ</a></div>
+    <div class="vd-topbar-links"><a href="<?= $storeUrl ?>/cart">Track Order</a><a href="<?= $storeUrl ?>/shop">FAQ</a><a href="<?= $storeUrl ?>/shop">Store Locator</a><a href="<?= $storeUrl ?>">Contact Us</a></div>
 </div>
 <nav class="vd-nav">
     <a href="<?= $storeUrl ?>" class="vd-logo">
         <?php if ($logoImg): ?><img src="<?= $logoImg ?>" alt="" class="vd-logo-img"><?php else: ?><span class="vd-logo-mark">&#127807;</span><?php endif; ?>
-        <span><?= $bizName ?></span>
+        <span class="vd-logo-text"><span class="vd-logo-name"><?= $bizName ?></span><span class="vd-logo-tagline"><?= htmlspecialchars($vdTagline) ?></span></span>
     </a>
     <div class="vd-links"><a href="<?= $storeUrl ?>">Home</a><a href="<?= $storeUrl ?>/shop" class="<?= ($page ?? '') === 'shop' ? 'active' : '' ?>">Shop</a><a href="<?= $storeUrl ?>/shop">Categories</a><a href="<?= $storeUrl ?>/shop">About</a></div>
     <div class="vd-icons">
-        <span id="store-search-toggle">&#128269;</span>
+        <span id="store-search-toggle" title="Search">&#128269;</span>
+        <span class="vd-account-icon" title="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span>
         <a href="<?= $storeUrl ?>/cart" class="vd-cart">&#128722;<span class="cart-count" id="cart-count">0</span></a>
     </div>
 </nav>
