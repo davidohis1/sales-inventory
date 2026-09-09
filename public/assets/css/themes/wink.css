@@ -1,5 +1,7 @@
 /* Wink theme — bold green/orange deals-driven storefront (ShopEase style). */
-.theme-wink { --wk-green: #17351f; --wk-orange: #f4622d; --wk-bg: #ffffff; --wk-border: #eee7dd; --wk-cream: #faf3ea; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1c2118; }
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+.theme-wink { --wk-green: #17351f; --wk-orange: #f4622d; --wk-bg: #ffffff; --wk-border: #eee7dd; --wk-cream: #faf3ea; --wk-font: 'Nunito', -apple-system, sans-serif; font-family: var(--wk-font); color: #1c2118; }
+.theme-wink .wk-logo, .theme-wink .wk-hero-card h1, .theme-wink .wk-deal-text h2, .theme-wink .product-detail h1, .theme-wink .similar-products-section .section-title-lg { font-family: var(--wk-font); font-weight: 800; }
 .theme-wink .wk-topbar { background: var(--wk-green); color: #fff; display: flex; justify-content: center; gap: 40px; padding: 8px 16px; font-size: 12px; flex-wrap: wrap; }
 .theme-wink .wk-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; flex-wrap: wrap; gap: 14px; }
 .theme-wink .wk-logo { font-weight: 800; font-size: 19px; display: flex; align-items: center; gap: 8px; color: var(--wk-green); }
@@ -104,3 +106,41 @@
 @media (min-width: 1200px) {
     .theme-wink .wk-hero-card h1 { font-size: 44px; }
 }
+
+/* ---------------------------------------------------------------------
+   Wink — distinct product card (rounded, bold price, pill add button)
+   --------------------------------------------------------------------- */
+.theme-wink .product-card { border-radius: 18px; border-color: var(--wk-border); }
+.theme-wink .thumb { border-radius: 18px 18px 0 0; }
+.theme-wink .info { padding: 14px 16px; }
+.theme-wink .quick-add { border-radius: 999px; width: auto; height: auto; padding: 6px 14px; color: transparent; font-size: 0; }
+.theme-wink .quick-add::after { content: 'Add'; color: #fff; font-size: 11px; font-weight: 700; }
+
+/* ---------------------------------------------------------------------
+   Wink — product detail page: clean minimal (Velora style, recolored)
+   --------------------------------------------------------------------- */
+.theme-wink.store-inner-page .store-container { max-width: 1200px; padding-top: 30px; }
+.theme-wink .product-detail { gap: 50px; }
+.theme-wink .gallery-main { border-radius: 18px; background: var(--wk-cream); }
+.theme-wink .gallery-thumbs { margin-top: 12px; }
+.theme-wink .gallery-thumb { border-radius: 10px; }
+.theme-wink .gallery-thumb.active { border-color: var(--wk-orange); }
+.theme-wink .product-detail h1 { font-size: 30px; font-weight: 800; }
+.theme-wink .product-detail .price { color: var(--wk-orange); font-size: 27px; }
+.theme-wink .variant-select { border-radius: 8px; }
+.theme-wink .qty-stepper { border-radius: 10px; }
+.theme-wink #add-cart-btn { padding: 14px 34px; font-size: 14px; }
+.theme-wink.store-inner-page .btn-store { border-radius: 999px; background: var(--wk-orange); }
+.theme-wink .product-tab-btn.active { color: var(--wk-orange); border-bottom-color: var(--wk-orange); }
+.theme-wink .review-form-box { border-radius: 16px; }
+.theme-wink .similar-products-section .section-title-lg { font-size: 22px; }
+
+/* ---------------------------------------------------------------------
+   Wink — closer match to ShopEase reference: hero card depth, deal
+   card shadow, cat thumb ring on hover.
+   --------------------------------------------------------------------- */
+.theme-wink .wk-hero-card { box-shadow: 0 24px 50px rgba(23,53,31,0.18); }
+.theme-wink .wk-deal-card { box-shadow: 0 14px 30px rgba(0,0,0,0.08); }
+.theme-wink .wk-cat-thumb { transition: box-shadow 0.2s, transform 0.2s; }
+.theme-wink .wk-cat-item:hover .wk-cat-thumb { box-shadow: 0 0 0 4px rgba(244,98,45,0.15); transform: translateY(-2px); }
+.theme-wink .wk-badge { box-shadow: 0 10px 26px rgba(244,98,45,0.35); }

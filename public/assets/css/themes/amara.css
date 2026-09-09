@@ -1,5 +1,7 @@
 /* Amara theme — refined editorial fashion storefront, terracotta palette. */
-.theme-amara { --am-rust: #a0492c; --am-rust-dark: #7a3620; --am-cream: #faf3ec; --am-border: #ecdfd2; font-family: Georgia, 'Times New Roman', serif; color: #2b211b; }
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap');
+.theme-amara { --am-rust: #a0492c; --am-rust-dark: #7a3620; --am-cream: #faf3ec; --am-border: #ecdfd2; --am-serif: 'Playfair Display', Georgia, serif; --am-sans: 'Inter', -apple-system, sans-serif; font-family: var(--am-sans); color: #2b211b; }
+.theme-amara .am-logo, .theme-amara .am-hero h1, .theme-amara .am-section-head h2, .theme-amara .am-promo-overlay h3, .theme-amara .am-promo-solid h3, .theme-amara .am-newsletter h3, .theme-amara .product-detail h1, .theme-amara .similar-products-section .section-title-lg, .theme-amara .review-item-head strong, .theme-amara .review-form-box h4 { font-family: var(--am-serif) !important; }
 .theme-amara .am-topbar { background: var(--am-rust-dark); color: #f3e3d8; display: flex; justify-content: center; gap: 40px; padding: 8px 16px; font-size: 11px; font-family: -apple-system, sans-serif; letter-spacing: 0.03em; }
 .theme-amara .am-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 20px 40px; border-bottom: 1px solid var(--am-border); font-family: -apple-system, sans-serif; gap: 14px; }
 .theme-amara .am-links { display: flex; gap: 22px; font-size: 12.5px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; }
@@ -97,3 +99,62 @@
 @media (min-width: 1200px) {
     .theme-amara .am-hero h1 { font-size: 50px; }
 }
+
+/* ---------------------------------------------------------------------
+   Amara — refined product card (editorial fashion, hover reveal CTA)
+   --------------------------------------------------------------------- */
+.theme-amara .product-card { border: none; }
+.theme-amara .thumb { position: relative; }
+.theme-amara .thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(43,33,27,0.35), transparent 45%); opacity: 0; transition: opacity 0.25s; }
+.theme-amara .product-card:hover .thumb::after { opacity: 1; }
+.theme-amara .quick-add { position: absolute; left: 50%; bottom: -40px; transform: translateX(-50%); width: auto; height: auto; border-radius: 2px; padding: 8px 18px; background: #fff; color: transparent; font-size: 0; letter-spacing: 0.08em; white-space: nowrap; transition: bottom 0.25s; }
+.theme-amara .quick-add::after { content: 'Add to Cart'; color: var(--am-rust-dark); font-size: 10.5px; font-weight: 700; text-transform: uppercase; }
+.theme-amara .price-row { position: relative; }
+.theme-amara .product-card:hover .quick-add { bottom: 12px; }
+.theme-amara .wish-btn { background: rgba(255,255,255,0.85); }
+.theme-amara .name { font-family: Georgia, serif; font-size: 14px; }
+
+/* ---------------------------------------------------------------------
+   Amara — product detail page: elegant editorial (Veloura Coat style)
+   --------------------------------------------------------------------- */
+.theme-amara.store-inner-page .store-container { max-width: 1180px; }
+.theme-amara .back-link { font-family: -apple-system, sans-serif; text-transform: uppercase; font-size: 11px; letter-spacing: 0.08em; color: #a08a77; }
+.theme-amara .product-detail { gap: 60px; }
+.theme-amara .gallery-main { border-radius: 4px; aspect-ratio: 4/5; background: var(--am-cream); }
+.theme-amara .gallery-thumbs { justify-content: flex-start; margin-top: 14px; }
+.theme-amara .gallery-thumb { border-radius: 2px; width: 68px; height: 68px; }
+.theme-amara .gallery-thumb.active { border-color: var(--am-rust); }
+.theme-amara .product-detail h1 { font-family: Georgia, serif; font-weight: 400; font-size: 32px; letter-spacing: 0.01em; }
+.theme-amara .product-detail .price { font-family: Georgia, serif; color: var(--am-rust-dark); font-size: 26px; }
+.theme-amara .product-detail p.text-muted { font-family: -apple-system, sans-serif; color: #6b5c4d; line-height: 1.7; }
+.theme-amara .variant-picker label { font-family: -apple-system, sans-serif; text-transform: uppercase; font-size: 11px; letter-spacing: 0.06em; color: #a08a77; }
+.theme-amara .variant-select { border-radius: 2px; font-family: -apple-system, sans-serif; }
+.theme-amara .qty-stepper { border-radius: 2px; border-color: var(--am-border); }
+.theme-amara #add-cart-btn { font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: 12.5px; padding: 14px 36px; }
+.theme-amara.store-inner-page .btn-store { border-radius: 2px; }
+.theme-amara .product-tabs { font-family: -apple-system, sans-serif; border-bottom-color: var(--am-border); justify-content: center; gap: 30px; }
+.theme-amara .product-tab-btn { text-transform: uppercase; font-size: 11.5px; letter-spacing: 0.06em; color: #a08a77; }
+.theme-amara .product-tab-btn.active { color: var(--am-rust-dark); border-bottom-color: var(--am-rust); }
+.theme-amara .spec-table { font-family: -apple-system, sans-serif; }
+.theme-amara .review-item { font-family: -apple-system, sans-serif; border-bottom-color: var(--am-border); }
+.theme-amara .review-item-head strong { font-family: Georgia, serif; }
+.theme-amara .review-form-box { border-radius: 4px; border-color: var(--am-border); font-family: -apple-system, sans-serif; }
+.theme-amara .review-form-box h4 { font-family: Georgia, serif; font-weight: 400; }
+.theme-amara .review-form-box input, .theme-amara .review-form-box textarea { border-radius: 2px; }
+.theme-amara .similar-products-section .section-title-lg { font-family: Georgia, serif; font-weight: 400; font-size: 22px; text-align: center; }
+
+/* ---------------------------------------------------------------------
+   Amara — closer match to Veloura reference: image inset shadow, tighter
+   editorial spacing, refined quote cards, promo overlay depth.
+   --------------------------------------------------------------------- */
+.theme-amara .am-hero-image { box-shadow: 0 24px 60px rgba(122,54,32,0.16); }
+.theme-amara .am-season-badge { box-shadow: 0 8px 22px rgba(0,0,0,0.14); border: 1px solid var(--am-border); }
+.theme-amara .am-nav { padding: 18px 40px; }
+.theme-amara .am-links a, .theme-amara .am-links-hide { position: relative; }
+.theme-amara .am-links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--am-rust); transform: scaleX(0); transition: transform 0.2s; }
+.theme-amara .am-links a:hover::after { transform: scaleX(1); }
+.theme-amara .am-quote-card { box-shadow: 0 12px 30px rgba(122,54,32,0.06); transition: transform 0.2s; }
+.theme-amara .am-quote-card:hover { transform: translateY(-3px); }
+.theme-amara .am-promo-card::before { background: rgba(122,54,32,0.5); }
+.theme-amara .am-promo-overlay a.am-outline-btn:hover { background: #fff; color: var(--am-rust-dark); }
+.theme-amara .btn-store { letter-spacing: 0.04em; }

@@ -554,9 +554,17 @@
             content.querySelectorAll('[data-action="image"]').forEach((btn) => btn.addEventListener('click', () => openImageModal(btn.dataset.id, () => renderProducts(content, q))));
             content.querySelectorAll('[data-action="store"]').forEach((btn) => btn.addEventListener('click', async () => {
                 const goingOn = btn.dataset.onstore != '1';
+                if (goingOn) {
+                    // Route through the listing modal so description/specs/variants can be filled in before it goes live.
+                    try {
+                        const full = await Api.get(`/products/${btn.dataset.id}`);
+                        openStoreListingModal(full, () => renderProducts(content, q), { listingFlow: true });
+                    } catch (e) { toast(e.message, 'error'); }
+                    return;
+                }
                 try {
-                    await Api.post(`/products/${btn.dataset.id}/store`, { on_store: goingOn });
-                    toast(goingOn ? 'Product listed on store' : 'Product removed from store');
+                    await Api.post(`/products/${btn.dataset.id}/store`, { on_store: false });
+                    toast('Product removed from store');
                     renderProducts(content, q);
                 } catch (e) { toast(e.message, 'error'); }
             }));
@@ -1154,12 +1162,33 @@
                 <td>${paidBadge(o)}</td>
                 <td>${statusBadge(o.status)}</td>
                 <td>${dt(o.created_at)}</td>
-                <td>${actionsFor(o)}</td>
+                <td><button class="btn btn-sm btn-secondary" data-view-items="${o.id}">View Items</button> ${actionsFor(o)}</td>
             </tr>`).join('') || '<tr><td colspan="7" class="text-muted">No online orders yet.</td></tr>';
 
         content.innerHTML = `
         <p class="text-muted">Orders placed from your public online store at <a href="${window.APP_BASE || ''}/${slug}" target="_blank">/${slug}</a> appear here. Every order moves through <strong>Ordered → Accepted → On Delivery → Delivered</strong>, and the customer is emailed at each step.</p>
-        <div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Payment</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+        <div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Payment</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div id="order-items-modal-root"></div>`;
+
+        content.querySelectorAll('[data-view-items]').forEach((btn) => btn.addEventListener('click', async () => {
+            try {
+                const order = await Api.get(`/orders/${btn.dataset.viewItems}`);
+                const rowsHtml = (order.items || []).map((i) => `
+                    <tr>
+                        <td>${esc(i.product_name)}${i.variant_label ? `<br><span class="text-muted" style="font-size:12px;">${esc(i.variant_label)}</span>` : ''}</td>
+                        <td>${i.quantity}</td><td>${fmt(i.unit_price)}</td><td>${fmt(i.line_total)}</td>
+                    </tr>`).join('');
+                document.getElementById('order-items-modal-root').innerHTML = `
+                <div class="modal-backdrop" id="order-items-backdrop">
+                    <div class="modal">
+                        <button class="modal-close" id="order-items-close">&times;</button>
+                        <h3>Order ${esc(order.order_no)}</h3>
+                        <table><thead><tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead><tbody>${rowsHtml}</tbody></table>
+                    </div>
+                </div>`;
+                document.getElementById('order-items-close').addEventListener('click', () => document.getElementById('order-items-modal-root').innerHTML = '');
+            } catch (e) { toast(e.message, 'error'); }
+        }));
 
         content.querySelectorAll('[data-accept]').forEach((btn) => btn.addEventListener('click', async () => {
             try { const r = await Api.post(`/orders/${btn.dataset.accept}/accept`); toast(`Order accepted → sale ${r.receipt_no}`); renderOrders(content); }
@@ -1660,14 +1689,16 @@
                 <td>${esc(p.name)}<br><span class="text-muted" style="font-size:12px;">${esc(p.sku)}</span></td>
                 <td>${p.image_count > 0 ? `<span class="badge badge-success">${p.image_count} image${p.image_count == 1 ? '' : 's'}</span>` : '<span class="badge badge-muted">No images</span>'}</td>
                 <td>${p.description ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-muted">Missing</span>'}</td>
+                <td>${p.specifications && p.specifications !== '[]' ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-muted">—</span>'}</td>
+                <td>${p.variants && p.variants !== '[]' ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-muted">—</span>'}</td>
                 <td>${fmt(p.selling_price)}</td>
                 <td>${p.is_on_store == 1 ? '<span class="badge badge-success">On Store</span>' : '<span class="badge badge-muted">Hidden</span>'}</td>
                 <td><button class="btn btn-sm btn-secondary" data-manage="${p.id}">Manage Listing</button></td>
-            </tr>`).join('') || '<tr><td colspan="6" class="text-muted">No products found.</td></tr>';
+            </tr>`).join('') || '<tr><td colspan="8" class="text-muted">No products found.</td></tr>';
 
         root.innerHTML = `
         <input class="form-control" id="store-prod-search" style="max-width:320px; margin-bottom:14px;" placeholder="Search your products…" value="${esc(q)}">
-        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Images</th><th>Description</th><th>Price</th><th>Store Status</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th>Product</th><th>Images</th><th>Description</th><th>Specs</th><th>Variants</th><th>Price</th><th>Store Status</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table></div>
         <div id="store-prod-modal-root"></div>`;
 
         let debounce;
@@ -1677,17 +1708,46 @@
         });
         root.querySelectorAll('[data-manage]').forEach((btn) => btn.addEventListener('click', async () => {
             const full = await Api.get(`/products/${btn.dataset.manage}`);
-            openStoreListingModal(full, () => drawStoreProductsTab(root, q));
+            openStoreListingModal(full, () => drawStoreProductsTab(root, q), { listingFlow: full.is_on_store != 1 });
         }));
     }
 
-    function openStoreListingModal(product, onSaved) {
+    /** Returns a dedicated overlay container for the listing modal, creating it on <body> if this page doesn't already render one — never overwrites the whole page. */
+    function getListingModalRoot() {
+        let root = document.getElementById('store-prod-modal-root');
+        if (!root) {
+            root = document.createElement('div');
+            root.id = 'store-prod-modal-root';
+            document.body.appendChild(root);
+        }
+        return root;
+    }
+
+    function openStoreListingModal(product, onSaved, opts = {}) {
         const imagesHtml = (product.images || []).map((im) => `<div class="listing-thumb"><img src="${esc(assetUrl(im.image_path))}"></div>`).join('') || '<p class="text-muted">No images uploaded yet.</p>';
-        (document.getElementById('store-prod-modal-root') || document.body).innerHTML = `
+        const specs = Array.isArray(product.specifications) ? product.specifications : [];
+        const variants = Array.isArray(product.variants) ? product.variants : [];
+        const specRow = (s = { label: '', value: '' }) => `
+            <div class="spec-row flex" style="gap:8px; margin-bottom:6px;">
+                <input class="form-control spec-label" placeholder="e.g. RAM" value="${esc(s.label || '')}" style="flex:1;">
+                <input class="form-control spec-value" placeholder="e.g. 8GB" value="${esc(s.value || '')}" style="flex:1;">
+                <button type="button" class="btn btn-sm btn-secondary spec-remove">&times;</button>
+            </div>`;
+        const variantRow = (v = { name: '', values: [] }) => `
+            <div class="variant-row" style="margin-bottom:10px; border:1px solid var(--color-border); border-radius:8px; padding:10px;">
+                <div class="flex" style="gap:8px; margin-bottom:6px;">
+                    <input class="form-control variant-name" placeholder="e.g. Color" value="${esc(v.name || '')}" style="max-width:160px;">
+                    <input class="form-control variant-values" placeholder="Comma-separated options, e.g. Red, Blue, Black" value="${esc((v.values || []).join(', '))}" style="flex:1;">
+                    <button type="button" class="btn btn-sm btn-secondary variant-remove">&times;</button>
+                </div>
+            </div>`;
+
+        getListingModalRoot().innerHTML = `
         <div class="modal-backdrop" id="modal-backdrop">
-            <div class="modal" style="max-width:560px;">
+            <div class="modal" style="max-width:600px; max-height:88vh; overflow-y:auto;">
                 <button class="modal-close" id="modal-close">&times;</button>
                 <h3>${esc(product.name)}</h3>
+                ${opts.listingFlow ? '<p class="text-muted" style="margin-top:-8px;">Add a description, and optionally specifications or variants, before this goes live on your store.</p>' : ''}
 
                 <label>Product Images</label>
                 <div class="flex" style="flex-wrap:wrap; gap:8px; margin:8px 0 12px;">${imagesHtml}</div>
@@ -1704,14 +1764,33 @@
                     </div>
                 </div>
 
-                <div class="flex-between" style="margin-top:16px;">
-                    <button class="btn btn-secondary" id="listing-save-desc">Save Description</button>
-                    <button class="btn ${product.is_on_store == 1 ? 'btn-danger' : 'btn-accent'}" id="listing-toggle-store">${product.is_on_store == 1 ? 'Remove from Store' : 'List on Store'}</button>
+                <div class="form-group">
+                    <div class="flex-between"><label style="margin-bottom:0;">Specifications <span class="text-muted" style="font-weight:400;">(optional — great for gadgets, electronics, appliances)</span></label></div>
+                    <div id="spec-rows" style="margin-top:8px;">${specs.map((s) => specRow(s)).join('')}</div>
+                    <button type="button" class="btn btn-sm btn-secondary" id="add-spec-row">+ Add Specification</button>
+                </div>
+
+                <div class="form-group">
+                    <div class="flex-between"><label style="margin-bottom:0;">Variants <span class="text-muted" style="font-weight:400;">(optional — great for fashion, e.g. size or color options)</span></label></div>
+                    <div id="variant-rows" style="margin-top:8px;">${variants.map((v) => variantRow(v)).join('')}</div>
+                    <div class="flex" style="gap:6px; flex-wrap:wrap; margin-top:6px;">
+                        <button type="button" class="btn btn-sm btn-secondary variant-preset" data-name="Size">+ Size</button>
+                        <button type="button" class="btn btn-sm btn-secondary variant-preset" data-name="Color">+ Color</button>
+                        <button type="button" class="btn btn-sm btn-secondary variant-preset" data-name="Material">+ Material</button>
+                        <button type="button" class="btn btn-sm btn-secondary variant-preset" data-name="Storage">+ Storage</button>
+                        <button type="button" class="btn btn-sm btn-secondary variant-preset" data-name="Weight">+ Weight</button>
+                        <button type="button" class="btn btn-sm btn-secondary" id="add-variant-row">+ Custom Attribute</button>
+                    </div>
+                </div>
+
+                <div class="flex-between" style="margin-top:16px; gap:8px;">
+                    <button class="btn btn-secondary" id="listing-save-all">Save Details</button>
+                    <button class="btn ${product.is_on_store == 1 ? 'btn-danger' : 'btn-accent'}" id="listing-toggle-store">${product.is_on_store == 1 ? 'Remove from Store' : 'Save & List on Store'}</button>
                 </div>
             </div>
         </div>`;
 
-        const close = () => document.getElementById('store-prod-modal-root').innerHTML = '';
+        const close = () => getListingModalRoot().innerHTML = '';
         document.getElementById('modal-close').addEventListener('click', close);
 
         document.getElementById('listing-image-form').addEventListener('submit', async (e) => {
@@ -1726,7 +1805,7 @@
                 }
                 toast('Image(s) uploaded');
                 const refreshed = await Api.get(`/products/${product.id}`);
-                openStoreListingModal(refreshed, onSaved);
+                openStoreListingModal(refreshed, onSaved, opts);
             } catch (err) { toast(err.message, 'error'); }
         });
 
@@ -1743,21 +1822,64 @@
             btn.disabled = false; btn.innerHTML = '&#10024; AI';
         });
 
-        document.getElementById('listing-save-desc').addEventListener('click', async () => {
-            try {
-                await Api.put(`/products/${product.id}`, { description: document.getElementById('listing-description').value });
-                toast('Description saved');
-            } catch (e) { toast(e.message, 'error'); }
+        // Specifications: add/remove rows
+        document.getElementById('add-spec-row').addEventListener('click', () => {
+            document.getElementById('spec-rows').insertAdjacentHTML('beforeend', specRow());
+        });
+        document.getElementById('spec-rows').addEventListener('click', (e) => {
+            if (e.target.classList.contains('spec-remove')) { e.target.closest('.spec-row').remove(); }
         });
 
-        document.getElementById('listing-toggle-store').addEventListener('click', async () => {
+        // Variants: presets + custom + remove
+        const addVariantRow = (name = '') => {
+            document.getElementById('variant-rows').insertAdjacentHTML('beforeend', variantRow({ name, values: [] }));
+        };
+        document.querySelectorAll('.variant-preset').forEach((btn) => btn.addEventListener('click', () => addVariantRow(btn.dataset.name)));
+        document.getElementById('add-variant-row').addEventListener('click', () => addVariantRow());
+        document.getElementById('variant-rows').addEventListener('click', (e) => {
+            if (e.target.classList.contains('variant-remove')) { e.target.closest('.variant-row').remove(); }
+        });
+
+        function collectSpecs() {
+            return Array.from(document.querySelectorAll('#spec-rows .spec-row')).map((row) => ({
+                label: row.querySelector('.spec-label').value.trim(),
+                value: row.querySelector('.spec-value').value.trim(),
+            })).filter((s) => s.label && s.value);
+        }
+        function collectVariants() {
+            return Array.from(document.querySelectorAll('#variant-rows .variant-row')).map((row) => ({
+                name: row.querySelector('.variant-name').value.trim(),
+                values: row.querySelector('.variant-values').value.split(',').map((v) => v.trim()).filter(Boolean),
+            })).filter((v) => v.name && v.values.length > 0);
+        }
+
+        async function saveDetails() {
+            return Api.put(`/products/${product.id}`, {
+                description: document.getElementById('listing-description').value,
+                specifications: collectSpecs(),
+                variants: collectVariants(),
+            });
+        }
+
+        document.getElementById('listing-save-all').addEventListener('click', async (e) => {
+            const btn = e.target;
+            btn.disabled = true; btn.textContent = 'Saving…';
+            try { await saveDetails(); toast('Product details saved'); }
+            catch (err) { toast(err.message, 'error'); }
+            btn.disabled = false; btn.textContent = 'Save Details';
+        });
+
+        document.getElementById('listing-toggle-store').addEventListener('click', async (e) => {
             const goingOn = product.is_on_store != 1;
+            const btn = e.target;
+            btn.disabled = true;
             try {
+                if (goingOn) { await saveDetails(); } // persist description/specs/variants before going live
                 await Api.post(`/products/${product.id}/store`, { on_store: goingOn });
                 toast(goingOn ? 'Product listed on store' : 'Product removed from store');
                 close();
                 onSaved();
-            } catch (e) { toast(e.message, 'error'); }
+            } catch (e) { toast(e.message, 'error'); btn.disabled = false; }
         });
     }
 

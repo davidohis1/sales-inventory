@@ -1,5 +1,7 @@
 /* NovaTrend theme — bold orange/black trendy streetwear-style storefront. */
-.theme-novatrend { --nv-black: #16181d; --nv-orange: #ff5722; --nv-bg: #fff; --nv-border: #eee; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--nv-black); }
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+.theme-novatrend { --nv-black: #16181d; --nv-orange: #ff5722; --nv-bg: #fff; --nv-border: #eee; --nv-font: 'Manrope', -apple-system, sans-serif; font-family: var(--nv-font); color: var(--nv-black); }
+.theme-novatrend .nt-logo, .theme-novatrend .nt-hero h1, .theme-novatrend .nt-section-head h2, .theme-novatrend .nt-promo-dark strong, .theme-novatrend .nt-promo-overlay strong, .theme-novatrend .product-detail h1, .theme-novatrend .similar-products-section .section-title-lg { font-family: var(--nv-font); font-weight: 800; }
 .theme-novatrend .nt-topbar { background: var(--nv-black); color: #fff; display: flex; justify-content: center; gap: 34px; padding: 8px 16px; font-size: 12px; flex-wrap: wrap; }
 .theme-novatrend .nt-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; border-bottom: 1px solid var(--nv-border); flex-wrap: wrap; gap: 14px; }
 .theme-novatrend .nt-logo { font-weight: 800; font-size: 20px; display: flex; align-items: center; gap: 8px; }
@@ -96,3 +98,44 @@
 @media (min-width: 1200px) {
     .theme-novatrend .nt-hero h1 { font-size: 50px; }
 }
+
+/* ---------------------------------------------------------------------
+   NovaTrend — distinct product card (sharp badge corner, bold quick-add)
+   --------------------------------------------------------------------- */
+.theme-novatrend .thumb { border-radius: 14px 14px 0 0; }
+.theme-novatrend .product-card { transition: box-shadow 0.15s, transform 0.15s; }
+.theme-novatrend .product-card:hover { border-color: var(--nv-orange); }
+.theme-novatrend .quick-add { border-radius: 999px; }
+.theme-novatrend .name { text-transform: none; }
+
+/* ---------------------------------------------------------------------
+   NovaTrend — product detail page: bold marketplace (Aeroflow style)
+   --------------------------------------------------------------------- */
+.theme-novatrend.store-inner-page .store-container { max-width: 1200px; padding-top: 30px; }
+.theme-novatrend .product-detail { gap: 50px; }
+.theme-novatrend .gallery-main { border-radius: 16px; background: #fafafa; }
+.theme-novatrend .gallery-thumbs { margin-top: 14px; }
+.theme-novatrend .gallery-thumb { border-radius: 10px; }
+.theme-novatrend .gallery-thumb.active { border-color: var(--nv-orange); }
+.theme-novatrend .product-detail h1 { font-size: 30px; font-weight: 800; }
+.theme-novatrend .product-detail .price { color: var(--nv-orange); font-size: 30px; font-weight: 800; }
+.theme-novatrend .variant-select { border-radius: 10px; }
+.theme-novatrend .qty-stepper { border-radius: 10px; }
+.theme-novatrend #add-cart-btn { width: 100%; max-width: 340px; padding: 15px; font-size: 15px; font-weight: 800; border-radius: 999px; }
+.theme-novatrend .product-tabs { justify-content: flex-start; gap: 24px; }
+.theme-novatrend .product-tab-btn { font-weight: 700; font-size: 13.5px; }
+.theme-novatrend .product-tab-btn.active { color: var(--nv-orange); border-bottom-color: var(--nv-orange); }
+.theme-novatrend .review-item { border-radius: 12px; border: 1px solid var(--nv-border); border-bottom: 1px solid var(--nv-border); padding: 14px; margin-bottom: 10px; }
+.theme-novatrend .review-form-box { border-radius: 16px; }
+.theme-novatrend .similar-products-section .section-title-lg { font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; font-size: 20px; }
+
+/* ---------------------------------------------------------------------
+   NovaTrend — closer match to reference: float-card depth, sharper cat
+   tile hover, promo card lift.
+   --------------------------------------------------------------------- */
+.theme-novatrend .nt-float { transition: transform 0.2s; }
+.theme-novatrend .nt-hero-image:hover .nt-float { transform: translateY(-2px); }
+.theme-novatrend .nt-cat-tile { transition: background 0.2s, transform 0.2s; }
+.theme-novatrend .nt-cat-tile:hover { transform: translateY(-2px); }
+.theme-novatrend .nt-promo-card { transition: transform 0.25s; }
+.theme-novatrend .nt-promo-card:hover { transform: translateY(-3px); }

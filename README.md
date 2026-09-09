@@ -105,6 +105,12 @@ mysql -u root -p sales_inventory < database/schema.sql
 > ```bash
 > mysql -u root -p sales_inventory < database/migration_v10.sql
 > ```
+> Already up to v10? Run v11 to add Product Specifications & Variants
+> (new `specifications` / `variants` columns on products, and a
+> `variant_label` column on online order items):
+> ```bash
+> mysql -u root -p sales_inventory < database/migration_v11.sql
+> ```
 
 ### 2. Configure environment
 
@@ -178,6 +184,7 @@ tenants are fully isolated at the query level.
 8. Reports — sales, inventory, profit, staff performance, customers — date-filterable, CSV export
 9. Low-Stock Alerts — automatic, surfaced on the dashboard and a dedicated endpoint
 10. Email Campaigns (Advanced/Premium) — compose + send bulk marketing emails to a targeted slice of your customer list, sent via Brevo, with signed unsubscribe links and background batch sending
+11. Product Specifications & Variants — before listing a product on the online store, admins can optionally add spec sheets (great for gadgets/electronics) and variant attributes like Size/Color/Material/Storage/Weight/custom (great for fashion). Both show on the storefront product page; the variant a shopper picks is recorded on the order so it's visible when fulfilling it.
 
 **Quick Sale (Dashboard):** a lightweight sale dialog separate from the full POS screen. The customer is always **typed by name** — never chosen from a dropdown. Typing searches existing customers live; picking a suggestion reuses that customer, and checking out with an unmatched name creates a brand-new customer record together with the sale (`Customer::findOrCreateByName`).
 

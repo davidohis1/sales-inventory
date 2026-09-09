@@ -26,7 +26,15 @@ class ProductController
         $tenantId = Auth::tenantId();
         $product = Product::findWithImages($tenantId, (int) $request->param('id'));
         if (!$product) { Response::error('Product not found', 404); return; }
-        Response::success($product);
+        Response::success(self::decodeJsonFields($product));
+    }
+
+    /** specifications/variants are stored as JSON text; decode them back to arrays for the frontend. */
+    private static function decodeJsonFields(array $product): array
+    {
+        $product['specifications'] = $product['specifications'] ? json_decode($product['specifications'], true) : [];
+        $product['variants'] = $product['variants'] ? json_decode($product['variants'], true) : [];
+        return $product;
     }
 
     public function store(Request $request): void
@@ -35,7 +43,8 @@ class ProductController
         $tenantId = Auth::tenantId();
         $name = trim((string) $request->input('name', ''));
         $sku = trim((string) $request->input('sku', ''));
-        if ($name === '' || $sku === '') { Response::error('Name and SKU are required', 422); return; }
+        if ($name === '') { Response::error('Name and SKU are required', 422); return; }
+        if ($sku === '') { Response::error('Name and SKU are required', 422); return; }
 
         $id = Product::create([
             'tenant_id'       => $tenantId,
@@ -44,6 +53,8 @@ class ProductController
             'name'            => $name,
             'sku'             => $sku,
             'description'     => $request->input('description'),
+            'specifications'  => self::encodeJsonField($request->input('specifications')),
+            'variants'        => self::encodeJsonField($request->input('variants')),
             'buying_price'    => (float) $request->input('buying_price', 0),
             'selling_price'   => (float) $request->input('selling_price', 0),
             'quantity'        => (int) $request->input('quantity', 0),
@@ -56,7 +67,15 @@ class ProductController
         }
         ActivityLog::record($tenantId, Auth::id(), 'product.create', "Created product $name");
 
-        Response::success(Product::find($tenantId, $id), 'Product created', 201);
+        Response::success(self::decodeJsonFields(Product::find($tenantId, $id)), 'Product created', 201);
+    }
+
+    /** Encodes an array (specifications/variants) sent from the frontend to a JSON string for storage; leaves null/empty as null. */
+    private static function encodeJsonField($value): ?string
+    {
+        if ($value === null) { return null; }
+        if (is_array($value)) { return empty($value) ? null : json_encode(array_values($value)); }
+        return null;
     }
 
     public function update(Request $request): void
@@ -70,9 +89,13 @@ class ProductController
         foreach (['category_id', 'branch_id', 'name', 'sku', 'description', 'buying_price', 'selling_price', 'min_stock_level', 'is_active'] as $f) {
             if ($request->input($f) !== null) $data[$f] = $request->input($f);
         }
+        // specifications/variants are sent as arrays (or explicit empty arrays to clear them) — encode separately since [] is falsy but still a real update.
+        if ($request->input('specifications') !== null) { $data['specifications'] = self::encodeJsonField($request->input('specifications')); }
+        if ($request->input('variants') !== null) { $data['variants'] = self::encodeJsonField($request->input('variants')); }
+
         Product::update($tenantId, $id, $data);
         ActivityLog::record($tenantId, Auth::id(), 'product.edit', "Edited product #$id");
-        Response::success(Product::find($tenantId, $id), 'Product updated');
+        Response::success(self::decodeJsonFields(Product::find($tenantId, $id)), 'Product updated');
     }
 
     public function destroy(Request $request): void
@@ -185,6 +208,6 @@ class ProductController
 
         Product::setOnStore($tenantId, $id, $onStore);
         ActivityLog::record($tenantId, Auth::id(), 'product.store_toggle', ($onStore ? 'Enabled' : 'Disabled') . " store listing for #$id");
-        Response::success(Product::find($tenantId, $id), $onStore ? 'Product listed on store' : 'Product removed from store');
+        Response::success(self::decodeJsonFields(Product::find($tenantId, $id)), $onStore ? 'Product listed on store' : 'Product removed from store');
     }
 }

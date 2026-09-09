@@ -39,6 +39,8 @@ class StoreController
 
         $product = Product::findWithImages((int) $tenant['id'], (int) $request->param('id'));
         if (!$product || !$product['is_on_store']) { Response::error('Product not found', 404); return; }
+        $product['specifications'] = $product['specifications'] ? json_decode($product['specifications'], true) : [];
+        $product['variants'] = $product['variants'] ? json_decode($product['variants'], true) : [];
         Response::success($product);
     }
 

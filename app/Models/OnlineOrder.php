@@ -22,7 +22,8 @@ class OnlineOrder extends BaseModel
                 $qty = (int) $item['quantity'];
                 $lineTotal = $qty * (float) $product['selling_price'];
                 $subtotal += $lineTotal;
-                $lineData[] = ['product_id' => $product['id'], 'quantity' => $qty, 'unit_price' => $product['selling_price'], 'line_total' => $lineTotal];
+                $variantLabel = isset($item['variant_label']) ? trim(substr((string) $item['variant_label'], 0, 255)) : null;
+                $lineData[] = ['product_id' => $product['id'], 'quantity' => $qty, 'variant_label' => $variantLabel ?: null, 'unit_price' => $product['selling_price'], 'line_total' => $lineTotal];
             }
 
             $stmt = $pdo->prepare('SELECT COUNT(*) FROM online_orders WHERE tenant_id = ?');
@@ -37,9 +38,9 @@ class OnlineOrder extends BaseModel
             ]);
             $orderId = (int) $pdo->lastInsertId();
 
-            $itemStmt = $pdo->prepare('INSERT INTO online_order_items (tenant_id, order_id, product_id, quantity, unit_price, line_total) VALUES (?,?,?,?,?,?)');
+            $itemStmt = $pdo->prepare('INSERT INTO online_order_items (tenant_id, order_id, product_id, quantity, variant_label, unit_price, line_total) VALUES (?,?,?,?,?,?,?)');
             foreach ($lineData as $line) {
-                $itemStmt->execute([$tenantId, $orderId, $line['product_id'], $line['quantity'], $line['unit_price'], $line['line_total']]);
+                $itemStmt->execute([$tenantId, $orderId, $line['product_id'], $line['quantity'], $line['variant_label'], $line['unit_price'], $line['line_total']]);
                 // reserve stock immediately so it doesn't oversell
                 Product::adjustStock($tenantId, $line['product_id'], -$line['quantity']);
                 StockLog::log($tenantId, $line['product_id'], -$line['quantity'], 'sale', null, null, "Online order $orderNo");

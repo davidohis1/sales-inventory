@@ -1,5 +1,8 @@
 /* Marketly theme — dense enterprise AI-powered marketplace storefront. */
-.theme-marketly { --mk-purple: #5b21b6; --mk-purple-dark: #3b0f80; --mk-bg: #f7f7fb; --mk-border: #eceaf4; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1b1730; background: var(--mk-bg); }
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+.theme-marketly { --mk-purple: #5b21b6; --mk-purple-dark: #3b0f80; --mk-bg: #f7f7fb; --mk-border: #eceaf4; --mk-font: 'Manrope', -apple-system, sans-serif; font-family: var(--mk-font); color: #1b1730; background: var(--mk-bg); }
+.theme-marketly .mk-logo { font-family: var(--mk-font); font-weight: 800; }
+.theme-marketly .mk-hero h1 { font-weight: 800; letter-spacing: -0.01em; }
 .theme-marketly .mk-topbar { background: #0d0a1a; color: #cfc9e6; text-align: center; padding: 7px; font-size: 11.5px; }
 .theme-marketly .mk-topbar a { color: #fff; margin-left: 10px; text-decoration: underline; }
 .theme-marketly .mk-header { background: #fff; display: flex; align-items: center; gap: 18px; padding: 16px 40px; flex-wrap: wrap; border-bottom: 1px solid var(--mk-border); }
@@ -101,3 +104,39 @@
 @media (min-width: 1200px) {
     .theme-marketly .mk-hero h1 { font-size: 46px; }
 }
+
+/* ---------------------------------------------------------------------
+   Marketly — distinct product card (dense marketplace tile)
+   --------------------------------------------------------------------- */
+.theme-marketly .product-card:hover { border-color: var(--mk-purple); }
+.theme-marketly .quick-add { border-radius: 999px; }
+.theme-marketly .name { font-weight: 700; }
+
+/* ---------------------------------------------------------------------
+   Marketly — product detail page: bold marketplace (Aeroflow style, purple)
+   --------------------------------------------------------------------- */
+.theme-marketly.store-inner-page .store-container { max-width: 1200px; padding-top: 30px; }
+.theme-marketly .product-detail { gap: 46px; }
+.theme-marketly .gallery-main { border-radius: 14px; background: var(--mk-bg); }
+.theme-marketly .gallery-thumbs { margin-top: 14px; }
+.theme-marketly .gallery-thumb { border-radius: 8px; }
+.theme-marketly .gallery-thumb.active { border-color: var(--mk-purple); }
+.theme-marketly .product-detail h1 { font-size: 27px; font-weight: 800; }
+.theme-marketly .product-detail .price { color: var(--mk-purple-dark); font-size: 29px; font-weight: 800; }
+.theme-marketly .variant-select { border-radius: 8px; }
+.theme-marketly .qty-stepper { border-radius: 8px; }
+.theme-marketly #add-cart-btn { width: 100%; max-width: 320px; padding: 14px; font-size: 14.5px; font-weight: 800; border-radius: 10px; }
+.theme-marketly .product-tab-btn.active { color: var(--mk-purple); border-bottom-color: var(--mk-purple); }
+.theme-marketly .review-item { border-radius: 12px; border: 1px solid var(--mk-border); padding: 14px; margin-bottom: 10px; }
+.theme-marketly .review-form-box { border-radius: 12px; }
+.theme-marketly .similar-products-section .section-title-lg { font-weight: 800; font-size: 19px; }
+
+/* ---------------------------------------------------------------------
+   Marketly — closer match to reference: hero gradient overlay depth,
+   deal tile lift, cat tile hover zoom.
+   --------------------------------------------------------------------- */
+.theme-marketly .mk-cat-tile { transition: transform 0.25s; }
+.theme-marketly .mk-cat-tile:hover { transform: scale(1.03); }
+.theme-marketly .mk-deal-tile { transition: transform 0.2s; box-shadow: 0 10px 24px rgba(0,0,0,0.1); }
+.theme-marketly .mk-deal-tile:hover { transform: translateY(-3px); }
+.theme-marketly .mk-flash { box-shadow: 0 14px 30px rgba(91,33,182,0.18); }

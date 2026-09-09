@@ -1,5 +1,8 @@
 /* Luxora theme — elegant editorial fashion storefront. Warm beige/cream, serif headings. */
-.theme-luxora { --lx-ink: #221d16; --lx-cream: #f6f1e8; --lx-accent: #8a6d3b; --lx-border: #e8e0d0; background: #fff; color: var(--lx-ink); font-family: Georgia, 'Times New Roman', serif; }
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+.theme-luxora { --lx-ink: #221d16; --lx-cream: #f6f1e8; --lx-accent: #8a6d3b; --lx-border: #e8e0d0; --lx-serif: 'Cormorant Garamond', Georgia, serif; --lx-sans: 'Inter', -apple-system, sans-serif; background: #fff; color: var(--lx-ink); font-family: var(--lx-sans); }
+.theme-luxora .lx-logo, .theme-luxora .lx-hero h1, .theme-luxora .lx-section-head h2, .theme-luxora .lx-shop-head h2, .theme-luxora .lx-newsletter-form h3, .theme-luxora .product-detail h1, .theme-luxora .similar-products-section .section-title-lg { font-family: var(--lx-serif) !important; }
+.theme-luxora .lx-hero h1 { font-weight: 500; }
 .theme-luxora .lx-nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 44px; flex-wrap: wrap; gap: 14px; font-family: -apple-system, sans-serif; border-bottom: 1px solid var(--lx-border); }
 .theme-luxora .lx-logo { font-family: Georgia, serif; font-weight: 700; font-size: 21px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--lx-ink); display: flex; align-items: center; gap: 8px; }
 .theme-luxora .lx-logo-img { width: 30px; height: 30px; border-radius: 6px; object-fit: cover; }
@@ -111,3 +114,49 @@
 @media (min-width: 1200px) {
     .theme-luxora .lx-hero h1 { font-size: 52px; }
 }
+
+/* ---------------------------------------------------------------------
+   Luxora — distinct product card (quiet, no border, serif name)
+   --------------------------------------------------------------------- */
+.theme-luxora .product-card { border-radius: 0; }
+.theme-luxora .thumb { border-radius: 10px; }
+.theme-luxora .name { font-family: Georgia, serif; font-weight: 400; font-size: 15px; }
+.theme-luxora .quick-add { background: transparent; color: var(--lx-ink); border: 1px solid var(--lx-ink); }
+.theme-luxora .quick-add:hover { background: var(--lx-ink); color: #fff; }
+
+/* ---------------------------------------------------------------------
+   Luxora — product detail page: minimal editorial (Velora hoodie style)
+   --------------------------------------------------------------------- */
+.theme-luxora.store-inner-page .store-container { max-width: 1200px; padding-top: 34px; }
+.theme-luxora .back-link { font-family: -apple-system, sans-serif; font-weight: 600; }
+.theme-luxora .product-detail { grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+.theme-luxora .gallery-main { border-radius: 4px; background: var(--lx-cream); }
+.theme-luxora .gallery-thumbs { margin-top: 12px; }
+.theme-luxora .gallery-thumb { border-radius: 4px; }
+.theme-luxora .gallery-thumb.active { border-color: var(--lx-accent); }
+.theme-luxora .product-detail h1 { font-size: 30px; font-weight: 400; }
+.theme-luxora .product-detail .price { font-family: -apple-system, sans-serif; font-size: 26px; color: var(--lx-ink); }
+.theme-luxora .product-detail p.text-muted { font-family: -apple-system, sans-serif; color: #7a7161; }
+.theme-luxora .variant-picker { font-family: -apple-system, sans-serif; }
+.theme-luxora .variant-select { border-radius: 6px; }
+.theme-luxora .qty-stepper { border-radius: 8px; }
+.theme-luxora #add-cart-btn { width: 100%; max-width: 320px; padding: 15px; font-size: 14px; }
+.theme-luxora.store-inner-page .btn-store { border-radius: 999px; }
+.theme-luxora .product-tabs { font-family: -apple-system, sans-serif; }
+.theme-luxora .spec-table, .theme-luxora .review-item, .theme-luxora .review-form-box { font-family: -apple-system, sans-serif; }
+.theme-luxora .review-form-box { border-radius: 10px; }
+.theme-luxora .similar-products-section .section-title-lg { font-family: Georgia, serif; font-weight: 400; font-size: 24px; }
+@media (max-width: 720px) { .theme-luxora .product-detail { gap: 30px; } }
+
+/* ---------------------------------------------------------------------
+   Luxora — closer match to Lunora reference: floating cat-strip card,
+   tile hover lift, refined promo depth.
+   --------------------------------------------------------------------- */
+.theme-luxora .lx-cat-strip { border: 1px solid var(--lx-border); }
+.theme-luxora .lx-cat-tile { transition: transform 0.3s ease; }
+.theme-luxora .lx-cat-tile:hover { transform: scale(1.015); }
+.theme-luxora .lx-promo-card { transition: transform 0.3s ease; }
+.theme-luxora .lx-promo-card:hover { transform: translateY(-3px); }
+.theme-luxora .lx-hero-text { position: relative; }
+.theme-luxora .lx-view-all { position: relative; }
+.theme-luxora .lx-view-all::after { content: '→'; margin-left: 2px; }

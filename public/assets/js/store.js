@@ -133,12 +133,12 @@ const StoreApp = (() => {
         }
     }
 
-    function addToCart(p, qty) {
+    function addToCart(p, qty, variantLabel = null) {
         const cart = getCart();
-        const existing = cart.find((c) => c.id == p.id);
+        const existing = cart.find((c) => c.id == p.id && (c.variantLabel || null) === (variantLabel || null));
         const image = p.primary_image || (p.images && p.images[0] && p.images[0].image_path) || null;
         if (existing) existing.qty += qty;
-        else cart.push({ id: p.id, name: p.name, price: p.selling_price, qty, image });
+        else cart.push({ id: p.id, name: p.name, price: p.selling_price, qty, image, variantLabel: variantLabel || null });
         setCart(cart);
     }
 
@@ -197,6 +197,18 @@ const StoreApp = (() => {
         try {
             const p = await apiGet(`/store/products/${id}`);
             const images = (p.images && p.images.length ? p.images : [{ image_path: null }]);
+            const variants = Array.isArray(p.variants) ? p.variants : [];
+            const specs = Array.isArray(p.specifications) ? p.specifications : [];
+            const variantPickerHtml = variants.length ? `
+                <div class="variant-picker" style="margin:14px 0;">
+                    ${variants.map((v, gi) => `
+                        <div class="form-group" style="margin-bottom:10px;">
+                            <label>${esc(v.name)}</label>
+                            <select class="form-control variant-select" data-group="${esc(v.name)}">
+                                ${(v.values || []).map((val, vi) => `<option value="${esc(val)}" ${vi === 0 ? 'selected' : ''}>${esc(val)}</option>`).join('')}
+                            </select>
+                        </div>`).join('')}
+                </div>` : '';
             root.innerHTML = `
             <div class="product-detail">
                 <div>
@@ -208,6 +220,7 @@ const StoreApp = (() => {
                     <p class="text-muted">${esc(p.description || 'No description provided yet.')}</p>
                     <div class="price">${fmt(p.selling_price)}</div>
                     <p class="text-muted">${p.quantity} in stock</p>
+                    ${variantPickerHtml}
                     <div class="qty-stepper"><button id="q-dec">−</button><input id="q-val" value="1" readonly><button id="q-inc">+</button></div>
                     <div style="margin-top:16px;"><button class="btn-store" id="add-cart-btn">Add to Cart</button></div>
                 </div>
@@ -215,11 +228,16 @@ const StoreApp = (() => {
 
             <div class="product-tabs">
                 <button class="product-tab-btn active" data-tab="description">Description</button>
+                ${specs.length ? '<button class="product-tab-btn" data-tab="specs">Specifications</button>' : ''}
                 <button class="product-tab-btn" data-tab="reviews">Reviews <span id="review-count-badge"></span></button>
             </div>
             <div class="product-tab-panel" id="tab-description">
                 <p>${esc(p.description || 'No description provided yet.')}</p>
             </div>
+            ${specs.length ? `
+            <div class="product-tab-panel" id="tab-specs" style="display:none;">
+                <table class="spec-table">${specs.map((s) => `<tr><td class="spec-label">${esc(s.label)}</td><td>${esc(s.value)}</td></tr>`).join('')}</table>
+            </div>` : ''}
             <div class="product-tab-panel" id="tab-reviews" style="display:none;">
                 <div id="reviews-list"><p class="text-muted">Loading reviews…</p></div>
                 <div class="review-form-box">
@@ -249,7 +267,13 @@ const StoreApp = (() => {
             let qty = 1;
             document.getElementById('q-inc').addEventListener('click', () => { qty = Math.min(p.quantity, qty + 1); document.getElementById('q-val').value = qty; });
             document.getElementById('q-dec').addEventListener('click', () => { qty = Math.max(1, qty - 1); document.getElementById('q-val').value = qty; });
-            document.getElementById('add-cart-btn').addEventListener('click', () => { addToCart(p, qty); toast('Added to cart'); });
+            document.getElementById('add-cart-btn').addEventListener('click', () => {
+                const variantLabel = root.querySelectorAll('.variant-select').length
+                    ? Array.from(root.querySelectorAll('.variant-select')).map((sel) => `${sel.dataset.group}: ${sel.value}`).join(', ')
+                    : null;
+                addToCart(p, qty, variantLabel);
+                toast('Added to cart');
+            });
 
             root.querySelectorAll('.product-tab-btn').forEach((btn) => btn.addEventListener('click', () => {
                 root.querySelectorAll('.product-tab-btn').forEach((b) => b.classList.remove('active'));
@@ -326,7 +350,7 @@ const StoreApp = (() => {
             const rows = cart.map((c, idx) => `
                 <div class="cart-row">
                     <div class="thumb">${c.image ? `<img src="${esc(assetUrl(c.image))}">` : ''}</div>
-                    <div class="grow"><strong>${esc(c.name)}</strong><br><span class="text-muted">${fmt(c.price)} each</span></div>
+                    <div class="grow"><strong>${esc(c.name)}</strong>${c.variantLabel ? `<br><span class="text-muted" style="font-size:12px;">${esc(c.variantLabel)}</span>` : ''}<br><span class="text-muted">${fmt(c.price)} each</span></div>
                     <div class="qty-stepper"><button data-dec="${idx}">−</button><input value="${c.qty}" readonly><button data-inc="${idx}">+</button></div>
                     <div>${fmt(c.price * c.qty)}</div>
                     <button data-remove="${idx}" class="btn-store outline" style="padding:6px 12px;">Remove</button>
@@ -368,7 +392,7 @@ const StoreApp = (() => {
         document.getElementById('checkout-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const fd = Object.fromEntries(new FormData(e.target).entries());
-            fd.items = cart.map((c) => ({ product_id: c.id, quantity: c.qty }));
+            fd.items = cart.map((c) => ({ product_id: c.id, quantity: c.qty, variant_label: c.variantLabel || null }));
             try {
                 const result = await apiPost('/store/order', fd);
                 localStorage.removeItem(`cart_${slug}`);

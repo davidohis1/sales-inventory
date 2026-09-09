@@ -1,5 +1,7 @@
 /* Blossom theme — warm gradient beauty/lifestyle storefront. */
-.theme-blossom { --bl-pink: #d6357a; --bl-pink-dark: #a91f5c; --bl-bg: #fff6f9; --bl-border: #fbe3ec; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #241118; }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+.theme-blossom { --bl-pink: #d6357a; --bl-pink-dark: #a91f5c; --bl-bg: #fff6f9; --bl-border: #fbe3ec; --bl-font: 'Poppins', -apple-system, sans-serif; font-family: var(--bl-font); color: #241118; }
+.theme-blossom .bl-logo, .theme-blossom .bl-hero h1, .theme-blossom .bl-section-head h2, .theme-blossom .bl-promo-inner h2, .theme-blossom .name, .theme-blossom .product-detail h1, .theme-blossom .similar-products-section .section-title-lg { font-family: var(--bl-font); font-weight: 700; }
 .theme-blossom .bl-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 40px; background: #fff; border-bottom: 1px solid var(--bl-border); flex-wrap: wrap; gap: 14px; }
 .theme-blossom .bl-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 18px; color: var(--bl-pink-dark); }
 .theme-blossom .bl-logo-mark { color: var(--bl-pink); font-size: 22px; }
@@ -90,3 +92,51 @@
 @media (min-width: 1200px) {
     .theme-blossom .bl-hero h1 { font-size: 44px; }
 }
+
+/* ---------------------------------------------------------------------
+   Blossom — distinct product card (rounded pink beauty feel)
+   --------------------------------------------------------------------- */
+.theme-blossom .product-card:hover { border-color: var(--bl-pink); }
+.theme-blossom .thumb { border-radius: 14px 14px 0 0; }
+
+/* ---------------------------------------------------------------------
+   Blossom — product detail page: attribute-table beauty (Beauty Shop style)
+   --------------------------------------------------------------------- */
+.theme-blossom.store-inner-page .store-container { max-width: 1180px; padding-top: 30px; }
+.theme-blossom .product-detail { gap: 46px; }
+.theme-blossom .gallery-main { border-radius: 18px; background: var(--bl-bg); }
+.theme-blossom .gallery-thumbs { margin-top: 12px; }
+.theme-blossom .gallery-thumb { border-radius: 10px; }
+.theme-blossom .gallery-thumb.active { border-color: var(--bl-pink); }
+.theme-blossom .product-detail h1 { font-size: 27px; font-weight: 800; }
+.theme-blossom .product-detail .price { color: var(--bl-pink-dark); font-size: 27px; }
+.theme-blossom .variant-select { border-radius: 999px; }
+.theme-blossom .qty-stepper { border-radius: 999px; }
+.theme-blossom #add-cart-btn { padding: 13px 32px; }
+.theme-blossom .product-tab-btn.active { color: var(--bl-pink-dark); border-bottom-color: var(--bl-pink); }
+.theme-blossom .spec-table tr:nth-child(odd) { background: var(--bl-bg); }
+.theme-blossom .spec-table td { padding: 12px 14px; }
+.theme-blossom .review-form-box { border-radius: 18px; }
+.theme-blossom .similar-products-section .section-title-lg { text-align: center; font-size: 21px; color: var(--bl-pink-dark); }
+
+/* ---------------------------------------------------------------------
+   Blossom — closer hero/decoration match to GlowCare reference: richer
+   diagonal magenta gradient + soft petal-bloom accents, deeper trust
+   card shadow, refined nav search pill.
+   --------------------------------------------------------------------- */
+.theme-blossom .bl-hero { background: linear-gradient(135deg, #ff8fc4 0%, #f2418f 55%, #d6357a 100%); position: relative; }
+.theme-blossom .bl-hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%); pointer-events: none; }
+.theme-blossom .bl-hero::after { content: ''; position: absolute; bottom: -80px; left: 10%; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%); pointer-events: none; }
+.theme-blossom .bl-eyebrow { background: rgba(255,255,255,0.55); backdrop-filter: blur(2px); }
+.theme-blossom .bl-hero h1 { color: #1a0a11; }
+.theme-blossom .bl-hero-text > p { color: #4a1b2e; }
+.theme-blossom .bl-nav { padding: 14px 40px; box-shadow: 0 1px 0 rgba(0,0,0,0.02); }
+.theme-blossom .bl-search { box-shadow: inset 0 0 0 1px transparent; transition: box-shadow 0.15s, border-color 0.15s; }
+.theme-blossom .bl-search:focus { outline: none; border-color: var(--bl-pink); background: #fff; }
+.theme-blossom .bl-trust { box-shadow: 0 18px 40px rgba(214,53,122,0.14); }
+.theme-blossom .bl-badge { box-shadow: 0 14px 34px rgba(0,0,0,0.22); }
+.theme-blossom .bl-promo-inner { background-color: #a91f5c; }
+.theme-blossom .bl-promo-inner::after { content: ''; position: absolute; inset: 0; border-radius: 20px; background: radial-gradient(circle at 85% 20%, rgba(255,255,255,0.14), transparent 55%); pointer-events: none; }
+.theme-blossom .bl-cat-thumb { box-shadow: 0 6px 16px rgba(214,53,122,0.08); }
+.theme-blossom .bl-cat-tile:hover .bl-cat-thumb { box-shadow: 0 10px 24px rgba(214,53,122,0.18); transform: translateY(-2px); }
+.theme-blossom .bl-cat-thumb { transition: box-shadow 0.2s, transform 0.2s; }

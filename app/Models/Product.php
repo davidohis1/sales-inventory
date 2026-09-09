@@ -44,11 +44,12 @@ class Product extends BaseModel
     public static function create(array $data): int
     {
         $stmt = self::db()->prepare('INSERT INTO products
-            (tenant_id, category_id, branch_id, name, sku, description, buying_price, selling_price, quantity, min_stock_level, is_active)
-            VALUES (?,?,?,?,?,?,?,?,?,?,1)');
+            (tenant_id, category_id, branch_id, name, sku, description, specifications, variants, buying_price, selling_price, quantity, min_stock_level, is_active)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,1)');
         $stmt->execute([
             $data['tenant_id'], $data['category_id'] ?? null, $data['branch_id'] ?? null,
             $data['name'], $data['sku'], $data['description'] ?? null,
+            $data['specifications'] ?? null, $data['variants'] ?? null,
             $data['buying_price'] ?? 0, $data['selling_price'] ?? 0,
             $data['quantity'] ?? 0, $data['min_stock_level'] ?? 5,
         ]);
@@ -57,7 +58,7 @@ class Product extends BaseModel
 
     public static function update(int $tenantId, int $id, array $data): bool
     {
-        $allowed = ['category_id', 'branch_id', 'name', 'sku', 'description', 'buying_price', 'selling_price', 'min_stock_level', 'is_active'];
+        $allowed = ['category_id', 'branch_id', 'name', 'sku', 'description', 'specifications', 'variants', 'buying_price', 'selling_price', 'min_stock_level', 'is_active'];
         $fields = [];
         $params = [];
         foreach ($allowed as $f) {
