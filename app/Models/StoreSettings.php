@@ -7,7 +7,7 @@ class StoreSettings extends BaseModel
 {
     protected static function table(): string { return 'store_settings'; }
 
-    public const THEMES = ['aurora', 'wink', 'luxora', 'marketly', 'novatrend', 'verdant', 'blossom', 'amara'];
+    public const THEMES = ['aurora', 'wink', 'luxora', 'marketly', 'novatrend', 'verdant', 'blossom', 'amara', 'radiance'];
     public const STORE_TYPES = ['fashion', 'tech', 'beauty', 'grocery', 'accessories', 'automotive', 'furniture', 'sports', 'kids', 'general'];
 
     public static function get(int $tenantId): array
@@ -153,6 +153,25 @@ class StoreSettings extends BaseModel
                 'quote3' => 'Beautiful designs and amazing customer service, every time.',
                 'newsletter_heading' => 'Stay in the Know',
                 'newsletter_subheading' => 'Subscribe for 15% off your first order and new arrivals.',
+            ],
+            'radiance' => [
+                'eyebrow' => 'New Collection',
+                'hero_heading' => 'Glow From Within & Without',
+                'hero_subheading' => 'Discover premium products crafted for a healthier, more radiant everyday routine.',
+                'badge_text' => 'Loved By Thousands',
+                'trust1_heading' => 'Free Delivery', 'trust1_text' => 'On qualifying orders',
+                'trust2_heading' => 'Authentic Products', 'trust2_text' => '100% genuine, always',
+                'trust3_heading' => 'Easy Returns', 'trust3_text' => 'Hassle-free process',
+                'trust4_heading' => '24/7 Support', 'trust4_text' => "We're here to help",
+                'categories_heading' => 'Shop by Category',
+                'arrivals_heading' => 'New Arrivals',
+                'promo_heading' => 'Discover Your Perfect Match',
+                'promo_subheading' => 'Curated picks chosen for quality, for a limited time only.',
+                'quote1' => 'My skin has never looked this good! I noticed a difference within weeks.',
+                'quote2' => 'Finally found products that actually work for me. Will definitely reorder.',
+                'quote3' => 'The quality and attention to detail are unmatched. Highly recommend!',
+                'newsletter_heading' => 'Get Tips & Exclusive Deals',
+                'newsletter_subheading' => 'Join our list for weekly tips, early access and exclusive offers.',
             ],
         ];
 

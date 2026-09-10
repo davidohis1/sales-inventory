@@ -83,6 +83,15 @@ class ThemePalettes
                 'plum'      => ['name' => 'Plum',       'values' => ['#5b2c6f', '#3d1d4a']],
             ],
         ],
+        'radiance' => [
+            'vars' => ['--rd-accent', '--rd-accent-dark'],
+            'palettes' => [
+                'signature' => ['name' => 'Signature', 'values' => null],
+                'rose'      => ['name' => 'Rose',      'values' => ['#c9738a', '#8a3d54']],
+                'amber'     => ['name' => 'Amber',      'values' => ['#d9a441', '#a66c1c']],
+                'plum'      => ['name' => 'Plum',       'values' => ['#8a5fa8', '#5b3b73']],
+            ],
+        ],
     ];
 
     /** For the admin's Theme tab: [key => ['name'=>.., 'swatch'=>'#hex-used-for-the-preview-dot']] */

@@ -1315,6 +1315,25 @@
             { key: 'newsletter_heading', label: 'Newsletter Heading' },
             { key: 'newsletter_subheading', label: 'Newsletter Subtext' },
         ],
+        radiance: [
+            { key: 'eyebrow', label: 'Hero Eyebrow Label' },
+            { key: 'hero_heading', label: 'Hero Heading', aiKind: 'hero_heading' },
+            { key: 'hero_subheading', label: 'Hero Subheading', aiKind: 'hero_subheading' },
+            { key: 'badge_text', label: 'Hero Badge Caption' },
+            { key: 'trust1_heading', label: 'Trust Badge 1 Heading' }, { key: 'trust1_text', label: 'Trust Badge 1 Subtext' },
+            { key: 'trust2_heading', label: 'Trust Badge 2 Heading' }, { key: 'trust2_text', label: 'Trust Badge 2 Subtext' },
+            { key: 'trust3_heading', label: 'Trust Badge 3 Heading' }, { key: 'trust3_text', label: 'Trust Badge 3 Subtext' },
+            { key: 'trust4_heading', label: 'Trust Badge 4 Heading' }, { key: 'trust4_text', label: 'Trust Badge 4 Subtext' },
+            { key: 'categories_heading', label: 'Category Grid Heading' },
+            { key: 'arrivals_heading', label: '"New Arrivals" Section Heading' },
+            { key: 'promo_heading', label: 'Promo Banner Heading' },
+            { key: 'promo_subheading', label: 'Promo Banner Subtext' },
+            { key: 'quote1', label: 'Customer Quote 1' },
+            { key: 'quote2', label: 'Customer Quote 2' },
+            { key: 'quote3', label: 'Customer Quote 3' },
+            { key: 'newsletter_heading', label: 'Newsletter Heading' },
+            { key: 'newsletter_subheading', label: 'Newsletter Subtext' },
+        ],
     };
     // One field shared by every theme's dedicated /shop (all-products) page —
     // added here rather than duplicated into all 8 arrays above.
@@ -1339,6 +1358,7 @@
             { kind: 'promo1', label: 'First Promo Banner Photo' },
             { kind: 'promo2', label: 'Second Promo Banner Photo (leave blank for solid color)' },
         ],
+        radiance: [{ kind: 'promo1', label: 'Promo Banner Photo' }],
     };
 
     // Mirrors App\Core\ThemePalettes on the backend — same keys/hex values, used for swatch previews.
@@ -1351,6 +1371,7 @@
         verdant:   { signature: { name: 'Signature', swatch: '#0d6d5c' }, blush: { name: 'Blush', swatch: '#a91f5c' }, ocean: { name: 'Ocean', swatch: '#1a3fa0' }, plum: { name: 'Plum', swatch: '#5b21b6' } },
         blossom:   { signature: { name: 'Signature', swatch: '#d6357a' }, lavender: { name: 'Lavender', swatch: '#6c5ce7' }, sunset: { name: 'Sunset', swatch: '#ea580c' }, teal: { name: 'Teal', swatch: '#0d6d5c' } },
         amara:     { signature: { name: 'Signature', swatch: '#a0492c' }, forest: { name: 'Forest', swatch: '#2f5233' }, navy: { name: 'Navy', swatch: '#1e3a5f' }, plum: { name: 'Plum', swatch: '#5b2c6f' } },
+        radiance:  { signature: { name: 'Signature', swatch: '#3f5b47' }, rose: { name: 'Rose', swatch: '#8a3d54' }, amber: { name: 'Amber', swatch: '#a66c1c' }, plum: { name: 'Plum', swatch: '#5b3b73' } },
     };
 
     let storeState = null; // { theme, store_type, content, themes, store_types }

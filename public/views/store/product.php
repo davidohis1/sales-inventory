@@ -24,7 +24,7 @@ $page = 'product';
 <div class="toast-container" id="toast-container"></div>
 <script>window.APP_BASE = <?= json_encode($base) ?>; window.TENANT_SLUG = <?= json_encode($slug) ?>; window.TENANT_CURRENCY = <?= json_encode($tenant['currency']) ?>;</script>
 <script src="<?= $base ?>/assets/js/store.js"></script>
-<?php if (in_array($theme, ['verdant', 'blossom'], true)): ?>
+<?php if (in_array($theme, ['verdant', 'blossom', 'radiance'], true)): ?>
 <script src="<?= $base ?>/assets/js/themes/<?= $theme ?>-renderer.js"></script>
 <?php endif; ?>
 <script>StoreApp.renderProductDetail(<?= json_encode($params['id']) ?>);</script>

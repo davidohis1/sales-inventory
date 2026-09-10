@@ -147,6 +147,19 @@ if ($theme === 'verdant') {
     </div>
 </nav>
     <?php break;
+    case 'radiance': ?>
+<nav class="rd-nav">
+    <a href="<?= $storeUrl ?>" class="rd-logo">
+        <?php if ($logoImg): ?><img src="<?= $logoImg ?>" alt="" class="rd-logo-img"><?php else: ?><span class="rd-logo-mark">&#10022;</span><?php endif; ?>
+        <?= $bizName ?>
+    </a>
+    <div class="rd-links"><a href="<?= $storeUrl ?>">Home</a><a href="<?= $storeUrl ?>/shop" class="<?= ($page ?? '') === 'shop' ? 'active' : '' ?>">Shop</a><a href="<?= $storeUrl ?>/shop">Categories</a></div>
+    <div class="rd-nav-actions">
+        <input id="store-search" class="rd-search" placeholder="Search for products...">
+        <a href="<?= $storeUrl ?>/cart" class="rd-cart">&#128722;<span class="cart-count" id="cart-count">0</span></a>
+    </div>
+</nav>
+    <?php break;
     case 'amara': ?>
 <div class="am-topbar">
     <span>&#128666; <?= $h('topbar1', 'Free Shipping Over ' . $tenant['currency'] . '150') ?></span>

@@ -159,6 +159,7 @@ a { text-decoration: none; color: inherit; }
 .store-inner-page.theme-novatrend .btn-store, .store-inner-page.theme-aurora .btn-store,
 .store-inner-page.theme-marketly .btn-store, .store-inner-page.theme-wink .btn-store,
 .store-inner-page.theme-verdant .btn-store { border-radius: 8px; }
+.store-inner-page.theme-radiance .btn-store { border-radius: 999px; }
 .store-inner-page.theme-amara .btn-store { border-radius: 2px; }
 
 /* "Similar Products" section on the product detail page — reuses the homepage .product-card styling. */
@@ -171,11 +172,11 @@ a { text-decoration: none; color: inherit; }
    --------------------------------------------------------------------- */
 @keyframes storeFadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 .lx-hero-text, .wk-hero-card, .nt-hero-text, .ar-hero-text, .mk-hero-text,
-.vd-hero-text, .bl-hero-text, .am-hero-text {
+.vd-hero-text, .bl-hero-text, .am-hero-text, .rd-hero-text {
     animation: storeFadeInUp 0.7s ease both;
 }
 .lx-hero-image, .wk-hero-image, .nt-hero-image, .ar-hero-image, .mk-hero-image,
-.vd-hero-image, .bl-hero-image, .am-hero-image {
+.vd-hero-image, .bl-hero-image, .am-hero-image, .rd-hero-image {
     animation: storeFadeInUp 0.8s ease 0.1s both;
 }
 /* Buttons and nav links get a small interactive lift/underline across every theme. */

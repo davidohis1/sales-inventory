@@ -23,6 +23,7 @@ class StoreSettingsController
             ['id' => 'verdant', 'name' => 'Verdant', 'description' => 'Clean, trust-driven layout with a full-bleed portrait hero — great for skincare & wellness.', 'accent' => '#0d6d5c'],
             ['id' => 'blossom', 'name' => 'Blossom', 'description' => 'Warm gradient hero with a soft, radiant feel — great for beauty & lifestyle brands.', 'accent' => '#d6357a'],
             ['id' => 'amara', 'name' => 'Amara', 'description' => 'Refined editorial layout with a terracotta palette and customer testimonials.', 'accent' => '#a0492c'],
+            ['id' => 'radiance', 'name' => 'Radiance', 'description' => 'Warm editorial beauty & skincare storefront with a sage accent, sticky gallery product page, and full review system.', 'accent' => '#3f5b47'],
         ];
     }
 
