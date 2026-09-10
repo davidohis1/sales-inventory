@@ -13,7 +13,7 @@ class CampaignRecipient
      */
     public static function resolveAudience(int $tenantId, string $audience, array $manualIds = []): array
     {
-        $base = 'SELECT id, name, email FROM customers WHERE tenant_id = ? AND email IS NOT NULL AND email != "" AND unsubscribed = 0';
+        $base = "SELECT id, name, email FROM customers WHERE tenant_id = ? AND email IS NOT NULL AND email != '' AND unsubscribed = 0";
         $params = [$tenantId];
 
         switch ($audience) {
@@ -44,7 +44,7 @@ class CampaignRecipient
     public static function seed(int $campaignId, array $customers): int
     {
         if (empty($customers)) { return 0; }
-        $stmt = self::db()->prepare('INSERT INTO campaign_recipients (campaign_id, customer_id, email, status) VALUES (?, ?, ?, "pending")');
+        $stmt = self::db()->prepare("INSERT INTO campaign_recipients (campaign_id, customer_id, email, status) VALUES (?, ?, ?, 'pending')");
         foreach ($customers as $c) {
             $stmt->execute([$campaignId, $c['id'], $c['email']]);
         }
@@ -54,20 +54,20 @@ class CampaignRecipient
     /** Next batch of not-yet-sent recipients, for both the "send now" endpoint and the cron batch script. */
     public static function nextPending(int $campaignId, int $limit = 30): array
     {
-        $stmt = self::db()->prepare('SELECT * FROM campaign_recipients WHERE campaign_id = ? AND status = "pending" LIMIT ' . (int) $limit);
+        $stmt = self::db()->prepare("SELECT * FROM campaign_recipients WHERE campaign_id = ? AND status = 'pending' LIMIT " . (int) $limit);
         $stmt->execute([$campaignId]);
         return $stmt->fetchAll();
     }
 
     public static function markSent(int $id): void
     {
-        $stmt = self::db()->prepare('UPDATE campaign_recipients SET status = "sent", sent_at = NOW() WHERE id = ?');
+        $stmt = self::db()->prepare("UPDATE campaign_recipients SET status = 'sent', sent_at = NOW() WHERE id = ?");
         $stmt->execute([$id]);
     }
 
     public static function markFailed(int $id, string $error): void
     {
-        $stmt = self::db()->prepare('UPDATE campaign_recipients SET status = "failed", error = ? WHERE id = ?');
+        $stmt = self::db()->prepare("UPDATE campaign_recipients SET status = 'failed', error = ? WHERE id = ?");
         $stmt->execute([substr($error, 0, 255), $id]);
     }
 
