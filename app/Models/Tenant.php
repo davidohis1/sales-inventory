@@ -39,7 +39,7 @@ class Tenant extends BaseModel
     /** Guarantees a unique slug by appending a number if the base slug is taken. */
     public static function uniqueSlugFrom(string $name): string
     {
-        $reserved = ['register', 'login', 'pricing', 'plans', 'platformadmin', 'payments', 'api', 'admin', 'assets', 'uploads', 'logout'];
+        $reserved = ['register', 'login', 'pricing', 'plans', 'platformadmin', 'payments', 'api', 'admin', 'assets', 'uploads', 'logout', 'forgot-password'];
         $base = self::slugify($name);
         if (in_array($base, $reserved, true)) $base .= 'biz';
         $slug = $base;

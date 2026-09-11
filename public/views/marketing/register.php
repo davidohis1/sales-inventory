@@ -5,80 +5,110 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Start your free trial — Bizflow</title>
-<link rel="stylesheet" href="<?= $base ?>/assets/css/style.css">
+<link rel="stylesheet" href="<?= $base ?>/assets/css/auth.css">
 </head>
-<body class="pub-body">
+<body class="tz-body">
 
-<div class="auth-split">
-    <div class="auth-visual-panel">
-        <div class="auth-blob-1"></div>
-        <div class="auth-blob-2"></div>
-        <a href="<?= $base ?>/" class="auth-visual-logo"><img src="<?= $base ?>/assets/images/logo.png" class="dot" alt="Bizflow logo"> Bizflow</a>
-        <div class="auth-visual-body">
-            <h3>Set up your business dashboard in under a minute.</h3>
-            <p>Sales, inventory, customers, an online store, and digital products — all in one place. Start your 7-day free trial, no card required.</p>
-            <div class="auth-visual-card">
-                <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9</div>
-                <p>"Set up your shop, add products, and start selling — in-store or online — the same day you sign up."</p>
-                <div class="who">Musa Bello &middot; Store Manager</div>
+<div class="tz-page">
+    <div class="tz-card">
+        <nav class="tz-nav">
+            <a href="<?= $base ?>/" class="tz-logo"><img src="<?= $base ?>/assets/images/logo.png" alt=""> Bizflow<span class="t">.</span></a>
+            <div class="tz-nav-links">
+                <a href="<?= $base ?>/">Home</a>
+                <a href="<?= $base ?>/login">Log In</a>
+                <a href="<?= $base ?>/register" class="active">Join</a>
+                <a href="<?= $base ?>/#features">About Us</a>
             </div>
-        </div>
-        <div class="auth-visual-stats">
-            <div><strong>2,000+</strong><span>Businesses</span></div>
-            <div><strong>7 days</strong><span>Free trial</span></div>
-            <div><strong>24/7</strong><span>Support</span></div>
-        </div>
-    </div>
+            <div class="tz-nav-search">&#128269; Search</div>
+        </nav>
 
-    <div class="auth-form-panel">
-        <div class="login-card wide">
-            <div class="auth-form-mobile-logo"><img src="<?= $base ?>/assets/images/logo.png" class="dot" alt="Bizflow logo"> Bizflow</div>
-            <span class="trial-badge">&#9889; 7-day free trial — no card required</span>
-            <h2>Register your business</h2>
-            <p class="text-muted" style="margin-top:-8px;">Set up your account in under a minute.</p>
-            <form id="register-form">
-                <div class="form-group">
-                    <label>Business name</label>
-                    <input class="form-control" name="business_name" placeholder="e.g. AJ Electronics" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Your full name</label>
-                        <input class="form-control" name="full_name" placeholder="Jane Doe" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input class="form-control" name="phone" placeholder="080...">
+        <div class="tz-split">
+            <div class="tz-visual">
+                <div class="tz-visual-content">
+                    <span class="tz-eyebrow">JOIN FOR FREE</span>
+                    <h1>Run your business <span class="accent">your</span> way, from day one.</h1>
+                    <p>Get started with the easiest, most reliable dashboard to manage sales, stock, and your storefront.</p>
+                    <div class="tz-visual-actions">
+                        <a href="<?= $base ?>/" class="tz-btn-outline">Explore more</a>
+                        <a href="<?= $base ?>/#pricing" class="tz-btn-fill">View Pricing</a>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input class="form-control" type="email" name="email" placeholder="you@business.com" required>
+            </div>
+
+            <div class="tz-form-side">
+                <div class="tz-form-mobile-logo"><img src="<?= $base ?>/assets/images/logo.png" alt=""> Bizflow</div>
+
+                <div class="tz-step active" id="step-register">
+                    <h2>Create new account<span class="dot">.</span></h2>
+                    <div id="register-error" class="tz-error" style="display:none;"></div>
+                    <form id="register-form">
+                        <div class="tz-field">
+                            <label>Business Name</label>
+                            <input name="business_name" placeholder="e.g. AJ Electronics" required autofocus>
+                            <span class="tz-field-icon">&#127970;</span>
+                        </div>
+                        <div class="tz-field-row">
+                            <div class="tz-field">
+                                <label>First Name</label>
+                                <input name="first_name" placeholder="Jane" required>
+                                <span class="tz-field-icon">&#128100;</span>
+                            </div>
+                            <div class="tz-field">
+                                <label>Last Name</label>
+                                <input name="last_name" placeholder="Doe" required>
+                                <span class="tz-field-icon">&#128100;</span>
+                            </div>
+                        </div>
+                        <div class="tz-field">
+                            <label>Email</label>
+                            <input type="email" name="email" placeholder="you@business.com" required>
+                            <span class="tz-field-icon">&#9993;</span>
+                        </div>
+                        <div class="tz-field">
+                            <label>Password</label>
+                            <input type="password" name="password" id="register-password" placeholder="At least 6 characters" minlength="6" required>
+                            <span class="tz-field-icon clickable" id="register-eye">&#128065;</span>
+                        </div>
+                        <p class="tz-member-link">Already A Member? <a href="<?= $base ?>/login">Log In</a></p>
+                        <button class="tz-submit-btn" type="submit" id="register-submit">Create Account</button>
+                    </form>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input class="form-control" type="password" name="password" placeholder="At least 6 characters" required minlength="6">
-                    </div>
-                    <div class="form-group">
-                        <label>Currency</label>
-                        <select class="form-control" name="currency">
-                            <option value="NGN" selected>NGN — Naira</option>
-                            <option value="GHS">GHS — Cedi</option>
-                            <option value="KES">KES — Shilling</option>
-                            <option value="USD">USD — Dollar</option>
-                        </select>
-                    </div>
+
+                <div class="tz-step" id="step-verify">
+                    <a href="javascript:void(0)" class="tz-back-link" id="verify-back">&larr; Back</a>
+                    <h2>Verify your email<span class="dot">.</span></h2>
+                    <p class="tz-member-link" style="text-align:left; margin-top:-14px;">Enter the 6-digit code we sent to <strong id="verify-email-label" style="color:#fff;"></strong>.</p>
+                    <div id="verify-error" class="tz-error" style="display:none;"></div>
+                    <form id="verify-form">
+                        <div class="tz-otp-row">
+                            <input type="text" inputmode="numeric" maxlength="1" required>
+                            <input type="text" inputmode="numeric" maxlength="1" required>
+                            <input type="text" inputmode="numeric" maxlength="1" required>
+                            <input type="text" inputmode="numeric" maxlength="1" required>
+                            <input type="text" inputmode="numeric" maxlength="1" required>
+                            <input type="text" inputmode="numeric" maxlength="1" required>
+                        </div>
+                        <button class="tz-submit-btn" type="submit" id="verify-submit">Verify Account</button>
+                    </form>
+                    <p class="tz-resend">Didn't get it? <button type="button" id="resend-btn">Resend code</button></p>
                 </div>
-                <div id="register-error" class="form-error" style="display:none; margin-bottom:10px;"></div>
-                <button class="btn" type="submit" style="width:100%; justify-content:center;" id="register-submit">Start Free Trial</button>
-            </form>
-            <p class="auth-switch">By continuing you agree to the fair-use of your 7-day free trial. Already registered? <a href="<?= $base ?>/login">Log in</a></p>
+            </div>
         </div>
     </div>
 </div>
 
+<script src="<?= $base ?>/assets/js/auth-otp.js"></script>
 <script>
+const API = '<?= $base ?>';
+const registerStep = document.getElementById('step-register');
+const verifyStep = document.getElementById('step-verify');
+let pendingEmail = '';
+
+document.getElementById('register-eye').addEventListener('click', () => {
+    const f = document.getElementById('register-password');
+    f.type = f.type === 'password' ? 'text' : 'password';
+});
+
 document.getElementById('register-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('register-submit');
@@ -87,10 +117,16 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
     btn.disabled = true; btn.textContent = 'Creating your account…';
 
     const form = new FormData(e.target);
-    const payload = Object.fromEntries(form.entries());
+    const raw = Object.fromEntries(form.entries());
+    const payload = {
+        business_name: raw.business_name,
+        full_name: `${raw.first_name} ${raw.last_name}`.trim(),
+        email: raw.email,
+        password: raw.password,
+    };
 
     try {
-        const res = await fetch('<?= $base ?>/api/auth/register', {
+        const res = await fetch(`${API}/api/auth/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
@@ -100,15 +136,55 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
             const firstError = json.errors ? Object.values(json.errors)[0] : json.message;
             throw new Error(firstError || 'Registration failed');
         }
-        localStorage.setItem('access_token', json.data.access_token);
-        localStorage.setItem('refresh_token', json.data.refresh_token);
-        localStorage.setItem('user', JSON.stringify(json.data.user));
-        window.location.href = `<?= $base ?>/${json.data.tenant.slug}portal`;
+
+        pendingEmail = json.data.email;
+        document.getElementById('verify-email-label').textContent = pendingEmail;
+        registerStep.classList.remove('active');
+        verifyStep.classList.add('active');
     } catch (err) {
         errBox.textContent = err.message;
         errBox.style.display = 'block';
-        btn.disabled = false; btn.textContent = 'Start Free Trial';
+        btn.disabled = false; btn.textContent = 'Create Account';
     }
+});
+
+document.getElementById('verify-back').addEventListener('click', () => {
+    verifyStep.classList.remove('active');
+    registerStep.classList.add('active');
+});
+
+BizflowOtp.wire('verify-form', () => pendingEmail, {
+    onSubmit: async (code) => {
+        const btn = document.getElementById('verify-submit');
+        const errBox = document.getElementById('verify-error');
+        errBox.style.display = 'none';
+        btn.disabled = true; btn.textContent = 'Verifying…';
+        try {
+            const res = await fetch(`${API}/api/auth/verify-email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: pendingEmail, code }),
+            });
+            const json = await res.json();
+            if (!json.success) throw new Error(json.message || 'Verification failed');
+            localStorage.setItem('access_token', json.data.access_token);
+            localStorage.setItem('refresh_token', json.data.refresh_token);
+            localStorage.setItem('user', JSON.stringify(json.data.user));
+            localStorage.setItem('plan', JSON.stringify(json.data.plan_status));
+            window.location.href = `${API}/${json.data.tenant.slug}portal`;
+        } catch (err) {
+            errBox.textContent = err.message;
+            errBox.style.display = 'block';
+            btn.disabled = false; btn.textContent = 'Verify Account';
+        }
+    },
+    onResend: async () => {
+        await fetch(`${API}/api/auth/resend-verification`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: pendingEmail }),
+        });
+    },
 });
 </script>
 </body>

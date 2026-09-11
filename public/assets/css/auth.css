@@ -1,0 +1,85 @@
+/* Travelzo-inspired auth shell: one big rounded dark card, top nav spanning
+   the full width, a visual left panel (photo replaced with a green/navy
+   gradient scene since we don't have a licensed photo) and a dark form
+   panel on the right with the distinctive "small label above value, icon
+   at the right edge" input style. Brand green throughout (#17a672). */
+:root {
+    --tz-green: #17a672;
+    --tz-green-dark: #0e7a53;
+    --tz-green-light: #4fd9a5;
+    --tz-navy: #12151c;
+    --tz-navy-2: #191d27;
+    --tz-outer: #383b4a;
+    --tz-muted: #9095a3;
+    --tz-border: #2b2f3b;
+}
+.tz-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--tz-outer); }
+.tz-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 36px 18px; }
+.tz-card { width: 100%; max-width: 1180px; background: var(--tz-navy); border-radius: 26px; overflow: hidden; box-shadow: 0 40px 90px rgba(0,0,0,0.4); }
+
+/* ---------- top nav ---------- */
+.tz-nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 34px 0; gap: 20px; flex-wrap: wrap; }
+.tz-logo { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: 800; font-size: 18px; text-decoration: none; }
+.tz-logo img { width: 24px; height: 24px; border-radius: 6px; }
+.tz-logo .t { color: var(--tz-green-light); }
+.tz-nav-links { display: flex; gap: 28px; font-size: 13.5px; }
+.tz-nav-links a { color: #c7c9d1; font-weight: 500; }
+.tz-nav-links a.active { color: #fff; border-bottom: 2px solid var(--tz-green); padding-bottom: 4px; }
+.tz-nav-search { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 999px; padding: 9px 16px; color: var(--tz-muted); font-size: 12.5px; min-width: 170px; }
+@media (max-width: 860px) { .tz-nav-links, .tz-nav-search { display: none; } }
+
+/* ---------- body split ---------- */
+.tz-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; margin-top: 22px; }
+.tz-visual { position: relative; padding: 42px 40px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; background:
+    radial-gradient(circle at 25% 20%, rgba(23,166,114,0.35) 0%, rgba(23,166,114,0) 45%),
+    radial-gradient(circle at 80% 85%, rgba(79,217,165,0.25) 0%, rgba(79,217,165,0) 50%),
+    linear-gradient(160deg, #0d3325 0%, #0f131c 60%);
+}
+.tz-visual::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 22px 22px; opacity: 0.5; }
+.tz-visual-content { position: relative; z-index: 1; }
+.tz-eyebrow { color: #cfd2db; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; margin-bottom: 14px; display: block; }
+.tz-visual h1 { color: #fff; font-size: 34px; font-weight: 800; line-height: 1.18; margin: 0 0 16px; }
+.tz-visual h1 .accent { color: var(--tz-green-light); }
+.tz-visual p { color: #b6bac4; font-size: 13.5px; line-height: 1.6; margin: 0 0 26px; max-width: 320px; }
+.tz-visual-actions { display: flex; gap: 12px; }
+.tz-btn-outline { border: 1.5px solid rgba(255,255,255,0.35); color: #fff; padding: 11px 22px; border-radius: 999px; font-weight: 600; font-size: 13px; }
+.tz-btn-fill { background: var(--tz-green); color: #fff; padding: 11px 24px; border-radius: 999px; font-weight: 700; font-size: 13px; }
+@media (max-width: 860px) { .tz-visual { display: none; } }
+
+.tz-form-side { padding: 40px 44px 36px; display: flex; flex-direction: column; justify-content: center; }
+.tz-form-mobile-logo { display: none; margin-bottom: 18px; }
+@media (max-width: 860px) { .tz-form-mobile-logo { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: 800; font-size: 17px; } .tz-form-mobile-logo img { width: 22px; height: 22px; border-radius: 6px; } }
+.tz-form-side h2 { color: #fff; font-size: 30px; font-weight: 800; margin: 0 0 26px; }
+.tz-form-side h2 .dot { color: var(--tz-green); }
+
+.tz-field { position: relative; background: var(--tz-navy-2); border: 1.5px solid var(--tz-border); border-radius: 14px; padding: 10px 44px 10px 16px; margin-bottom: 14px; transition: border-color 0.15s; }
+.tz-field:focus-within { border-color: var(--tz-green); }
+.tz-field label { display: block; font-size: 10.5px; color: var(--tz-muted); font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 2px; }
+.tz-field input, .tz-field select { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 14.5px; font-weight: 600; padding: 0; }
+.tz-field input::placeholder { color: #565b69; font-weight: 500; }
+.tz-field .tz-field-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--tz-muted); font-size: 15px; cursor: default; }
+.tz-field .tz-field-icon.clickable { cursor: pointer; }
+.tz-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.tz-inline-link { text-align: right; margin: -6px 0 16px; }
+.tz-inline-link a, .tz-member-link a { color: var(--tz-green-light); font-weight: 600; }
+.tz-member-link { text-align: center; font-size: 13px; color: var(--tz-muted); margin: 6px 0 18px; }
+.tz-submit-btn { width: 100%; background: var(--tz-green); color: #fff; border: none; border-radius: 999px; padding: 15px; font-weight: 700; font-size: 14.5px; cursor: pointer; transition: background 0.15s; }
+.tz-submit-btn:hover { background: var(--tz-green-dark); }
+.tz-submit-btn:disabled { opacity: 0.6; cursor: default; }
+.tz-error { background: rgba(249,112,102,0.12); border: 1px solid rgba(249,112,102,0.3); color: #ff9b90; font-size: 12.5px; padding: 10px 14px; border-radius: 10px; margin-bottom: 14px; }
+.tz-success-note { background: rgba(23,166,114,0.12); border: 1px solid rgba(23,166,114,0.3); color: var(--tz-green-light); font-size: 12.5px; padding: 10px 14px; border-radius: 10px; margin-bottom: 14px; }
+
+/* ---------- OTP code entry (verify email / reset password) ---------- */
+.tz-otp-row { display: flex; gap: 10px; margin-bottom: 20px; }
+.tz-otp-row input { width: 100%; aspect-ratio: 1; text-align: center; font-size: 22px; font-weight: 800; color: #fff; background: var(--tz-navy-2); border: 1.5px solid var(--tz-border); border-radius: 12px; outline: none; }
+.tz-otp-row input:focus { border-color: var(--tz-green); }
+.tz-resend { text-align: center; font-size: 12.5px; color: var(--tz-muted); margin: 4px 0 18px; }
+.tz-resend button { background: none; border: none; color: var(--tz-green-light); font-weight: 700; cursor: pointer; font-size: 12.5px; padding: 0; }
+.tz-resend button:disabled { color: var(--tz-muted); cursor: default; }
+.tz-back-link { display: inline-block; margin-bottom: 16px; color: var(--tz-muted); font-size: 12.5px; }
+.tz-back-link:hover { color: #fff; }
+.tz-step { display: none; }
+.tz-step.active { display: block; }
+
+@media (max-width: 860px) { .tz-split { grid-template-columns: 1fr; min-height: 0; } .tz-form-side { padding: 26px 24px 30px; } .tz-nav { padding: 20px 22px 0; } }

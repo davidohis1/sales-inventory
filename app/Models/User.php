@@ -79,4 +79,32 @@ class User extends BaseModel
         $stmt = self::db()->prepare('UPDATE users SET ' . implode(', ', $fields) . ' WHERE id = ? AND tenant_id = ?');
         return $stmt->execute($params);
     }
+
+    /** Stores a freshly generated 6-digit signup verification code + its expiry. */
+    public static function setVerificationCode(int $userId, string $code, string $expiresAt): void
+    {
+        $stmt = self::db()->prepare('UPDATE users SET verification_code = ?, verification_code_expires_at = ? WHERE id = ?');
+        $stmt->execute([$code, $expiresAt, $userId]);
+    }
+
+    /** Marks the account's email as verified and clears the spent code. */
+    public static function markEmailVerified(int $userId): void
+    {
+        $stmt = self::db()->prepare('UPDATE users SET email_verified_at = NOW(), verification_code = NULL, verification_code_expires_at = NULL WHERE id = ?');
+        $stmt->execute([$userId]);
+    }
+
+    /** Stores a freshly generated 6-digit "forgot password" code + its expiry. */
+    public static function setResetCode(int $userId, string $code, string $expiresAt): void
+    {
+        $stmt = self::db()->prepare('UPDATE users SET reset_code = ?, reset_code_expires_at = ? WHERE id = ?');
+        $stmt->execute([$code, $expiresAt, $userId]);
+    }
+
+    /** Applies a new password after a successful reset-code check and clears the spent code. */
+    public static function applyPasswordReset(int $userId, string $passwordHash): void
+    {
+        $stmt = self::db()->prepare('UPDATE users SET password_hash = ?, reset_code = NULL, reset_code_expires_at = NULL WHERE id = ?');
+        $stmt->execute([$passwordHash, $userId]);
+    }
 }

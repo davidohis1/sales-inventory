@@ -30,15 +30,15 @@
     <div class="ld-hero-grid">
         <div class="ld-hero-text">
             <span class="ld-hero-eyebrow"><span class="dot"></span> Simple &bull; Fast &bull; Reliable</span>
-            <h1>Run Your<br>Business,<br><span class="accent">Simplified.</span></h1>
-            <p>Sales, inventory, customers, an online store, and digital products — all in one dashboard. Start free, no card required.</p>
+            <h1>Simplify Work.<br>Scale Your<br><span class="accent">Business.</span></h1>
+            <p>Sales, inventory, customers, an online store, and digital products — all in one dashboard built for modern businesses. Start free, no card required.</p>
             <div class="ld-hero-actions">
                 <a href="<?= $base ?>/register" class="ld-pill-btn ld-pill-btn-lg">Start Free Trial &rarr;</a>
                 <a href="#how-it-works" class="ld-watch-btn"><span class="ld-watch-circle">&#9654;</span> See how it works</a>
             </div>
             <div class="ld-hero-proof">
                 <div class="ld-avatar-stack">
-                    <span style="background:#6c5ce7;">A</span>
+                    <span style="background:#0e7a53;">A</span>
                     <span style="background:#17a672;">B</span>
                     <span style="background:#fdb022;">C</span>
                 </div>
@@ -50,40 +50,11 @@
         </div>
 
         <div class="ld-hero-visual">
-            <div class="ld-hero-visual-blob"></div>
-            <span class="ld-hero-heart">&#10084;&#65039;</span>
-            <svg viewBox="0 0 520 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Business owner using the Bizflow dashboard on a tablet">
-                <rect x="70" y="60" width="380" height="440" rx="26" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
-                <rect x="70" y="60" width="380" height="54" rx="26" fill="#efeafd"/>
-                <circle cx="100" cy="87" r="7" fill="#f97066"/>
-                <circle cx="124" cy="87" r="7" fill="#fdb022"/>
-                <circle cx="148" cy="87" r="7" fill="#17a672"/>
-                <rect x="96" y="140" width="180" height="18" rx="5" fill="#6c5ce7"/>
-                <rect x="96" y="170" width="220" height="12" rx="4" fill="#e4e0fb"/>
-                <rect x="96" y="192" width="150" height="12" rx="4" fill="#e4e0fb"/>
-                <rect x="96" y="226" width="164" height="104" rx="14" fill="#f4f2fe"/>
-                <rect x="114" y="246" width="70" height="40" rx="8" fill="#6c5ce7"/>
-                <rect x="192" y="246" width="52" height="40" rx="8" fill="#17a672"/>
-                <rect x="114" y="298" width="128" height="16" rx="4" fill="#d9d3fb"/>
-                <rect x="276" y="226" width="154" height="104" rx="14" fill="#f4f2fe"/>
-                <rect x="292" y="246" width="122" height="12" rx="4" fill="#d9d3fb"/>
-                <rect x="292" y="266" width="96" height="12" rx="4" fill="#d9d3fb"/>
-                <rect x="292" y="286" width="110" height="12" rx="4" fill="#d9d3fb"/>
-                <rect x="96" y="352" width="334" height="60" rx="14" fill="#14141a"/>
-                <rect x="112" y="368" width="90" height="12" rx="4" fill="#fff"/>
-                <rect x="112" y="386" width="130" height="10" rx="3" fill="#8a86a8"/>
-                <rect x="360" y="366" width="52" height="30" rx="15" fill="#6c5ce7"/>
-
-                <g>
-                    <ellipse cx="240" cy="534" rx="120" ry="14" fill="#efeafd"/>
-                    <rect x="180" y="470" width="120" height="20" rx="8" fill="#16181d"/>
-                    <circle cx="240" cy="420" r="38" fill="#f4c6a5"/>
-                    <path d="M204 414 q36 -46 72 0 v-18 q-36 -28 -72 0 z" fill="#16181d"/>
-                    <rect x="200" y="452" width="80" height="66" rx="16" fill="#6c5ce7"/>
-                    <rect x="176" y="468" width="30" height="58" rx="12" fill="#6c5ce7"/>
-                    <rect x="274" y="468" width="30" height="58" rx="12" fill="#17a672"/>
-                </g>
-            </svg>
+            <div class="ld-hero-visual-glow"></div>
+            <div class="ld-browser-frame">
+                <div class="ld-browser-bar"><span></span><span></span><span></span></div>
+                <img src="<?= $base ?>/assets/images/dashboard-hero.png" alt="The Bizflow dashboard — today's revenue, profit, stock value, and a revenue-by-month chart" class="ld-browser-shot">
+            </div>
             <div class="ld-hero-float-card ld-hero-float-1">
                 <span class="icn">&#9889;</span>
                 <div><div class="lbl">Get set up in</div><div class="val">5 minutes</div></div>
@@ -96,9 +67,41 @@
     </div>
 </section>
 
+<section class="ld-logos-strip">
+    <div class="ld-logos-row">
+        <span><span class="ic">&#128722;</span> GreenMart</span>
+        <span><span class="ic">&#128241;</span> Urban Traders</span>
+        <span><span class="ic">&#128717;</span> Swift Retail</span>
+        <span><span class="ic">&#9878;&#65039;</span> Boutique Hub</span>
+        <span><span class="ic">&#128188;</span> ByteWorks</span>
+        <span><span class="ic">&#127968;</span> Lagos Essentials</span>
+    </div>
+</section>
+
+<section class="ld-stat-band">
+    <div class="ld-stat-card">
+        <div class="ld-stat-text">
+            <span class="ld-eyebrow-tag">WHY CHOOSE US</span>
+            <h2>2,000+ Businesses Trust Bizflow</h2>
+            <p>From single-branch shops to growing teams, we help businesses streamline sales, cut spreadsheet chaos, and grow faster.</p>
+            <a href="#how-it-works" class="ld-pill-btn">See How It Works &rarr;</a>
+        </div>
+        <div class="ld-stat-grid">
+            <div class="ld-stat-col">
+                <div class="ld-stat-box"><strong>2,000+</strong><span>Active Businesses</span></div>
+                <div class="ld-stat-box"><strong>94%</strong><span>Customer Retention</span></div>
+            </div>
+            <div class="ld-stat-col">
+                <div class="ld-stat-box"><strong>24/7</strong><span>Support Team</span></div>
+                <div class="ld-stat-box"><strong>99.9%</strong><span>Uptime Guarantee</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="ld-section" id="how-it-works">
     <div class="ld-section-head">
-        <span class="ld-eyebrow-tag">WHY CHOOSE US</span>
+        <span class="ld-eyebrow-tag">HOW WE HELP</span>
         <h2>Your Favourite Business<br>Management Partner</h2>
         <p>From your first sale to your hundredth branch — one dashboard, no spreadsheets.</p>
     </div>
@@ -228,10 +231,10 @@
     <div class="ld-promo-visual">
         <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dashboard preview on a phone and desktop">
             <rect x="10" y="10" width="260" height="300" rx="20" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
-            <rect x="10" y="10" width="260" height="36" rx="20" fill="#efeafd"/>
+            <rect x="10" y="10" width="260" height="36" rx="20" fill="#e7f8f0"/>
             <rect x="28" y="64" width="224" height="70" rx="10" fill="#f4f2fe"/>
             <rect x="42" y="80" width="90" height="10" rx="3" fill="#d9d3fb"/>
-            <rect x="42" y="98" width="60" height="18" rx="6" fill="#6c5ce7"/>
+            <rect x="42" y="98" width="60" height="18" rx="6" fill="#17a672"/>
             <rect x="28" y="146" width="224" height="70" rx="10" fill="#f4f2fe"/>
             <rect x="42" y="162" width="110" height="10" rx="3" fill="#d9d3fb"/>
             <rect x="42" y="180" width="60" height="18" rx="6" fill="#17a672"/>
@@ -243,7 +246,7 @@
             <rect x="316" y="150" width="78" height="10" rx="3" fill="#d9d3fb"/>
             <rect x="316" y="166" width="50" height="14" rx="5" fill="#17a672"/>
             <rect x="316" y="196" width="78" height="10" rx="3" fill="#d9d3fb"/>
-            <rect x="316" y="212" width="50" height="14" rx="5" fill="#6c5ce7"/>
+            <rect x="316" y="212" width="50" height="14" rx="5" fill="#17a672"/>
         </svg>
     </div>
 </div>

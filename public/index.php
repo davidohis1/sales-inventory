@@ -86,6 +86,10 @@ $platformAdmin = new App\Middleware\PlatformAdminMiddleware();
 // -----------------------------------------------------------------
 $router->post('/api/auth/register', fn ($r) => (new App\Controllers\Api\PlatformAuthController())->register($r));
 $router->post('/api/auth/login', fn ($r) => (new App\Controllers\Api\PlatformAuthController())->login($r));
+$router->post('/api/auth/verify-email', fn ($r) => (new App\Controllers\Api\PlatformAuthController())->verifyEmail($r));
+$router->post('/api/auth/resend-verification', fn ($r) => (new App\Controllers\Api\PlatformAuthController())->resendVerification($r));
+$router->post('/api/auth/forgot-password', fn ($r) => (new App\Controllers\Api\PlatformAuthController())->forgotPassword($r));
+$router->post('/api/auth/reset-password', fn ($r) => (new App\Controllers\Api\PlatformAuthController())->resetPassword($r));
 
 // Plans (public pricing list + tenant-scoped current status for sidebar gating)
 $router->get('/api/plans', fn ($r) => (new App\Controllers\Api\PlanController())->index($r));
@@ -245,6 +249,10 @@ $router->get('/register', function () {
 $router->get('/login', function () {
     header('Content-Type: text/html');
     require __DIR__ . '/views/marketing/login.php';
+});
+$router->get('/forgot-password', function () {
+    header('Content-Type: text/html');
+    require __DIR__ . '/views/marketing/forgot-password.php';
 });
 $router->get('/plans', function () {
     header('Content-Type: text/html');
