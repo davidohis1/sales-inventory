@@ -14,8 +14,8 @@
     <nav class="ld-nav">
         <a href="<?= $base ?>/" class="ld-logo"><img src="<?= $base ?>/assets/images/logo.png" class="ld-logo-mark" alt="Bizflow logo"> Bizflow</a>
         <div class="ld-nav-links">
-            <a href="#features" class="active">Features</a>
-            <a href="#how-it-works">How it works</a>
+            <a href="#services" class="active">Features</a>
+            <a href="#about">About</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
         </div>
@@ -26,6 +26,7 @@
     </nav>
 </div>
 
+<!-- ================= HERO ================= -->
 <section class="ld-hero-section">
     <div class="ld-hero-grid">
         <div class="ld-hero-text">
@@ -34,7 +35,10 @@
             <p>Sales, inventory, customers, an online store, and digital products — all in one dashboard built for modern businesses. Start free, no card required.</p>
             <div class="ld-hero-actions">
                 <a href="<?= $base ?>/register" class="ld-pill-btn ld-pill-btn-lg">Start Free Trial &rarr;</a>
-                <a href="#how-it-works" class="ld-watch-btn"><span class="ld-watch-circle">&#9654;</span> See how it works</a>
+                <a href="#about" class="ld-watch-btn">
+                    <span class="ld-watch-circle"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg></span>
+                    See how it works
+                </a>
             </div>
             <div class="ld-hero-proof">
                 <div class="ld-avatar-stack">
@@ -50,13 +54,13 @@
         </div>
 
         <div class="ld-hero-visual">
-            <div class="ld-hero-visual-glow"></div>
+            <div class="ld-hero-blob"></div>
             <div class="ld-browser-frame">
                 <div class="ld-browser-bar"><span></span><span></span><span></span></div>
                 <img src="<?= $base ?>/assets/images/dashboard-hero.png" alt="The Bizflow dashboard — today's revenue, profit, stock value, and a revenue-by-month chart" class="ld-browser-shot">
             </div>
             <div class="ld-hero-float-card ld-hero-float-1">
-                <span class="icn">&#9889;</span>
+                <span class="icn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg></span>
                 <div><div class="lbl">Get set up in</div><div class="val">5 minutes</div></div>
             </div>
             <div class="ld-hero-float-card ld-hero-float-2">
@@ -69,136 +73,99 @@
 
 <section class="ld-logos-strip">
     <div class="ld-logos-row">
-        <span><span class="ic">&#128722;</span> GreenMart</span>
-        <span><span class="ic">&#128241;</span> Urban Traders</span>
-        <span><span class="ic">&#128717;</span> Swift Retail</span>
-        <span><span class="ic">&#9878;&#65039;</span> Boutique Hub</span>
-        <span><span class="ic">&#128188;</span> ByteWorks</span>
-        <span><span class="ic">&#127968;</span> Lagos Essentials</span>
+        <span>GreenMart</span>
+        <span>Urban Traders</span>
+        <span>Swift Retail</span>
+        <span>Boutique Hub</span>
+        <span>ByteWorks</span>
+        <span>Lagos Essentials</span>
     </div>
 </section>
 
-<section class="ld-stat-band">
-    <div class="ld-stat-card">
-        <div class="ld-stat-text">
-            <span class="ld-eyebrow-tag">WHY CHOOSE US</span>
-            <h2>2,000+ Businesses Trust Bizflow</h2>
-            <p>From single-branch shops to growing teams, we help businesses streamline sales, cut spreadsheet chaos, and grow faster.</p>
-            <a href="#how-it-works" class="ld-pill-btn">See How It Works &rarr;</a>
+<!-- ================= ABOUT + STATS ================= -->
+<section class="ld-section" id="about">
+    <div class="ld-about-grid">
+        <div class="ld-about-text">
+            <span class="ld-eyebrow-tag">ABOUT BIZFLOW</span>
+            <h2>A Powerful Engine For Your Business, Not A Spreadsheet</h2>
+            <p>Bizflow brings your sales floor, your stockroom, and your storefront onto one screen — so you spend less time reconciling numbers and more time running the business.</p>
+            <ul class="ld-about-checklist">
+                <li><span class="ck"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"/></svg></span> Real-time stock and sales, synced across every branch</li>
+                <li><span class="ck"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"/></svg></span> Built-in online store and digital product checkout</li>
+                <li><span class="ck"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"/></svg></span> Secure payments and payouts, powered by Flutterwave</li>
+            </ul>
+            <a href="<?= $base ?>/register" class="ld-pill-btn">Start Free Trial &rarr;</a>
         </div>
-        <div class="ld-stat-grid">
-            <div class="ld-stat-col">
-                <div class="ld-stat-box"><strong>2,000+</strong><span>Active Businesses</span></div>
-                <div class="ld-stat-box"><strong>94%</strong><span>Customer Retention</span></div>
+        <div class="ld-stat-grid-2">
+            <div class="ld-stat-tile c-green">
+                <span class="st-icn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 8.5a3 3 0 1 1 3.5 5.9M21.5 20a5.5 5.5 0 0 0-4-5.3"/></svg></span>
+                <strong>2,000+</strong>
+                <span>Active Businesses</span>
             </div>
-            <div class="ld-stat-col">
-                <div class="ld-stat-box"><strong>24/7</strong><span>Support Team</span></div>
-                <div class="ld-stat-box"><strong>99.9%</strong><span>Uptime Guarantee</span></div>
+            <div class="ld-stat-tile c-amber">
+                <span class="st-icn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+                <strong>94%</strong>
+                <span>Customer Retention</span>
+            </div>
+            <div class="ld-stat-tile c-dark">
+                <span class="st-icn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/></svg></span>
+                <strong>24/7</strong>
+                <span>Support Team</span>
+            </div>
+            <div class="ld-stat-tile c-green">
+                <span class="st-icn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m3 17 5-5 4 4 8-8M15 8h5v5"/></svg></span>
+                <strong>99.9%</strong>
+                <span>Uptime Guarantee</span>
             </div>
         </div>
     </div>
 </section>
 
-<section class="ld-section" id="how-it-works">
+<!-- ================= SERVICES ================= -->
+<section class="ld-section" id="services">
     <div class="ld-section-head">
-        <span class="ld-eyebrow-tag">HOW WE HELP</span>
-        <h2>Your Favourite Business<br>Management Partner</h2>
-        <p>From your first sale to your hundredth branch — one dashboard, no spreadsheets.</p>
+        <span class="ld-eyebrow-tag">WHAT YOU GET</span>
+        <h2>Everything Your Business Needs</h2>
+        <p>One dashboard, six tools that used to be six different apps.</p>
     </div>
-    <div class="ld-why-row">
-        <div class="ld-why-item">
-            <span class="icn">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
-            </span>
-            <strong>Lightning Fast Setup</strong>
-            <p>Add products, staff, and branches in minutes — start selling the same day you sign up.</p>
-        </div>
-        <div class="ld-why-item">
-            <span class="icn">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
-            </span>
-            <strong>Real-Time Insights</strong>
-            <p>Track revenue, profit, and stock as it happens, with AI insights that explain the numbers.</p>
-        </div>
-        <div class="ld-why-item">
-            <span class="icn">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17 10 10l4 4 7-7M21 7h-6M21 7v6"/></svg>
-            </span>
-            <strong>Built To Grow With You</strong>
-            <p>From a single shop to multiple branches and staff, Bizflow scales right alongside your business.</p>
-        </div>
-    </div>
-</section>
-
-<section class="ld-section" id="features">
-    <div class="ld-explore-head">
-        <div>
-            <span class="ld-explore-eyebrow">Explore Bizflow</span>
-            <h2>Everything You'll Love</h2>
-        </div>
-        <div class="ld-explore-arrows">
-            <button type="button" id="feat-prev" aria-label="Previous">&#8592;</button>
-            <button type="button" id="feat-next" aria-label="Next">&#8594;</button>
-        </div>
-    </div>
-    <div class="ld-cat-pills">
-        <button class="active" data-cat="all">All</button>
-        <button data-cat="sales">Sales &amp; POS</button>
-        <button data-cat="inventory">Inventory</button>
-        <button data-cat="store">Online Store</button>
-        <button data-cat="digital">Digital Products</button>
-        <button data-cat="reports">Reports</button>
-    </div>
-    <div class="ld-feature-row" id="feature-cards">
-        <div class="ld-feature-card" data-cat="sales">
-            <div class="fc-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
-            </div>
+    <div class="ld-services-grid">
+        <div class="ld-feature-card">
+            <div class="fc-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></div>
             <span class="fc-tag">Core</span>
             <strong>Sales &amp; POS</strong>
             <p>Ring up sales in-store, track every transaction, and keep receipts organized automatically.</p>
             <span class="fc-cta">Learn more &rarr;</span>
         </div>
-        <div class="ld-feature-card" data-cat="inventory">
-            <div class="fc-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/></svg>
-            </div>
+        <div class="ld-feature-card">
+            <div class="fc-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/></svg></div>
             <span class="fc-tag">Core</span>
             <strong>Inventory Tracking</strong>
             <p>Always know what's in stock, get low-stock alerts, and never oversell again.</p>
             <span class="fc-cta">Learn more &rarr;</span>
         </div>
-        <div class="ld-feature-card" data-cat="store">
-            <div class="fc-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9 4 4h16l1 5M3 9v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V9M3 9h18"/></svg>
-            </div>
+        <div class="ld-feature-card">
+            <div class="fc-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9 4 4h16l1 5M3 9v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V9M3 9h18"/></svg></div>
             <span class="fc-tag">Popular</span>
             <strong>Online Store</strong>
             <p>Launch a branded storefront with a theme, header photo, and checkout — no code needed.</p>
             <span class="fc-cta">Learn more &rarr;</span>
         </div>
-        <div class="ld-feature-card" data-cat="digital">
-            <div class="fc-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-            </div>
+        <div class="ld-feature-card">
+            <div class="fc-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div>
             <span class="fc-tag">Free forever</span>
             <strong>Digital Products</strong>
             <p>Sell ebooks, courses, or files with their own checkout page — free on every plan.</p>
             <span class="fc-cta">Learn more &rarr;</span>
         </div>
-        <div class="ld-feature-card" data-cat="reports">
-            <div class="fc-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m3 17 5-5 4 4 8-8M15 8h5v5"/></svg>
-            </div>
+        <div class="ld-feature-card">
+            <div class="fc-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m3 17 5-5 4 4 8-8M15 8h5v5"/></svg></div>
             <span class="fc-tag">Insights</span>
             <strong>Reports &amp; AI Insights</strong>
             <p>See exactly what's selling, what's not, and where your money is going — with AI explaining why.</p>
             <span class="fc-cta">Learn more &rarr;</span>
         </div>
-        <div class="ld-feature-card" data-cat="sales">
-            <div class="fc-icon">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 8.5a3 3 0 1 1 3.5 5.9M21.5 20a5.5 5.5 0 0 0-4-5.3"/></svg>
-            </div>
+        <div class="ld-feature-card">
+            <div class="fc-icon"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 8.5a3 3 0 1 1 3.5 5.9M21.5 20a5.5 5.5 0 0 0-4-5.3"/></svg></div>
             <span class="fc-tag">Core</span>
             <strong>Staff &amp; Branches</strong>
             <p>Add staff with role-based access and manage multiple branches from one place.</p>
@@ -207,69 +174,104 @@
     </div>
 </section>
 
-<section class="ld-section" id="testimonials">
-    <div class="ld-testi-split">
-        <div class="ld-testi-visual">
-            <div class="avatar-big">&#128075;</div>
-            <p style="font-weight:700; margin:0;">Trusted by 2,000+ business owners</p>
-            <div class="thumb-badge">&#128077; Loved by our customers</div>
+<!-- ================= SCREENS ================= -->
+<section class="ld-section" id="screens">
+    <div class="ld-screens-head">
+        <div>
+            <span class="ld-screens-eyebrow">Take A Look Inside</span>
+            <h2>Built To Be Used Every Day</h2>
         </div>
-        <div class="ld-testi-text">
-            <span class="ld-testi-eyebrow">What our customers say</span>
-            <h2>Loved By Business Owners Everywhere</h2>
-            <p>We're proud to help businesses run smoother and grow faster, every single day.</p>
-            <div class="ld-testi-card">
-                <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9</div>
-                <p>"Bizflow replaced three different notebooks and a spreadsheet. Now I see my whole business — sales, stock, and store orders — in one place."</p>
-                <div class="ld-testi-who">
-                    <span class="av">A</span>
-                    <div><strong>Ada Johnson</strong><span>Owner, AJ Tech Gadgets</span></div>
-                </div>
+    </div>
+    <div class="ld-screens-row">
+        <div class="ld-screen-card">
+            <div class="sc-frame">
+                <svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="280" height="170" rx="12" fill="#fff"/>
+                    <rect x="26" y="26" width="90" height="10" rx="3" fill="#14141a"/>
+                    <rect x="26" y="46" width="248" height="46" rx="8" fill="#f2faf6"/>
+                    <rect x="40" y="58" width="70" height="8" rx="3" fill="#17a672"/>
+                    <rect x="40" y="72" width="110" height="7" rx="3" fill="#d7ddd9"/>
+                    <rect x="26" y="102" width="120" height="46" rx="8" fill="#f2faf6"/>
+                    <rect x="154" y="102" width="120" height="46" rx="8" fill="#f2faf6"/>
+                    <rect x="40" y="116" width="60" height="8" rx="3" fill="#17a672"/>
+                    <rect x="168" y="116" width="60" height="8" rx="3" fill="#f5a524"/>
+                </svg>
+            </div>
+            <div class="sc-body">
+                <div><strong>Sales dashboard</strong><br><span>Today's revenue at a glance</span></div>
+                <span class="sc-arrow"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+        </div>
+        <div class="ld-screen-card">
+            <div class="sc-frame">
+                <svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="280" height="170" rx="12" fill="#fff"/>
+                    <rect x="26" y="26" width="248" height="26" rx="7" fill="#f2faf6"/>
+                    <rect x="26" y="60" width="248" height="26" rx="7" fill="#fff" stroke="#e6f2ec"/>
+                    <rect x="26" y="94" width="248" height="26" rx="7" fill="#f2faf6"/>
+                    <rect x="26" y="128" width="248" height="26" rx="7" fill="#fff" stroke="#e6f2ec"/>
+                    <rect x="38" y="70" width="120" height="7" rx="3" fill="#14141a"/>
+                    <rect x="230" y="70" width="30" height="7" rx="3" fill="#17a672"/>
+                    <rect x="38" y="138" width="120" height="7" rx="3" fill="#14141a"/>
+                    <rect x="230" y="138" width="30" height="7" rx="3" fill="#e05656"/>
+                </svg>
+            </div>
+            <div class="sc-body">
+                <div><strong>Inventory list</strong><br><span>Stock levels, live</span></div>
+                <span class="sc-arrow"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+        </div>
+        <div class="ld-screen-card">
+            <div class="sc-frame">
+                <svg viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="280" height="170" rx="12" fill="#fff"/>
+                    <rect x="26" y="26" width="248" height="60" rx="8" fill="#14141a"/>
+                    <rect x="40" y="42" width="90" height="8" rx="3" fill="#fff"/>
+                    <rect x="40" y="58" width="140" height="7" rx="3" fill="#8f938f"/>
+                    <rect x="26" y="96" width="118" height="60" rx="8" fill="#f2faf6"/>
+                    <rect x="156" y="96" width="118" height="60" rx="8" fill="#f2faf6"/>
+                    <rect x="40" y="110" width="60" height="8" rx="3" fill="#17a672"/>
+                    <rect x="170" y="110" width="60" height="8" rx="3" fill="#17a672"/>
+                </svg>
+            </div>
+            <div class="sc-body">
+                <div><strong>Online store</strong><br><span>Your branded storefront</span></div>
+                <span class="sc-arrow"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
             </div>
         </div>
     </div>
 </section>
 
-<div class="ld-promo-band">
-    <div>
-        <span class="ld-promo-eyebrow">Start Selling Today</span>
-        <h2>See Your Whole Business On One Screen</h2>
-        <p>Sales, stock, customers, and your online store — updated in real time, from any device.</p>
-        <div class="ld-promo-actions">
-            <a href="<?= $base ?>/register" class="ld-pill-btn">Start Free Trial &rarr;</a>
-            <a href="<?= $base ?>/plans" class="ld-pill-btn ld-pill-btn-outline">See Plans</a>
+<!-- ================= TESTIMONIALS ================= -->
+<section class="ld-section" id="testimonials">
+    <div class="ld-section-head">
+        <span class="ld-eyebrow-tag">WHAT OUR CUSTOMERS SAY</span>
+        <h2>Loved By Business Owners Everywhere</h2>
+        <p>We're proud to help businesses run smoother and grow faster, every single day.</p>
+    </div>
+    <div class="ld-testi-grid">
+        <div class="ld-testi-card">
+            <span class="quote-mark">&#8220;</span>
+            <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9</div>
+            <p>Bizflow replaced three different notebooks and a spreadsheet. Now I see my whole business — sales, stock, and store orders — in one place.</p>
+            <div class="ld-testi-who">
+                <span class="av">A</span>
+                <div><strong>Ada Johnson</strong><span>Owner, AJ Tech Gadgets</span></div>
+            </div>
+        </div>
+        <div class="ld-testi-card">
+            <span class="quote-mark">&#8220;</span>
+            <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; 4.8</div>
+            <p>Setting up my storefront took an afternoon, not a developer. Payouts land in my account within a few hours of a sale.</p>
+            <div class="ld-testi-who">
+                <span class="av">D</span>
+                <div><strong>David Musa</strong><span>Founder, Urban Traders</span></div>
+            </div>
         </div>
     </div>
-    <div class="ld-promo-visual">
-        <svg viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dashboard preview on a phone and desktop">
-            <rect x="10" y="10" width="260" height="300" rx="20" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
-            <rect x="10" y="10" width="260" height="36" rx="20" fill="#e7f8f0"/>
-            <rect x="28" y="64" width="224" height="70" rx="10" fill="#f4f2fe"/>
-            <rect x="42" y="80" width="90" height="10" rx="3" fill="#d9d3fb"/>
-            <rect x="42" y="98" width="60" height="18" rx="6" fill="#17a672"/>
-            <rect x="28" y="146" width="224" height="70" rx="10" fill="#f4f2fe"/>
-            <rect x="42" y="162" width="110" height="10" rx="3" fill="#d9d3fb"/>
-            <rect x="42" y="180" width="60" height="18" rx="6" fill="#17a672"/>
-            <rect x="28" y="228" width="224" height="60" rx="10" fill="#14141a"/>
-            <rect x="42" y="244" width="90" height="10" rx="3" fill="#fff"/>
-            <rect x="42" y="260" width="130" height="8" rx="3" fill="#8a86a8"/>
-            <rect x="300" y="60" width="110" height="220" rx="18" fill="#fff" stroke="#e4e0fb" stroke-width="2"/>
-            <rect x="316" y="80" width="78" height="60" rx="8" fill="#e4e0fb"/>
-            <rect x="316" y="150" width="78" height="10" rx="3" fill="#d9d3fb"/>
-            <rect x="316" y="166" width="50" height="14" rx="5" fill="#17a672"/>
-            <rect x="316" y="196" width="78" height="10" rx="3" fill="#d9d3fb"/>
-            <rect x="316" y="212" width="50" height="14" rx="5" fill="#17a672"/>
-        </svg>
-    </div>
-</div>
-
-<section class="ld-trust-strip">
-    <div class="ld-trust-item"><span class="icn">&#127974;</span><div><strong>Free Setup</strong><span>No hidden costs</span></div></div>
-    <div class="ld-trust-item"><span class="icn">&#128260;</span><div><strong>Cancel Anytime</strong><span>No lock-in contracts</span></div></div>
-    <div class="ld-trust-item"><span class="icn">&#128274;</span><div><strong>Secure Payments</strong><span>Powered by Flutterwave</span></div></div>
-    <div class="ld-trust-item"><span class="icn">&#127911;</span><div><strong>24/7 Support</strong><span>We're here to help</span></div></div>
 </section>
 
+<!-- ================= PRICING ================= -->
 <section class="ld-section" id="pricing">
     <div class="ld-section-head">
         <span class="ld-eyebrow-tag">PRICING</span>
@@ -281,6 +283,14 @@
     </div>
 </section>
 
+<section class="ld-trust-strip">
+    <div class="ld-trust-item"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"/></svg> Free setup, no hidden costs</div>
+    <div class="ld-trust-item"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"/></svg> Cancel anytime, no lock-in</div>
+    <div class="ld-trust-item"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"/></svg> Secure payments via Flutterwave</div>
+    <div class="ld-trust-item"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6 9 17l-5-5"/></svg> 24/7 support</div>
+</section>
+
+<!-- ================= FAQ ================= -->
 <section class="ld-section" id="faq">
     <div class="ld-section-head">
         <span class="ld-eyebrow-tag">FAQ</span>
@@ -311,28 +321,33 @@
     </div>
 </section>
 
-<div class="ld-cta-band">
-    <h2>Ready to run your business the easy way?</h2>
-    <p>Start your 7-day free trial — no card required.</p>
-    <a href="<?= $base ?>/register" class="ld-pill-btn ld-pill-btn-lg">Start Free Trial</a>
+<!-- ================= CTA ================= -->
+<div class="ld-section" style="padding-top:0;">
+    <div class="ld-cta-band">
+        <span class="cta-icn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg></span>
+        <h2>Ready to run your business the easy way?</h2>
+        <p>Start your 7-day free trial — no card required.</p>
+        <a href="<?= $base ?>/register" class="ld-pill-btn ld-pill-btn-lg">Start Free Trial</a>
+    </div>
 </div>
 
+<!-- ================= FOOTER ================= -->
 <footer class="ld-footer">
     <div class="ld-footer-grid">
         <div class="ld-footer-brand">
             <a href="<?= $base ?>/" class="ld-logo"><img src="<?= $base ?>/assets/images/logo.png" class="ld-logo-mark" alt="Bizflow logo"> Bizflow</a>
             <p>Sales, inventory, an online store, and digital products — everything your business needs, in one dashboard.</p>
             <div class="ld-footer-social">
-                <a href="#" aria-label="Facebook">f</a>
-                <a href="#" aria-label="Instagram">ig</a>
-                <a href="#" aria-label="X">x</a>
+                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 9h3V6h-3c-2 0-3 1.2-3 3v2H9v3h2v7h3v-7h3l1-3h-4V9c0-.5.3-1 1-1Z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="#14141a" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="none" stroke="#14141a" stroke-width="1.6"/><circle cx="17" cy="7" r="1"/></svg></a>
+                <a href="#" aria-label="X"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m5 5 14 14M19 5 5 19" stroke="#14141a" stroke-width="1.8" fill="none"/></svg></a>
             </div>
         </div>
         <div class="ld-footer-col">
             <strong>Company</strong>
             <ul>
-                <li><a href="#how-it-works">How it works</a></li>
-                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Features</a></li>
                 <li><a href="#faq">FAQ</a></li>
             </ul>
         </div>
@@ -348,8 +363,8 @@
             <strong>For Businesses</strong>
             <ul>
                 <li><a href="<?= $base ?>/register">Start Free Trial</a></li>
-                <li><a href="#features">Online Store</a></li>
-                <li><a href="#features">Digital Products</a></li>
+                <li><a href="#services">Online Store</a></li>
+                <li><a href="#services">Digital Products</a></li>
             </ul>
         </div>
         <div class="ld-footer-col ld-footer-newsletter">
@@ -373,23 +388,6 @@ document.querySelectorAll('.pub-faq-q').forEach((btn) => {
         if (!wasOpen) item.classList.add('open');
     });
 });
-
-document.querySelectorAll('.ld-cat-pills button').forEach((btn) => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.ld-cat-pills button').forEach((b) => b.classList.remove('active'));
-        btn.classList.add('active');
-        const cat = btn.dataset.cat;
-        document.querySelectorAll('#feature-cards .ld-feature-card').forEach((card) => {
-            card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
-        });
-    });
-});
-
-(function () {
-    const row = document.getElementById('feature-cards');
-    document.getElementById('feat-prev').addEventListener('click', () => row.scrollBy({ left: -280, behavior: 'smooth' }));
-    document.getElementById('feat-next').addEventListener('click', () => row.scrollBy({ left: 280, behavior: 'smooth' }));
-})();
 
 (async function () {
     try {

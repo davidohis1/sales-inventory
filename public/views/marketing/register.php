@@ -30,8 +30,6 @@
             </div>
 
             <div class="tz-form-side">
-                <div class="tz-form-mobile-logo"><img src="<?= $base ?>/assets/images/logo.png" alt=""> Bizflow</div>
-
                 <div class="tz-step active" id="step-register">
                     <h2>Create new account<span class="dot">.</span></h2>
                     <div id="register-error" class="tz-error" style="display:none;"></div>

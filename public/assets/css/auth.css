@@ -46,8 +46,6 @@
 @media (max-width: 860px) { .tz-visual { display: none; } }
 
 .tz-form-side { padding: 40px 44px 36px; display: flex; flex-direction: column; justify-content: center; }
-.tz-form-mobile-logo { display: none; margin-bottom: 18px; }
-@media (max-width: 860px) { .tz-form-mobile-logo { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: 800; font-size: 17px; } .tz-form-mobile-logo img { width: 22px; height: 22px; border-radius: 6px; } }
 .tz-form-side h2 { color: #fff; font-size: 30px; font-weight: 800; margin: 0 0 26px; }
 .tz-form-side h2 .dot { color: var(--tz-green); }
 
