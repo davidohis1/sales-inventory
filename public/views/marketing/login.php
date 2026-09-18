@@ -13,13 +13,7 @@
     <div class="tz-card">
         <nav class="tz-nav">
             <a href="<?= $base ?>/" class="tz-logo"><img src="<?= $base ?>/assets/images/logo.png" alt=""> Bizflow<span class="t">.</span></a>
-            <div class="tz-nav-links">
-                <a href="<?= $base ?>/">Home</a>
-                <a href="<?= $base ?>/login" class="active">Log In</a>
-                <a href="<?= $base ?>/register">Join</a>
-                <a href="<?= $base ?>/#features">About Us</a>
-            </div>
-            <div class="tz-nav-search">&#128269; Search</div>
+            <a href="<?= $base ?>/" class="tz-nav-back">&larr; Back to Bizflow</a>
         </nav>
 
         <div class="tz-split">
@@ -36,8 +30,6 @@
             </div>
 
             <div class="tz-form-side">
-                <div class="tz-form-mobile-logo"><img src="<?= $base ?>/assets/images/logo.png" alt=""> Bizflow</div>
-
                 <div class="tz-step active" id="step-login">
                     <h2>Welcome back<span class="dot">.</span></h2>
                     <div id="login-error" class="tz-error" style="display:none;"></div>
