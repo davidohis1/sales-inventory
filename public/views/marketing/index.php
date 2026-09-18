@@ -107,17 +107,23 @@
     </div>
     <div class="ld-why-row">
         <div class="ld-why-item">
-            <span class="icn">&#9889;</span>
+            <span class="icn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
+            </span>
             <strong>Lightning Fast Setup</strong>
             <p>Add products, staff, and branches in minutes — start selling the same day you sign up.</p>
         </div>
         <div class="ld-why-item">
-            <span class="icn">&#128202;</span>
+            <span class="icn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+            </span>
             <strong>Real-Time Insights</strong>
             <p>Track revenue, profit, and stock as it happens, with AI insights that explain the numbers.</p>
         </div>
         <div class="ld-why-item">
-            <span class="icn">&#127775;</span>
+            <span class="icn">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17 10 10l4 4 7-7M21 7h-6M21 7v6"/></svg>
+            </span>
             <strong>Built To Grow With You</strong>
             <p>From a single shop to multiple branches and staff, Bizflow scales right alongside your business.</p>
         </div>
@@ -145,52 +151,58 @@
     </div>
     <div class="ld-feature-row" id="feature-cards">
         <div class="ld-feature-card" data-cat="sales">
-            <div class="fc-top"><span class="fc-badge">Core</span>&#128179;</div>
-            <div class="fc-body">
-                <strong>Sales &amp; POS</strong>
-                <p>Ring up sales in-store, track every transaction, and keep receipts organized automatically.</p>
-                <span class="fc-cta">Learn more &rarr;</span>
+            <div class="fc-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
             </div>
+            <span class="fc-tag">Core</span>
+            <strong>Sales &amp; POS</strong>
+            <p>Ring up sales in-store, track every transaction, and keep receipts organized automatically.</p>
+            <span class="fc-cta">Learn more &rarr;</span>
         </div>
         <div class="ld-feature-card" data-cat="inventory">
-            <div class="fc-top"><span class="fc-badge">Core</span>&#128230;</div>
-            <div class="fc-body">
-                <strong>Inventory Tracking</strong>
-                <p>Always know what's in stock, get low-stock alerts, and never oversell again.</p>
-                <span class="fc-cta">Learn more &rarr;</span>
+            <div class="fc-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 8 12 3 3 8l9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/></svg>
             </div>
+            <span class="fc-tag">Core</span>
+            <strong>Inventory Tracking</strong>
+            <p>Always know what's in stock, get low-stock alerts, and never oversell again.</p>
+            <span class="fc-cta">Learn more &rarr;</span>
         </div>
         <div class="ld-feature-card" data-cat="store">
-            <div class="fc-top"><span class="fc-badge">Popular</span>&#127968;</div>
-            <div class="fc-body">
-                <strong>Online Store</strong>
-                <p>Launch a branded storefront with a theme, header photo, and checkout — no code needed.</p>
-                <span class="fc-cta">Learn more &rarr;</span>
+            <div class="fc-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9 4 4h16l1 5M3 9v10a1 1 0 0 0 1 1h5v-6h6v6h5a1 1 0 0 0 1-1V9M3 9h18"/></svg>
             </div>
+            <span class="fc-tag">Popular</span>
+            <strong>Online Store</strong>
+            <p>Launch a branded storefront with a theme, header photo, and checkout — no code needed.</p>
+            <span class="fc-cta">Learn more &rarr;</span>
         </div>
         <div class="ld-feature-card" data-cat="digital">
-            <div class="fc-top"><span class="fc-badge">Free forever</span>&#128190;</div>
-            <div class="fc-body">
-                <strong>Digital Products</strong>
-                <p>Sell ebooks, courses, or files with their own checkout page — free on every plan.</p>
-                <span class="fc-cta">Learn more &rarr;</span>
+            <div class="fc-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
             </div>
+            <span class="fc-tag">Free forever</span>
+            <strong>Digital Products</strong>
+            <p>Sell ebooks, courses, or files with their own checkout page — free on every plan.</p>
+            <span class="fc-cta">Learn more &rarr;</span>
         </div>
         <div class="ld-feature-card" data-cat="reports">
-            <div class="fc-top"><span class="fc-badge">Insights</span>&#128200;</div>
-            <div class="fc-body">
-                <strong>Reports &amp; AI Insights</strong>
-                <p>See exactly what's selling, what's not, and where your money is going — with AI explaining why.</p>
-                <span class="fc-cta">Learn more &rarr;</span>
+            <div class="fc-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m3 17 5-5 4 4 8-8M15 8h5v5"/></svg>
             </div>
+            <span class="fc-tag">Insights</span>
+            <strong>Reports &amp; AI Insights</strong>
+            <p>See exactly what's selling, what's not, and where your money is going — with AI explaining why.</p>
+            <span class="fc-cta">Learn more &rarr;</span>
         </div>
         <div class="ld-feature-card" data-cat="sales">
-            <div class="fc-top"><span class="fc-badge">Core</span>&#128101;</div>
-            <div class="fc-body">
-                <strong>Staff &amp; Branches</strong>
-                <p>Add staff with role-based access and manage multiple branches from one place.</p>
-                <span class="fc-cta">Learn more &rarr;</span>
+            <div class="fc-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 8.5a3 3 0 1 1 3.5 5.9M21.5 20a5.5 5.5 0 0 0-4-5.3"/></svg>
             </div>
+            <span class="fc-tag">Core</span>
+            <strong>Staff &amp; Branches</strong>
+            <p>Add staff with role-based access and manage multiple branches from one place.</p>
+            <span class="fc-cta">Learn more &rarr;</span>
         </div>
     </div>
 </section>

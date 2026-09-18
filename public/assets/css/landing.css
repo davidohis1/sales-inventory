@@ -2,6 +2,7 @@
    client-logo strip, floating stat card, pill pricing, and the existing
    feature carousel / testimonial / FAQ / footer sections re-themed to the
    app's own emerald-green brand palette (no purple). */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 :root {
     --ld-primary: #17a672;
     --ld-primary-dark: #0e7a53;
@@ -11,8 +12,10 @@
     --ld-lav: #e7f8f0;
     --ld-lav-2: #d8f2e6;
     --ld-text-muted: #6b6f76;
+    --ld-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
-.ld-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #14141a; background: #fff; }
+.ld-body { margin: 0; font-family: var(--ld-font); color: #14141a; background: #fff; }
+.ld-body a { text-decoration: none; }
 
 /* ---------- Nav ---------- */
 .ld-nav-wrap { max-width: 1200px; margin: 0 auto; padding: 22px 24px 0; }
@@ -104,7 +107,8 @@
 .ld-section-head p { color: var(--ld-text-muted); margin: 0; }
 
 .ld-why-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center; }
-.ld-why-item .icn { width: 70px; height: 70px; border-radius: 50%; background: var(--ld-lav); display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 18px; }
+.ld-why-item .icn { width: 64px; height: 64px; border-radius: 18px; background: var(--ld-lav); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.ld-why-item .icn svg { width: 26px; height: 26px; stroke: var(--ld-primary-dark); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .ld-why-item strong { display: block; font-size: 16px; margin-bottom: 8px; }
 .ld-why-item p { margin: 0; font-size: 13.5px; color: var(--ld-text-muted); line-height: 1.55; }
 @media (max-width: 720px) { .ld-why-row { grid-template-columns: 1fr; gap: 30px; } }
@@ -120,13 +124,15 @@
 .ld-cat-pills button { flex-shrink: 0; border: 1.5px solid #dcefe6; background: #fff; color: #14141a; padding: 9px 18px; border-radius: 999px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
 .ld-cat-pills button.active { background: #14141a; color: #fff; border-color: #14141a; }
 .ld-feature-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.ld-feature-card { background: #fff; border: 1px solid #e6f2ec; border-radius: 20px; overflow: hidden; }
-.ld-feature-card .fc-top { background: var(--ld-lav); height: 150px; display: flex; align-items: center; justify-content: center; font-size: 44px; position: relative; }
-.ld-feature-card .fc-badge { position: absolute; top: 12px; left: 12px; background: var(--ld-dark); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
-.ld-feature-card .fc-body { padding: 18px 18px 20px; }
-.ld-feature-card strong { display: block; font-size: 15.5px; margin-bottom: 6px; }
-.ld-feature-card p { margin: 0 0 14px; font-size: 13px; color: var(--ld-text-muted); line-height: 1.5; }
-.ld-feature-card .fc-cta { display: inline-flex; align-items: center; gap: 6px; background: var(--ld-dark); color: #fff; padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+.ld-feature-card { background: #fff; border: 1px solid #ececf1; border-radius: 20px; padding: 26px 24px; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+.ld-feature-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(20,20,26,0.07); border-color: #dcefe6; }
+.ld-feature-card .fc-icon { width: 42px; height: 42px; border-radius: 12px; background: var(--ld-lav); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.ld-feature-card .fc-icon svg { width: 20px; height: 20px; stroke: var(--ld-primary-dark); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ld-feature-card .fc-tag { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ld-primary); margin-bottom: 10px; }
+.ld-feature-card strong { display: block; font-size: 16px; margin-bottom: 8px; }
+.ld-feature-card p { margin: 0 0 16px; font-size: 13.5px; color: var(--ld-text-muted); line-height: 1.55; }
+.ld-feature-card .fc-cta { display: inline-flex; align-items: center; gap: 6px; color: var(--ld-dark); font-size: 13px; font-weight: 700; transition: gap 0.15s ease, color 0.15s ease; }
+.ld-feature-card:hover .fc-cta { color: var(--ld-primary-dark); gap: 10px; }
 @media (max-width: 860px) { .ld-feature-row { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .ld-feature-row { grid-template-columns: 1fr; } }
 

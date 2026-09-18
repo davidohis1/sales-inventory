@@ -3,6 +3,7 @@
    gradient scene since we don't have a licensed photo) and a dark form
    panel on the right with the distinctive "small label above value, icon
    at the right edge" input style. Brand green throughout (#17a672). */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 :root {
     --tz-green: #17a672;
     --tz-green-dark: #0e7a53;
@@ -13,20 +14,18 @@
     --tz-muted: #9095a3;
     --tz-border: #2b2f3b;
 }
-.tz-body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--tz-outer); }
+.tz-body { margin: 0; font-family: var(--ld-font, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif); background: var(--tz-outer); }
+.tz-body a { text-decoration: none; }
 .tz-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 36px 18px; }
 .tz-card { width: 100%; max-width: 1180px; background: var(--tz-navy); border-radius: 26px; overflow: hidden; box-shadow: 0 40px 90px rgba(0,0,0,0.4); }
 
-/* ---------- top nav ---------- */
-.tz-nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 34px 0; gap: 20px; flex-wrap: wrap; }
-.tz-logo { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: 800; font-size: 18px; text-decoration: none; }
+/* ---------- top nav (logo + a single back-to-site link, no page nav) ---------- */
+.tz-nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 34px 0; gap: 20px; }
+.tz-logo { display: flex; align-items: center; gap: 8px; color: #fff; font-weight: 800; font-size: 18px; }
 .tz-logo img { width: 24px; height: 24px; border-radius: 6px; }
 .tz-logo .t { color: var(--tz-green-light); }
-.tz-nav-links { display: flex; gap: 28px; font-size: 13.5px; }
-.tz-nav-links a { color: #c7c9d1; font-weight: 500; }
-.tz-nav-links a.active { color: #fff; border-bottom: 2px solid var(--tz-green); padding-bottom: 4px; }
-.tz-nav-search { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 999px; padding: 9px 16px; color: var(--tz-muted); font-size: 12.5px; min-width: 170px; }
-@media (max-width: 860px) { .tz-nav-links, .tz-nav-search { display: none; } }
+.tz-nav-back { display: flex; align-items: center; gap: 8px; color: var(--tz-muted); font-size: 13px; font-weight: 600; transition: color 0.15s; }
+.tz-nav-back:hover { color: #fff; }
 
 /* ---------- body split ---------- */
 .tz-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; margin-top: 22px; }
